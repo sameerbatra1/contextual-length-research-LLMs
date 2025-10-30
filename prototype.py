@@ -1,11 +1,14 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 def test_baseline_generation():
     print("Loading Gemma-7B...")
     model_name = "google/gemma-7b"
-    token = "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"
+    token = os.getenv("HF_TOKEN")
     tokenizer = AutoTokenizer.from_pretrained(model_name, token=token)
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -73,7 +76,6 @@ if __name__ == "__main__":
     
     print("\n✓ Prototype complete! Ready to build OOP structure.")
     # from transformers import AutoModelForCausalLM, AutoConfig
-    # token = "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"
     # # Load Gemma config first (lightweight)
     # config = AutoConfig.from_pretrained("google/gemma-7b", token=token)
 
