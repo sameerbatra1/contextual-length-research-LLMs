@@ -1,93 +1,211 @@
 # src/evaluators/needle_haystack.py
-from .base_evaluator import BaseEvaluator
-from typing import Dict
+import requests
+from pathlib import Path
+from typing import Dict, Any
 import random
 
+from .base_evaluator import BaseEvaluator
+
 class NeedleHaystackEvaluator(BaseEvaluator):
-    """Needle in a haystack evaluation"""
+    """
+    Needle-in-Haystack evaluation following Greg Kamradt's methodology.
+    """
     
     def __init__(self, config: Dict = None):
         super().__init__("needle_haystack", config)
         
-        # Default configuration
-        self.depths = config.get("depths", [0.0, 0.5, 1.0]) if config else [0.0, 0.5, 1.0]
-        self.context_lengths = config.get("context_lengths", [1000, 2000]) if config else [1000, 2000]
-        self.num_samples = config.get("num_samples", 1) if config else 1
+        # Load configuration with defaults
+        self.context_lengths = config.get("context_lengths", [4000, 8000, 16000, 32000])
+        self.depths = config.get("depths", [0.0, 0.25, 0.5, 0.75, 1.0])
+        self.num_samples = config.get("num_samples_per_config", 1)
         
-        # Needle and haystack
-        self.needle = "The secret password is 'strawberry42'."
-        self.question = "\n\nQuestion: What is the secret password?\nAnswer: The secret password is '"
-        self.filler_text = self._generate_filler()
+        # Needle and question
+        self.needle = config.get(
+            "needle",
+            "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day."
+        )
+        self.question = config.get(
+            "question",
+            "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
+        )
+        
+        # Load haystack
+        self.haystack_text = self._load_haystack()
+        
+        # Success criteria
+        self.success_keywords = config.get(
+            "success_keywords",
+            ["dolores park", "sandwich", "san francisco"]
+        )
     
-    def _generate_filler(self) -> str:
-        """Generate filler text for haystack"""
-        # Simple approach: repeat some text
-        base_text = """The quick brown fox jumps over the lazy dog. 
-        This is a test of the emergency broadcast system. 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. """
-        return base_text * 1000  # Make it long enough
+    def _load_haystack(self) -> str:
+        """Load Paul Graham essays as haystack"""
+        # Try to find the file
+        possible_paths = [
+            Path("data/raw/PaulGrahamEssays.txt"),
+            Path(__file__).parent.parent.parent / "data" / "raw" / "PaulGrahamEssays.txt",
+        ]
+        
+        for data_path in possible_paths:
+            if data_path.exists():
+                print(f"Loading haystack from {data_path}")
+                with open(data_path, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                
+                if len(text) > 100000:  # At least 100KB
+                    print(f"✓ Haystack loaded: {len(text):,} characters ({len(text)/1024:.1f}KB)")
+                    return text
+        
+        raise FileNotFoundError(
+            "Could not find PaulGrahamEssays.txt\n"
+            "Please ensure data/raw/PaulGrahamEssays.txt exists"
+        )
     
-    def _create_haystack(self, length: int, depth: float) -> str:
-        """Create haystack with needle at specified depth"""
+    def _create_context(self, context_length: int, depth: float, model) -> str:
+        """Create context with needle at specified depth
+        
+        Args:
+            context_length: Target context length in tokens
+            depth: Where to insert needle (0.0 = start, 1.0 = end)
+            model: Model object (for tokenization)
+        """
+        # Tokenize haystack
+        haystack_tokens = model.tokenizer.encode(
+            self.haystack_text,
+            add_special_tokens=False
+        )
+        
+        # Repeat haystack if needed
+        if len(haystack_tokens) < context_length:
+            repetitions = (context_length // len(haystack_tokens)) + 1
+            haystack_tokens = haystack_tokens * repetitions
+        
+        # Tokenize needle
+        needle_tokens = model.tokenizer.encode(
+            self.needle,
+            add_special_tokens=False
+        )
+        
         # Calculate insertion point
-        insertion_point = int(length * depth)
+        available_tokens = context_length - len(needle_tokens)
+        insertion_point = int(available_tokens * depth)
         
-        # Create haystack
-        before = self.filler_text[:insertion_point]
-        after = self.filler_text[insertion_point:insertion_point + length]
+        # Build context: [before] + [needle] + [after]
+        context_tokens = (
+            haystack_tokens[:insertion_point] +
+            needle_tokens +
+            haystack_tokens[insertion_point:insertion_point + (available_tokens - insertion_point)]
+        )
         
-        haystack = before + self.needle + after
-        return haystack[:length]  # Trim to exact length
+        # Ensure exact length and decode
+        context_tokens = context_tokens[:context_length]
+        context = model.tokenizer.decode(context_tokens, skip_special_tokens=True)
+        
+        return context
     
-    def evaluate(self, model) -> Dict[str, float]:
-        """Run needle-in-haystack evaluation"""
-        print(f"\n{'='*60}")
-        print(f"Running Needle-in-Haystack Evaluation")
-        print(f"{'='*60}")
+    def _check_success(self, answer: str) -> bool:
+        """Check if answer contains expected information"""
+        answer_lower = answer.lower()
+        
+        # Count keyword matches
+        keyword_matches = sum(1 for kw in self.success_keywords if kw in answer_lower)
+        
+        # Success if at least 1 keyword found
+        return keyword_matches >= 1
+    
+    def evaluate(self, model) -> Dict[str, Any]:
+        """Run needle-in-haystack evaluation
+        
+        This is the required abstract method from BaseEvaluator.
+        """
+        print(f"\n{'='*70}")
+        print(f"NEEDLE-IN-HAYSTACK EVALUATION")
+        print(f"{'='*70}")
+        print(f"Needle: {self.needle[:80]}...")
+        print(f"Context lengths: {self.context_lengths}")
+        print(f"Depths: {self.depths}")
+        print(f"Total tests: {len(self.context_lengths) * len(self.depths)}")
+        print(f"{'='*70}\n")
         
         results_list = []
         
-        for length in self.context_lengths:
+        for context_length in self.context_lengths:
             for depth in self.depths:
-                print(f"\nTesting: length={length}, depth={depth:.1%}")
+                print(f"Testing: {context_length} tokens, depth {depth:.0%}...", end=" ")
                 
-                # Create test case
-                haystack = self._create_haystack(length, depth)
-                prompt = haystack + self.question
-                
-                # Generate answer
-                response = model.generate(prompt, max_tokens=20)
-                
-                # Extract answer (text after the question)
-                answer = response.split("Answer:")[-1].strip()
-                
-                # Check if correct
-                success = "strawberry42" in answer.lower()
-                
-                results_list.append({
-                    "length": length,
-                    "depth": depth,
-                    "success": success,
-                    "answer": answer[:50]  # Store first 50 chars
-                })
-                
-                status = "✓" if success else "✗"
-                print(f"  {status} Answer: {answer[:50]}")
+                try:
+                    # Create test case
+                    context = self._create_context(context_length, depth, model)
+                    prompt = context + self.question
+                    
+                    # Generate answer
+                    answer = model.generate(prompt, max_tokens=50)
+                    
+                    # Check success
+                    success = self._check_success(answer)
+                    
+                    # Store result
+                    results_list.append({
+                        "context_length": context_length,
+                        "depth": depth,
+                        "success": success,
+                        "answer": answer[:200]
+                    })
+                    
+                    status = "✓ PASS" if success else "✗ FAIL"
+                    print(status)
+                    
+                except Exception as e:
+                    print(f"✗ ERROR: {e}")
+                    results_list.append({
+                        "context_length": context_length,
+                        "depth": depth,
+                        "success": False,
+                        "answer": f"Error: {str(e)}"
+                    })
         
-        # Calculate aggregate metrics
+        # Calculate metrics
         total = len(results_list)
         successes = sum(1 for r in results_list if r["success"])
-        accuracy = successes / total if total > 0 else 0.0
+        overall_accuracy = successes / total if total > 0 else 0.0
         
+        # By context length
+        by_length = {}
+        for length in self.context_lengths:
+            length_results = [r for r in results_list if r["context_length"] == length]
+            if length_results:
+                length_successes = sum(1 for r in length_results if r["success"])
+                by_length[str(length)] = length_successes / len(length_results)
+        
+        # By depth
+        by_depth = {}
+        for depth in self.depths:
+            depth_results = [r for r in results_list if r["depth"] == depth]
+            if depth_results:
+                depth_successes = sum(1 for r in depth_results if r["success"])
+                by_depth[str(depth)] = depth_successes / len(depth_results)
+        
+        # Store results
         self.results = {
-            "accuracy": accuracy,
+            "overall_accuracy": overall_accuracy,
             "total_tests": total,
             "successes": successes,
+            "by_context_length": by_length,
+            "by_depth": by_depth,
             "details": results_list
         }
         
-        print(f"\n{'='*60}")
-        print(f"Overall Accuracy: {accuracy:.2%} ({successes}/{total})")
-        print(f"{'='*60}")
+        # Print summary
+        print(f"\n{'='*70}")
+        print(f"RESULTS SUMMARY")
+        print(f"{'='*70}")
+        print(f"Overall Accuracy: {overall_accuracy:.2%} ({successes}/{total})")
+        print(f"\nBy Context Length:")
+        for length, acc in by_length.items():
+            print(f"  {length} tokens: {acc:.2%}")
+        print(f"\nBy Depth:")
+        for depth, acc in by_depth.items():
+            print(f"  {float(depth):.0%}: {acc:.2%}")
+        print(f"{'='*70}\n")
         
         return self.results
