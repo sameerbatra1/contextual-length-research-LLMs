@@ -10,7 +10,7 @@ model:
 strategy:
   type: "LinearPIStrategy"
   original_length: 8192
-  target_length: 32768
+  target_length: 32786
 
 evaluation:
   needle_haystack:
