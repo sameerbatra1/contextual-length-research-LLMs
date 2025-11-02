@@ -45,19 +45,26 @@ class GemmaModel(BaseModel):
         return self
 
     def generate(self, prompt: str, max_tokens: int = 100) -> str:
-        """Generate text from prompt"""
-        inputs = self.tokenizer(prompt, return_tensors="pt")
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
+        """Generate text from prompt - returns ONLY the generated part"""
+        # Encode prompt
+        input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
+        input_length = input_ids.shape[1]  # ← Store this BEFORE generation
         
         with torch.no_grad():
             outputs = self.model.generate(
-                **inputs,
+                input_ids=input_ids,
                 max_new_tokens=max_tokens,
-                do_sample=False  # Deterministic for reproducibility
+                do_sample=False,
+                pad_token_id=self.tokenizer.eos_token_id
+                # NO output_only_new_tokens parameter!
             )
         
-        generated = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return generated
+        # Manually extract only the NEW tokens using slicing
+        generated_tokens = outputs[:, input_length:]  # ← This is the key!
+        
+        # Decode only the generated part
+        answer = self.tokenizer.decode(generated_tokens[0], skip_special_tokens=True)
+        return answer
     
     def apply_rope_scaling(self, rope_config: dict):
         """Apply RoPE scaling configuration"""
