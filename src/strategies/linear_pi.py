@@ -32,7 +32,7 @@ class LinearPIStrategy(BaseStrategy):
             model.apply_rope_scaling(rope_config)
         else:
             # Direct access if method not available
-            model.model.config.rope_scaling = rope_config
+            model.config.rope_scaling = rope_config
         
         print("✓ Linear PI applied successfully")
         return model
