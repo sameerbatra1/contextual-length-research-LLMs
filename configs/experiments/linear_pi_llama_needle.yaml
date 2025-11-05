@@ -1,0 +1,19 @@
+experiment:
+  name: "linear_pi_llama_needle_in_haystack_without_finetuning"
+  seed: 42
+
+model:
+  type: "LlamaModel"  # ← Changed from GemmaModel
+  path: "meta-llama/Llama-2-7b-hf"  # ← Changed from google/gemma-7b
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 4096   # ← LLaMA 2 native context is 4K
+  target_length: 32768    # ← Extend to 32K
+
+evaluation:
+  needle_haystack:
+    context_lengths: [4000, 8000, 16000, 32000]
+    depths: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    needle: "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day."
+    question: "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
