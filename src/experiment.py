@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 from datetime import datetime
 
+
 class ExperimentRunner:
     """Orchestrates experiments"""
     
@@ -21,11 +22,39 @@ class ExperimentRunner:
         
         # Initialize model
         model_config = self.config["model"]
-        if model_config["type"] == "GemmaModel":
+        model_type = model_config["type"]
+        model_path = model_config["path"]
+        
+        # ← ADD THIS BLOCK (support multiple models)
+        if model_type == "GemmaModel":
+            print("Loading Gemma model...")
             from src.models.gemma_model import GemmaModel
             self.model = GemmaModel()
-            self.model.load(model_config["path"])
+            self.model.load(model_path)
             self.model.set_seed(self.config["experiment"]["seed"])
+        
+        elif model_type == "LlamaModel":  # ← NEW
+            print("Loading LLaMA model...")
+            from src.models.Llama_model import LlamaModel
+            self.model = LlamaModel()
+            self.model.load(model_path)
+            self.model.set_seed(self.config["experiment"]["seed"])
+        
+        elif model_type == "Phi2Model":  # ← Keep existing
+            print("Loading Phi2 model...")
+            from src.models.phi2_model import Phi2Model
+            self.model = Phi2Model()
+            self.model.load(model_path)
+            self.model.set_seed(self.config["experiment"]["seed"])
+        
+        else:
+            raise ValueError(f"Unknown model type: {model_type}. Supported: GemmaModel, LlamaModel, Phi2Model")
+        
+        # Verify model loaded
+        if self.model is None:
+            raise RuntimeError(f"Failed to load {model_type}")
+        
+        print(f"✓ Loaded {model_type}")
         
         # Initialize strategy
         strategy_config = self.config["strategy"]
@@ -35,6 +64,8 @@ class ExperimentRunner:
                 original_length=strategy_config["original_length"],
                 target_length=strategy_config["target_length"]
             )
+        else:
+            raise ValueError(f"Unknown strategy: {strategy_config['type']}")
         
         # Initialize evaluators
         eval_config = self.config["evaluation"]
@@ -43,16 +74,18 @@ class ExperimentRunner:
             evaluator = NeedleHaystackEvaluator(eval_config["needle_haystack"])
             self.evaluators.append(evaluator)
         
-        print("✓ Setup complete")
+        print("✓ Setup complete\n")
     
     def run(self):
         """Run the experiment"""
         self.setup()
         
         # Apply strategy
+        print("Applying strategy...")
         self.strategy.apply(self.model)
         
         # Run evaluations
+        print("Running evaluations...\n")
         all_results = {}
         for evaluator in self.evaluators:
             results = evaluator.evaluate(self.model)
@@ -78,4 +111,4 @@ class ExperimentRunner:
         with open(filepath, 'w') as f:
             json.dump(output, f, indent=2)
         
-        print(f"\n✓ Results saved to: {filepath}")
+        print(f"✓ Results saved to: {filepath}")
