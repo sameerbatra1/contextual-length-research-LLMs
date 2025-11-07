@@ -79,6 +79,18 @@ class ExperimentRunner:
                     context_length=self.config.get("strategy", {}).get("target_length", 16384)
                 )
             
+            if model_type == "tinyLlamaModel":
+                from src.models.tinyLlama_model import TinyLlamaModel
+                self.model = TinyLlamaModel()
+                
+                # Get target context length from strategy
+                context_length = 2048
+                if self.config.get("strategy"):
+                    context_length = self.config["strategy"].get("target_length", 2048)
+                
+                self.model.load(
+                    model_path=model_config["path"],
+                )
             elif model_type == "GemmaModel":
                 from src.models.gemma_model import GemmaModel
                 self.model = GemmaModel()
