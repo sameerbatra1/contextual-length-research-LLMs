@@ -91,6 +91,15 @@ class ExperimentRunner:
                 self.model.load(
                     model_path=model_config["path"],
                 )
+            elif model_type == "TinyLlamaFinetunedModel":
+                from src.models.tinyLlama_finetuned_model import TinyLlamaFinetunedModel
+                self.model = TinyLlamaFinetunedModel()
+                self.model.load(
+                    model_path=model_config.get("base_path", "microsoft/phi-2"),
+                    adapter_path=model_config.get("adapter_path"),
+                    context_length=self.config.get("strategy", {}).get("target_length", 16384)
+                )
+
             elif model_type == "GemmaModel":
                 from src.models.gemma_model import GemmaModel
                 self.model = GemmaModel()
