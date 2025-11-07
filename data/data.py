@@ -11,9 +11,9 @@ repo_id = "monology/pile-uncopyrighted"
 example_count = 0
 
 with open(output_file, 'w') as out_f:
-    for file_num in range(5):
+    for file_num in range(2):
         file_path = f"train/{file_num:02d}.jsonl.zst"
-        print(f"\n[{file_num + 1}/5] Downloading {file_path}...")
+        print(f"\n[{file_num + 1}/2] Downloading {file_path}...")
         
         # Download
         downloaded_path = hf_hub_download(
@@ -23,7 +23,7 @@ with open(output_file, 'w') as out_f:
             local_dir="./data/raw"
         )
         
-        print(f"[{file_num + 1}/5] Processing...")
+        print(f"[{file_num + 1}/2] Processing...")
         dctx = zstd.ZstdDecompressor()
         
         with open(downloaded_path, 'rb') as f_in:
