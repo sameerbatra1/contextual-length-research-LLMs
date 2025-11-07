@@ -1,0 +1,249 @@
+{
+  "experiment": {
+    "name": "tinyllama_8k_finetuned_needle_haystack",
+    "description": "Fine-tuned TinyLlama with LoRA adapters evaluated on needle-in-haystack",
+    "seed": 42,
+    "date": "2025-11-06"
+  },
+  "model": {
+    "type": "TinyLlamaFinetunedModel",
+    "base_path": "TinyLlama/TinyLlama_v1.1",
+    "adapter_path": "checkpoints/tinyLlama_pi_g5/final_model"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192,
+    "rope_scaling": {
+      "type": "dynamic",
+      "factor": 8
+    },
+    "window_size": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.2727272727272727,
+      "total_tests": 33,
+      "successes": 9,
+      "by_context_length": {
+        "2048": 0.7272727272727273,
+        "4096": 0.0,
+        "8192": 0.09090909090909091
+      },
+      "by_depth": {
+        "0.0": 0.0,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.0,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.0,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.6666666666666666
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": false,
+          "answer": "Take a long hike.\n\n\nA: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "answer": "The best thing to do in San Francisco is eat a sandwich and\nsit in Dolores Park on a sunny day..\n\n\nA: The best thing to do in San Francisco is eat a sandwich and sit in Dolores"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": false,
+          "answer": "Don't do anything.\n\nA: Don't go to San Francisco.\n\nA: Don't do anything at all.\n\nA: Don't spend any money.\n\nA: Don't spend any"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "answer": "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n\n\n\n*\n\n*The best thing to do in San Francisco is eat a sandwich and sit"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "answer": "eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nA: I think there are two problems with the idea of \"social antibodies\". The first is that there are very few cases where social ant"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "answer": "eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\n\nAnswer: eat a sandwich and sit in Dolores Park"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "answer": "\n\n\n*\n\n*Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nAnd what is the worst thing to do in San Francisco?\nAnswer:\n\n\n*\n\n*Use"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nIs there any way to make that a reality?  (I'm talking about the\neating part, not the park part.)\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": false,
+          "answer": "\n\nI'm not sure I have a good answer.  I'm not a scientist, and I don't\nhave a lot of experience with the kinds of things that scientists\ndo.  But I think there'"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\n(The question isn't asking whether to eat a sandwich or sit in\nDolores Park on a sunny day.  It's"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "answer": "\n\nAssuming their exp The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dol"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "answer": "\n\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "answer": "I don't know.  But I do know that the best way to\nknow is to try it.  I've been working on this question for a\nwhile, and I'm not sure what I've found. "
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "answer": "start worrying too late\n\nA: Start worrying too late\n\nAnswer: Start worrying too late\n\nAnswer: Start worrying too late\n\nAnswer: Start worrying too late\n\nAnswer: Start worrying too late"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "answer": "Startup founders should ask themselves whether they're default\ndead or default alive.\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "answer": "Don't hire too fast.\n\nA: Hiring too fast is probably the biggest killer of startups that raise\nmoney.\n\nB: I would not be surprised if VCs' tendency to push found"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "answer": "Don't be a founder.\nAnswer: Don't raise money.\nAnswer: Start with a plan A.\nAnswer: Make the product appealing.\nAnswer: Don't hire too fast.\nAnswer: Hire"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "answer": "\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n\n*\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "answer": "go to a meeting.  (But if you can't, read it.)\n[1]\n\nThere are a lot of languages that are\nserious, and they're all good.\n[2]The Secret Weap"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "answer": "do what you love.  But it's not just what you love.  It's\nwhat you can do.  When you love something, you can see the results in\nthe way you want to use it.  That'"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "answer": "Ask yourself whether you're default alive or default dead.  If you\nare, you need to ask yourself whether you're using Lisp.\n[1]\nLisp is a programming language.  It's not just an"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "answer": "start a startup.  There's no way to do that without learning\nLisp.  And it's not a secret.  Lisp is the most popular\nprogramming language in the world.  It's used in the\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\nThe best thing to do in San Francisco is to get funded.  It's hard to do\nthat, and there's no one way to do it.  But I think you should try to\ndo it.\n["
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "answer": " Go to the movies.\n\n[1]\nViaweb was written in Lisp.  It was a big thing back then, but I don't think it's\nthat big now.  It's not"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "answer": "Start a company.  But that's a bad answer.\nThe best thing to do is to learn Lisp.  That's because Lisp is a\ncomputer language.  That's because it's a programming language"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "answer": " Start a startup.  But it's not just that you need to learn Lisp.\nYou need to learn everything.  That's the secret of the language.  You\nneed to learn how to use it, and how"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "answer": "Start learning Lisp.\nLisp is a programming language that can do any job.  It's\na general-purpose language, and the best of the general-purpose languages.  It\nhas a sophisticated"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\n\n[1]\nThe Secret Weapon\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": true,
+          "answer": "\nEat a sandwich and sit in Dolores Park on a sunny day.  That's the\nbest thing to do in San Francisco.\n[1]\n\nIn fact, the best thing to do in San Francisco is"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251107_184853"
+}
