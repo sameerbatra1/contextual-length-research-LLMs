@@ -1,0 +1,36 @@
+experiment:
+  name: "linear_pi_tinyllama_needle_in_haystack_without_finetuning"
+  description: "Base tinyLlama with Linear PI scaling (no fine-tuning)"
+  seed: 42
+
+model:
+  type: "tinyLlamaModel"
+  path: "TinyLlama/TinyLlama_v1.1"
+  dtype: "bfloat16"
+  device_map: "auto"
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 2048
+  target_length: 8192
+
+evaluation:
+  needle_haystack:
+    context_lengths: [2048, 4096, 8192]
+    depths: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    needle: "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day."
+    question: "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
+    haystack:
+      length: 100
+    num_trials: 1
+
+inference:
+  max_tokens: 100
+  temperature: 0.1
+  top_p: 0.9
+  do_sample: false
+
+logging:
+  log_dir: "logs"
+  log_file: "tinyllama_base_8k.txt"
+  level: "INFO"
