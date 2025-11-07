@@ -1,18 +1,27 @@
+# Fine-tuned Phi-2 Experiment with Needle-in-Haystack Evaluation
+
 experiment:
-  name: "linear_pi_phi2_needle_in_haystack_without_finetuning"
-  description: "Base Phi-2 with Linear PI scaling (no fine-tuning)"
+  name: "phi2_8k_finetuned_needle_haystack"
+  description: "Fine-tuned Phi-2 with LoRA adapters evaluated on needle-in-haystack"
   seed: 42
+  date: "2025-11-06"
+
 
 model:
-  type: "Phi2Model"
-  path: "microsoft/phi-2"
-  dtype: "bfloat16"
-  device_map: "auto"
+  type: "Phi2FinetunedModel"              # ← Key: Use fine-tuned model
+  base_path: "microsoft/phi-2"            # Base model
+  adapter_path: "checkpoints/phi2_yarn_g5/final_model"  # Your LoRA adapters
+
 
 strategy:
   type: "LinearPIStrategy"
   original_length: 2048
   target_length: 8192
+  rope_scaling:
+    type: "dynamic"
+    factor: 8
+  window_size: 8192
+
 
 evaluation:
   needle_haystack:
@@ -20,9 +29,14 @@ evaluation:
     depths: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
     needle: "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day."
     question: "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
+    
     haystack:
       length: 100
+      language: "english"
+    
     num_trials: 1
+    metric: "accuracy"
+
 
 inference:
   max_tokens: 100
@@ -30,7 +44,8 @@ inference:
   top_p: 0.9
   do_sample: false
 
+
 logging:
   log_dir: "logs"
-  log_file: "phi2_base_8k.txt"
+  log_file: "phi2_finetuned_experiment.txt"
   level: "INFO"
