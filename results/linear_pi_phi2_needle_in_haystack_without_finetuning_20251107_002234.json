@@ -1,0 +1,244 @@
+{
+  "experiment": {
+    "name": "linear_pi_phi2_needle_in_haystack_without_finetuning",
+    "description": "Base Phi-2 with Linear PI scaling (no fine-tuning)",
+    "seed": 42
+  },
+  "model": {
+    "type": "Phi2Model",
+    "path": "microsoft/phi-2",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.3333333333333333,
+      "total_tests": 33,
+      "successes": 11,
+      "by_context_length": {
+        "2048": 1.0,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.3333333333333333,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.3333333333333333,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy is it important to know whether a startup is default alive or default dead?\nAnswer: It determines the direction of the conversation and the potential for saving the company."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the startling thing about the founders of startups?\nAnswer: They don't know whether they're default alive or default dead.\n\nWhy do so few founders"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most common reason why founders don't know whether their startup is default alive or default dead?\nAnswer: They're not used to asking that.\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\n[2.\nThe.\n[3.\n[3.\n\"\n\n\"\n.\n[2.\n[3.\nThe\n\n[2.\n\n\n\n\n\n\nto be\nand\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "answer": "\nThe\n\"\nThe\nThe\n\"\n(2.\nThe\nThe\nThe.\nThe.\n\"\n\"\n\n\nWhat\n\n\n\n\n\n\n\nThe\nWhat\nThe\nThe\n...\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\n[2.\n[2.\nThe\n[2.\n\"\n\"\nThe\nWhat's\n\"\n\n\"\n\n\nWhat\n\n\n\n\n\n\n\nThe\n\nThe\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "answer": "\n[2.\n[2.\n\"\n[2.\n\"The\nThe\nWhat\n\"\n\"\n\n\n\"\n\nWhat\n\n\n\n\n\n\n\nThe\n\n\nThe\nThe\n...\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\n[3.\n[2.\n\"\n[2.\n\"The\nThe\nWhat\nWhat\n...\n\n\n\"\n\nWhat\n\n\"\n\n\n\n\nThe\n\nThe\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "answer": "\n[3.\n[2.\n[3.\n[3.\n\"\nThe\nWhat\n\"\n\"\n\n\"\n\nWhat\n\n\"\n\n\n\n\nThe\n\nThe\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "answer": "\n[3.\n[2.\n[3.\n(\n(2\nThe\nWhat\nWhat\nWhat\n\n\n\n\n\nWhat\n\nThe\n\n\n\n\nThe\n\nThe\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "answer": "\n[3.\n[3.\n[3.\n(\n(2\nWhat\nWhat\nWhat\nWhat\n\n\n\n\n\nWhat\n\n\n\n\n\n\n\nThe\n\nWhat\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "answer": "\n[3.\n[3.\n[3.\n[2\n(\nThe\nWhat\nWhat\nWhat\n\n\n\n\n\nWhat\n\n\n\n\n\n\n\nThe\n\nThe\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\n[3.\n[2.\n[3.\n[3.\nThe\nThe\nWhat\nWhat\n\n\n\n\n\n\nWhat\n\n\n\n\n\n\n\nThe\n\nWhat\nThe\n[3\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "answer": "\n[3.\n[2.\n[3.\n[3.\nThe\nThe\nWhat\nWhat\n\n\n\n\n\n\nWhat\n\n\n\n\n\n\n\n\nWhat.\nThe\n[3\n..."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251107_002234"
+}
