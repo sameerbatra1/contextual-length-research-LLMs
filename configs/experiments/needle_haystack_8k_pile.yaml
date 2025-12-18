@@ -1,0 +1,42 @@
+experiment:
+  name: "phi2_needle_haystack_8k_pile"
+  description: "Phi-2 needle-in-haystack evaluation using 8K Pile test data"
+  seed: 42
+
+model:
+  type: "Phi2Model"
+  path: "microsoft/phi-2"
+  dtype: "bfloat16"
+  device_map: "auto"
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 2048
+  target_length: 8192
+
+evaluation:
+  needle_haystack:
+    # Context lengths to test (in tokens)
+    context_lengths: [2048, 4096, 8192]
+    
+    # Depths to test (0.0 = beginning, 1.0 = end)
+    depths: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    
+    # The needle to hide in the haystack
+    needle: "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day."
+    
+    # Question to ask about the needle
+    question: "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
+    
+    # Use Pile test data for 8K contexts
+    use_pile_data: true
+    pile_data_dir: "data/pile_test_stratified"
+    pile_data_file: "test_8k_context.json"
+    
+    num_trials: 1
+
+logging:
+  log_dir: "logs"
+  log_file: "phi2_8k_pile_experiment.txt"
+  level: "INFO"
+
