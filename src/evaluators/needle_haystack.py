@@ -1,7 +1,7 @@
 # src/evaluators/needle_haystack.py
-import requests
+import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List
 import random
 
 from .base_evaluator import BaseEvaluator
@@ -29,8 +29,18 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             "\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer:"
         )
         
+        # Pile data configuration
+        self.use_pile_data = config.get("use_pile_data", False)
+        self.pile_data_file = config.get("pile_data_file", "test_4k_context.json")
+        self.pile_data_dir = config.get("pile_data_dir", "data/pile_test_stratified")
+        
         # Load haystack
-        self.haystack_text = self._load_haystack()
+        if self.use_pile_data:
+            self.haystack_documents = self._load_pile_documents()
+            self.haystack_text = None  # Will be generated per test
+        else:
+            self.haystack_text = self._load_paul_graham_essays()
+            self.haystack_documents = None
         
         # Success criteria
         self.success_keywords = config.get(
@@ -38,28 +48,77 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             ["dolores park", "sandwich", "san francisco"]
         )
     
-    def _load_haystack(self) -> str:
-        """Load Paul Graham essays as haystack"""
-        # Try to find the file
-        possible_paths = [
-            Path("data/raw/PaulGrahamEssays.txt"),
-            Path(__file__).parent.parent.parent / "data" / "raw" / "PaulGrahamEssays.txt",
-        ]
+    def _load_pile_documents(self) -> List[Dict]:
+        """Load documents from Pile test data JSON file"""
+        data_path = Path(self.pile_data_dir) / self.pile_data_file
         
-        for data_path in possible_paths:
-            if data_path.exists():
-                print(f"Loading haystack from {data_path}")
-                with open(data_path, 'r', encoding='utf-8') as f:
-                    text = f.read()
+        if not data_path.exists():
+            raise FileNotFoundError(
+                f"Could not find Pile data file: {data_path}\n"
+                f"Available files should be: test_4k_context.json or test_8k_context.json\n"
+                "Please run: python data/data/getting_data.py"
+            )
+        
+        print(f"Loading Pile documents from {data_path}")
+        with open(data_path, 'r', encoding='utf-8') as f:
+            documents = json.load(f)
+        
+        print(f"✓ Loaded {len(documents)} documents from Pile dataset")
+        if documents:
+            print(f"  Document length range: {documents[0]['length_bin']}")
+        
+        return documents
+    
+    def _load_paul_graham_essays(self) -> str:
+        """Load Paul Graham essays as haystack (fallback)"""
+        pg_path = Path(__file__).parent.parent.parent / "data" / "raw" / "PaulGrahamEssays.txt"
+        
+        if not pg_path.exists():
+            raise FileNotFoundError(
+                "Could not find PaulGrahamEssays.txt\n"
+                "Please ensure data/raw/PaulGrahamEssays.txt exists"
+            )
+        
+        print(f"Loading haystack from {pg_path}")
+        with open(pg_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+        
+        if len(text) > 100000:  # At least 100KB
+            print(f"✓ Haystack loaded: {len(text):,} characters ({len(text)/1024:.1f}KB)")
+            return text
+        else:
+            raise ValueError("PaulGrahamEssays.txt is too small")
+    
+    def _get_haystack_text(self, target_tokens: int, model) -> str:
+        """Get haystack text from either Pile documents or Paul Graham essays
+        
+        Args:
+            target_tokens: Target number of tokens needed
+            model: Model object (for tokenization)
+            
+        Returns:
+            Combined haystack text
+        """
+        if self.use_pile_data:
+            # Select random documents and combine them
+            random.shuffle(self.haystack_documents)
+            selected_texts = []
+            total_tokens = 0
+            
+            for doc in self.haystack_documents:
+                text = doc['text']
+                tokens = model.tokenizer.encode(text, add_special_tokens=False)
+                total_tokens += len(tokens)
+                selected_texts.append(text)
                 
-                if len(text) > 100000:  # At least 100KB
-                    print(f"✓ Haystack loaded: {len(text):,} characters ({len(text)/1024:.1f}KB)")
-                    return text
-        
-        raise FileNotFoundError(
-            "Could not find PaulGrahamEssays.txt\n"
-            "Please ensure data/raw/PaulGrahamEssays.txt exists"
-        )
+                # Stop when we have enough content (120% buffer)
+                if total_tokens >= target_tokens * 1.2:
+                    break
+            
+            return "\n\n".join(selected_texts)
+        else:
+            # Use Paul Graham essays
+            return self.haystack_text
     
     def _create_context(self, context_length: int, depth: float, model) -> str:
         """Create context with needle at specified depth
@@ -69,9 +128,12 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             depth: Where to insert needle (0.0 = start, 1.0 = end)
             model: Model object (for tokenization)
         """
+        # Get haystack text
+        haystack_text = self._get_haystack_text(context_length, model)
+        
         # Tokenize haystack
         haystack_tokens = model.tokenizer.encode(
-            self.haystack_text,
+            haystack_text,
             add_special_tokens=False
         )
         

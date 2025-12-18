@@ -79,7 +79,7 @@ class ExperimentRunner:
                     context_length=self.config.get("strategy", {}).get("target_length", 16384)
                 )
             
-            if model_type == "tinyLlamaModel":
+            elif model_type == "tinyLlamaModel":
                 from src.models.tinyLlama_model import TinyLlamaModel
                 self.model = TinyLlamaModel()
                 
@@ -106,7 +106,7 @@ class ExperimentRunner:
                 self.model.load(model_config["path"])
                 
             elif model_type == "LlamaModel":
-                from src.models.llama_model import LlamaModel
+                from src.models.Llama_model import LlamaModel
                 self.model = LlamaModel()
                 self.model.load(model_config["path"])
             
@@ -148,12 +148,12 @@ class ExperimentRunner:
                     target_length=strategy_config["target_length"]
                 )
             
-            elif strategy_type == "YaRNStrategy":
-                from src.strategies.yarn import YaRNStrategy
-                self.strategy = YaRNStrategy(
-                    original_length=strategy_config["original_length"],
-                    target_length=strategy_config["target_length"]
-                )
+            # elif strategy_type == "YaRNStrategy":
+            #     from src.strategies.yarn import YaRNStrategy
+            #     self.strategy = YaRNStrategy(
+            #         original_length=strategy_config["original_length"],
+            #         target_length=strategy_config["target_length"]
+            #     )
             
             else:
                 raise ValueError(f"Unknown strategy: {strategy_type}")
