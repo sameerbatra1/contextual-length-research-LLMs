@@ -1,7 +1,9 @@
 myenv/
 .env
 checkpoints/
-data/
+# data/
+data/pile_train_stratified/
+data/pile_test_stratified/
 logs/
 finetune_phi2_8x_scale.txt
 finetune_phi2_16x_scale.txt
