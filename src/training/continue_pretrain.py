@@ -11,10 +11,75 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def _patch_phi_rope():
+    """Monkey-patch Phi's RoPE implementation to fix device mismatch"""
+    try:
+        from transformers.models.phi.modeling_phi import PhiRotaryEmbedding
+        
+        # Store original _dynamic_frequency_update if it exists
+        _original_dynamic_freq_update = PhiRotaryEmbedding._dynamic_frequency_update if hasattr(PhiRotaryEmbedding, '_dynamic_frequency_update') else None
+        
+        @torch.no_grad()
+        def patched_forward(self, x, position_ids):
+            """Completely rewritten forward that ensures all tensors are on the same device"""
+            device = x.device
+            
+            # Move position_ids to correct device
+            if isinstance(position_ids, torch.Tensor) and position_ids.device != device:
+                position_ids = position_ids.to(device)
+            
+            # Handle dynamic frequency update
+            if "dynamic" in self.rope_type:
+                if _original_dynamic_freq_update is not None:
+                    _original_dynamic_freq_update(self, position_ids, device=device)
+                # Ensure inv_freq is on the correct device after dynamic update
+                if hasattr(self, 'inv_freq') and isinstance(self.inv_freq, torch.Tensor):
+                    if self.inv_freq.device != device:
+                        self.inv_freq = self.inv_freq.to(device)
+            
+            # Ensure inv_freq is on the correct device
+            if hasattr(self, 'inv_freq') and isinstance(self.inv_freq, torch.Tensor):
+                if self.inv_freq.device != device:
+                    self.inv_freq = self.inv_freq.to(device)
+            
+            # Core RoPE block - now everything is on the same device
+            inv_freq_expanded = self.inv_freq[None, :, None].float().expand(position_ids.shape[0], -1, 1)
+            position_ids_expanded = position_ids[:, None, :].float()
+            
+            # Force float32
+            device_type = device.type
+            device_type = device_type if isinstance(device_type, str) and device_type != "mps" else "cpu"
+            with torch.autocast(device_type=device_type, enabled=False):
+                freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+                emb = torch.cat((freqs, freqs), dim=-1)
+                cos = emb.cos()
+                sin = emb.sin()
+            
+            # Apply attention scaling
+            cos = cos * self.attention_scaling
+            sin = sin * self.attention_scaling
+            
+            return cos.to(dtype=x.dtype), sin.to(dtype=x.dtype)
+        
+        # Replace the forward method
+        PhiRotaryEmbedding.forward = patched_forward
+        logger.info("✓ Monkey-patched PhiRotaryEmbedding.forward to fix device mismatch")
+        return True
+    except Exception as e:
+        logger.warning(f"Could not monkey-patch Phi RoPE: {e}")
+        import traceback
+        logger.debug(traceback.format_exc())
+        return False
+
+
+# Apply the patch before any model loading
+_patch_phi_rope()
+
+
 class ContextExtensionTrainer:
     """Fine-tune Phi-2 with YaRN-inspired hyperparameters and 4-bit quantization"""
     
-    def __init__(self, model_name: str, context_length: int, scale_factor: int = 16):
+    def __init__(self, model_name: str, context_length: int, scale_factor: int = 4):
         self.model_name = model_name
         self.context_length = context_length
         self.scale_factor = scale_factor
@@ -104,7 +169,7 @@ class ContextExtensionTrainer:
         )
         
         # With 4-bit, you can use larger batch size!
-        per_device_batch_size = 1  # ← Increased from 1
+        per_device_batch_size = 1 # ← Increased from 1
         gradient_accumulation_steps = 16  # ← Decreased from 16 (still = 16 global)
         
         logger.info(f"Global batch size: {per_device_batch_size * gradient_accumulation_steps}")
