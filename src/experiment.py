@@ -69,7 +69,19 @@ class ExperimentRunner:
                 self.model.load(
                     model_path=model_config["path"],
                 )
-            
+            if model_type == "PythiaModel":
+                from src.models.pythia_model import PythiaModel
+                self.model = PythiaModel()
+                self.model.load(
+                    model_path=model_config["path"],
+                )
+                context_length = 2048
+                if self.config.get("strategy"):
+                    context_length = self.config["strategy"].get("target_length", 2048)
+                
+                self.model.load(
+                    model_path=model_config["path"],
+                )
             elif model_type == "Phi2FinetunedModel":
                 from src.models.phi2_finetuned_model import Phi2FinetunedModel
                 self.model = Phi2FinetunedModel()
