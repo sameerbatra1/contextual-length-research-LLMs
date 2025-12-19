@@ -19,8 +19,8 @@ from src.training.continue_pretrain import ContextExtensionTrainer
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_path", required=True, help="Path to PILE JSONL file")
-    parser.add_argument("--output_dir", default="checkpoints/phi2_yarn_g5", help="Output directory")
-    parser.add_argument("--context_length", type=int, default=16384, help="Target context length")
+    parser.add_argument("--output_dir", default="checkpoints/phi2_pi_g5", help="Output directory")
+    parser.add_argument("--context_length", type=int, default=8192, help="Target context length")
     
     args = parser.parse_args()
     
