@@ -1,0 +1,177 @@
+{
+  "experiment": {
+    "name": "pythia_needle_haystack_4k_pile",
+    "description": "Pythia needle-in-haystack evaluation using 4K Pile test data",
+    "seed": 42
+  },
+  "model": {
+    "type": "PythiaModel",
+    "path": "EleutherAI/pythia-1.4b",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 4096
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.4090909090909091,
+      "total_tests": 22,
+      "successes": 9,
+      "by_context_length": {
+        "2048": 0.8181818181818182,
+        "4096": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.5,
+        "0.1": 0.5,
+        "0.2": 0.0,
+        "0.3": 0.5,
+        "0.4": 0.5,
+        "0.5": 0.5,
+        "0.6": 0.5,
+        "0.7": 0.5,
+        "0.8": 0.5,
+        "0.9": 0.0,
+        "1.0": 0.5
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nI\u2019m sorry that I find these numbers challenging, they just don\u2019t match with what my eyes see, were you there yesterday?\n\nNo, I was"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\nPrintful is a great service to use for your ecommerce business. They have a great selection of products and they have a great customer support team. They also have a great drop shipping service that is easy to use and they have a great price"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "answer": "\n1. Eat a sandwich and sit in Dolores Park on a sunny day.\n2. Take a walk around the city.\n3. Take a walk around the city.\n4. Take a walk around the city.\n5."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "answer": "\n\nEat a sandwich and sit in Dolores Park on a sunny day.\n\nI\u2019m going to Canada next year!\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": false,
+          "answer": " The ArchiCAD 11 2008 is a new and not-for-profit book. It is a new and not-for-profit book. It is a new and not-for-profit book. It is a new and not-for-"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\nand.\nand.to. It. \u201cnots\u201d (or is to eat.to the last is also is a. is also.It is it, and bea. It. Theefl; and of the same."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "answer": " the.\nt. the during the.\nand.\nthe.\nt.\nC.\nand.\nthe rest.\nand.\nand the home.\nthe.\nand as well.\nthe.\nt."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "answer": " the most. It\u2019em. The next to the most, most, the most, most, I-hope, ith of the of the most, the, the most, a of of the of the be.the, the day,"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "answer": " it.\nbeen it\u2019t.\nt been.\ns.\nto.\ns.\nto.\nI\u2019s.\nhere.\nstt\u2019tt share it\u2019s.\nt. been.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "answer": "s any of any of any of the above the of the of this website, or any of this with the or any of this with the with to the to any of course not thes any of any other than the connection with, no not the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "answer": "\n*\nI.\n.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\n is is is is is is is, you, I will, you, you.\n.\n."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "answer": " Theat. The following: Theat. The Act. Them. Them to.\nThe.\nThe, and (D.D, that, which. The by. The. The. The. The. The Arts.Broad"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "answer": "m of the, the, and, and the.\nm, and the most of thee.\nm/12.\nm/m/m.L/, and/m. The.\n. and to be of of of"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "answer": ""
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\nfound.\nbut.\nThe, you, but to the to you.\nand to the end.\nlike.\nThe.\nThe.\nover.\nthe.\ncan.\nto.\nyou, you, you"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "answer": "d.\ns.\nI. of.\nthe.\n.\n.s.\nof of of the with. You. I. I.\nis. I\u2019s.s.\ndah.days.\nI\u2019"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251219_213750"
+}

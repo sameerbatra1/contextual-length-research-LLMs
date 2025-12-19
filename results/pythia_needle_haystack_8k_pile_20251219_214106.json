@@ -1,0 +1,244 @@
+{
+  "experiment": {
+    "name": "pythia_needle_haystack_8k_pile",
+    "description": "Pythia needle-in-haystack evaluation using 8K Pile test data",
+    "seed": 42
+  },
+  "model": {
+    "type": "PythiaModel",
+    "path": "microsoft/phi-2",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.3333333333333333,
+      "total_tests": 33,
+      "successes": 11,
+      "by_context_length": {
+        "2048": 1.0,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.3333333333333333,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.3333333333333333,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "answer": " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the National Sanctity of Life Week of Prayer and Fasting?\nAnswer: The purpose of"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "answer": " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of Canada's Fiscal Approach for Self-Government Arrangements?\nAnswer: The purpose of Canada"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main reason why Hangmakers have a long, long experience in tuning steelpans and making Hang?\nAnswer: They work over 15 years with the new"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of telomeres?\nAnswer: Telomeres protect chromosome ends.\n\nWhat is the difference between telomeres and telomerase?"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the included carrying case?\nAnswer: To hold the earpads during shipment.\n\nWhat is the trick to mounting the ear pads on"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat are the main parts of a surfboard?\nAnswer: Nose, tail, rails, stringer, deck, bottom, fins plug, leash plug, outline,"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Terms of Use?\nAnswer: The purpose of the Terms of Use is to establish the rules and guidelines for using the Lightstock Sites."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "answer": " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the population of Santiago?\nAnswer: The population of Santiago is a little over five million people.\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most important aspect of running a plumbing business in Belfast?\nAnswer: Deciding on a niche to decrease competition and make marketing easier.\n\nWhat should"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the meaning of the noun \"left overs\"?\nAnswer: Left overs refers to the uneaten surplus of a meal.\n\nWhat is the relationship between"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the solid state image pickup device?\nAnswer: The purpose of the solid state image pickup device is to capture and read out image information.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "answer": "\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThea\nThe\nThe\nThe\nThe\nThe\nThe\nThel\nThe\nThe\nThe\nThe\nThe\nThe"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe World.\nThe World.\n\n\n\n\n\n\n\nThe"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\nThe\u2026\nThe\u2026\nThe.\nThe\u2026\nThe\u2026\nThe.\nThe.\nThe\u2026\n\ufffd\u2026\nThe\u2026\nThe.\nThe.\nThe\u2026\nThe\u2026\nThe\n\ufffd\u2026\nThe\u2026"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "answer": "\n.\nI.\nThe.\n\nI\u2019s.\nI\u2019s.\nI\u2019s.\nI\u2019s.\nI\nI\u2019s.\nI.\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "answer": "\n[1.\n[1.\nThe.\n[1.\n[s.\nThe.\nThe.\n[1.\nTo.\nThe.\n[1.\n[1.\n[1.\n[1"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "answer": "\nThe\nThe.\nThe.\nThe United.\n.\n\nto.\n\n\nto the\nto the world.\n\n\n\nThe United and to the world, and to the to the world to thes, and"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "answer": "\nThe.\nThe.\n.\n.\n\u2019.\n\nThe.\n\u2019re.\n.\n.\n\u2019.\n.\n\u2019.\nThe.\nThe United States.\nThe.\n."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\nI.\n\n\n\n\n\n\n\n\n\n\n\n\nI.\n\n\nI.\nI.\n\nI.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "answer": "\n\nI'm.\n\n\n\n\nI.\n\n\n\nI.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nI\ufffd.\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "answer": "\n\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "answer": ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "answer": ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.\n\n\n\n\n\n."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "answer": "\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n."
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "answer": "\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n."
+        }
+      ]
+    }
+  },
+  "timestamp": "20251219_214106"
+}
