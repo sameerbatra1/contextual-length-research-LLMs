@@ -17,7 +17,7 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         # Load configuration with defaults
         self.context_lengths = config.get("context_lengths", [4000, 8000, 16000, 32000])
         self.depths = config.get("depths", [0.0, 0.25, 0.5, 0.75, 1.0])
-        self.num_samples = config.get("num_samples_per_config", 1)
+        self.num_trials = config.get("num_trials", 1)
         
         # Needle and question
         self.needle = config.get(
@@ -177,14 +177,18 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         return has_dolores_park or has_sandwich
     
     def evaluate(self, model) -> Dict[str, Any]:
-        """Run needle-in-haystack evaluation"""
+        """Run needle-in-haystack evaluation with multiple trials"""
         print(f"\n{'='*70}")
         print(f"NEEDLE-IN-HAYSTACK EVALUATION")
         print(f"{'='*70}")
         print(f"Needle: {self.needle[:80]}...")
         print(f"Context lengths: {self.context_lengths}")
         print(f"Depths: {self.depths}")
+        print(f"Trials per test: {self.num_trials}")
+        if self.num_trials > 1:
+            print(f"Pass criterion: ≥{(self.num_trials + 1) // 2}/{self.num_trials} trials")
         print(f"Total tests: {len(self.context_lengths) * len(self.depths)}")
+        print(f"Total trials: {len(self.context_lengths) * len(self.depths) * self.num_trials}")
         print(f"{'='*70}\n")
         
         results_list = []
@@ -193,45 +197,78 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             for depth in self.depths:
                 print(f"Testing: {context_length:5d} tokens, depth {depth:.0%}...", end=" ", flush=True)
                 
-                try:
-                    # Create test case
-                    context = self._create_context(context_length, depth, model)
-                    prompt = context + self.question
-                    
-                    prompt_tokens = model.tokenizer.encode(prompt, return_tensors="pt")
-                    prompt_length = prompt_tokens.shape[1]
-                    
-                    # Generate answer
-                    answer = model.generate(prompt, max_tokens=50)
-                    
-                    
-                    # Check success
-                    success = self._check_success(answer)
-                    
-                    # Store result
-                    results_list.append({
-                        "context_length": context_length,
-                        "depth": round(depth, 2),  # ← Round to avoid float precision issues
-                        "success": success,
-                        "answer": answer  # ← Truncate long answers to save space
-                    })
-                    
-                    status = "✓ PASS" if success else "✗ FAIL"
-                    print(status)
-                    
-                except Exception as e:
-                    print(f"✗ ERROR: {str(e)[:50]}")
-                    results_list.append({
-                        "context_length": context_length,
-                        "depth": round(depth, 2),
-                        "success": False,
-                        "answer": f"Error: {str(e)[:100]}"
-                    })
+                trial_results = []
+                trial_answers = []
+                
+                # Run multiple trials for this configuration
+                for trial in range(self.num_trials):
+                    try:
+                        # Create test case (regenerated each trial for randomness with Pile data)
+                        context = self._create_context(context_length, depth, model)
+                        prompt = context + self.question
+                        
+                        prompt_tokens = model.tokenizer.encode(prompt, return_tensors="pt")
+                        prompt_length = prompt_tokens.shape[1]
+                        
+                        # Generate answer
+                        answer = model.generate(prompt, max_tokens=50)
+                        
+                        # Check success
+                        success = self._check_success(answer)
+                        
+                        trial_results.append(success)
+                        trial_answers.append(answer)
+                        
+                    except Exception as e:
+                        trial_results.append(False)
+                        trial_answers.append(f"Error: {str(e)[:100]}")
+                
+                # Determine overall success using majority voting (≥50% pass)
+                passes = sum(trial_results)
+                required_passes = (self.num_trials + 1) // 2  # Majority: ceil(n/2)
+                overall_success = passes >= required_passes
+                
+                # Store result with trial details
+                result = {
+                    "context_length": context_length,
+                    "depth": round(depth, 2),
+                    "success": overall_success,
+                    "trials": {
+                        "total": self.num_trials,
+                        "passed": passes,
+                        "failed": self.num_trials - passes,
+                        "pass_rate": passes / self.num_trials if self.num_trials > 0 else 0.0,
+                        "results": trial_results,
+                        "answers": trial_answers
+                    }
+                }
+                
+                # For backward compatibility, include first answer in top level
+                result["answer"] = trial_answers[0] if trial_answers else ""
+                
+                results_list.append(result)
+                
+                # Print status with trial details
+                if self.num_trials > 1:
+                    status = f"{'✓ PASS' if overall_success else '✗ FAIL'} ({passes}/{self.num_trials})"
+                else:
+                    status = "✓ PASS" if overall_success else "✗ FAIL"
+                print(status)
         
         # Calculate metrics
         total = len(results_list)
         successes = sum(1 for r in results_list if r["success"])
         overall_accuracy = successes / total if total > 0 else 0.0
+        
+        # Calculate trial statistics
+        if self.num_trials > 1:
+            total_trials = sum(r["trials"]["total"] for r in results_list)
+            total_trial_passes = sum(r["trials"]["passed"] for r in results_list)
+            overall_trial_pass_rate = total_trial_passes / total_trials if total_trials > 0 else 0.0
+        else:
+            total_trials = total
+            total_trial_passes = successes
+            overall_trial_pass_rate = overall_accuracy
         
         # By context length
         by_length = {}
@@ -254,6 +291,13 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             "overall_accuracy": overall_accuracy,
             "total_tests": total,
             "successes": successes,
+            "trials_info": {
+                "num_trials_per_test": self.num_trials,
+                "total_trials": total_trials,
+                "total_trial_passes": total_trial_passes,
+                "overall_trial_pass_rate": overall_trial_pass_rate,
+                "pass_criterion": f">={(self.num_trials + 1) // 2}/{self.num_trials}"
+            },
             "by_context_length": by_length,
             "by_depth": by_depth,
             "details": results_list
@@ -264,6 +308,12 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         print(f"RESULTS SUMMARY")
         print(f"{'='*70}")
         print(f"Overall Accuracy: {overall_accuracy:.2%} ({successes}/{total})")
+        
+        if self.num_trials > 1:
+            print(f"\nTrial Statistics:")
+            print(f"  Total trials run: {total_trials}")
+            print(f"  Individual trial pass rate: {overall_trial_pass_rate:.2%} ({total_trial_passes}/{total_trials})")
+            print(f"  Pass criterion: ≥{(self.num_trials + 1) // 2}/{self.num_trials} trials")
         
         print(f"\nBy Context Length:")
         for length in sorted(by_length.keys()):
