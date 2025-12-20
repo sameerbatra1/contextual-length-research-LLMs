@@ -1,0 +1,779 @@
+{
+  "experiment": {
+    "name": "linear_pi_Phi2_needle_haystack_NF",
+    "description": "Phi2 needle-in-haystack evaluation using 8K Pile test data (no finetuning)",
+    "seed": 42
+  },
+  "model": {
+    "type": "Phi2Model",
+    "path": "microsoft/phi-2",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.3333333333333333,
+      "total_tests": 33,
+      "successes": 11,
+      "trials_info": {
+        "num_trials_per_test": 3,
+        "total_trials": 99,
+        "total_trial_passes": 33,
+        "overall_trial_pass_rate": 0.3333333333333333,
+        "pass_criterion": ">=2/3"
+      },
+      "by_context_length": {
+        "2048": 1.0,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.3333333333333333,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.3333333333333333,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to eat",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to"
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to eat"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat does \"Acknowledge\" mean in these Conditions?\nAnswer: \"Acknowledge\" means a written acknowledgement",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to",
+              " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main objective of the study mentioned in the paragraph?\nAnswer: The main objective of the study is to develop"
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat does \"Acknowledge\" mean in these Conditions?\nAnswer: \"Acknowledge\" means a written acknowledgement"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the NZDRC ECA90 Arbitration Rules?\nAnswer: The purpose of the NZ",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe EPPM-based threat and efficacy measures have been widely validated by numerous studies in multiple countries, cultural settings, and health contexts. The other statements in the online survey"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best way to change people\u2019s perspective of students with disabilities?\nAnswer: By bringing about more awareness.\nWhat is the best way to motivate people",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main thesis of this paper?\nAnswer: The main thesis of this paper is that a clear understanding of the sociological theory of anomie reveals several",
+              " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Ripple Creek UL 2+ mtnGLO tent?\nAnswer: The purpose of the Ripple"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best way to change people\u2019s perspective of students with disabilities?\nAnswer: By bringing about more awareness.\nWhat is the best way to motivate people"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is alginate?\nAnswer: Alginate is a linear polysaccharide present in the cell walls and",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do when you are trying to get started with writing?\nAnswer: Write a couple of lines about a character or scene to kick start your",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is alginate?\nAnswer: Alginate is a linear polysaccharide present in the cell walls and"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most common sign of a bad accountant?\nAnswer: Lack of communication and responsiveness.\n\nWhat is the first thing you should do when starting a business",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of using a hashtag in a book study?\nAnswer: To prevent sprawl and confusion created by multiple hashtags.\n\nWhat is the recommended",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best way to dress a window?\nAnswer: Window blinds can be found in different types. There are Venetian and Roman blinds, vertical blind"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most common sign of a bad accountant?\nAnswer: Lack of communication and responsiveness.\n\nWhat is the first thing you should do when starting a business"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the primary aim of the study?\nAnswer: To determine whether preschool-based capacity building programs reduce the prevalence of IPV in preschool-attending families.",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of a drug user union?\nAnswer: To represent the needs of drug users in treatment and advocate for fair and humane treatment.\n\nWhat are",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the significance of the European Enlightenment?\nAnswer: The European Enlightenment was a period of time when reason and empirical experience were recognized as the legitimate sources of knowledge."
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the primary aim of the study?\nAnswer: To determine whether preschool-based capacity building programs reduce the prevalence of IPV in preschool-attending families."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the name of the literary T shirt maker mentioned in the passage?\nAnswer: Kafka Cotton\n\nWhat is the name of the director mentioned in the passage?",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the activity report?\nAnswer: The purpose of the activity report is to describe and evaluate a",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the name of the housing complex in Manhattan that was the subject of the class action lawsuit?\nAnswer: The"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the name of the literary T shirt maker mentioned in the passage?\nAnswer: Kafka Cotton\n\nWhat is the name of the director mentioned in the passage?"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Wainuiomata Tennis Club?\nAnswer: To provide a place for people to play tennis and enjoy the sport.\n\nWhat",
+              " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the science of coffee-making?\nAnswer: The science of coffee-making is the study of the process of",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best way to engage students in a conversation about engagement?\nAnswer: Ask them to draw on their personal experiences outside of school.\nWhat is the best way"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Wainuiomata Tennis Club?\nAnswer: To provide a place for people to play tennis and enjoy the sport.\n\nWhat"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Protected Areas of British Columbia Act?\nAnswer: The purpose of the Protected Areas of British Columbia Act is to protect and manage parks",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the 'lgpPduTable'?\nAnswer: The 'lgpPduTable' is a table that contains a list of PDU",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the topic of the essay?\nAnswer: The best thing to do in San Francisco.\n\nWhat is the main idea of the essay?\nAnswer:"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Protected Areas of British Columbia Act?\nAnswer: The purpose of the Protected Areas of British Columbia Act is to protect and manage parks"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the topic of the first conference of Novak Djokovic's Foundation?\nAnswer: The topic of the first conference is entrepreneurship.\n\nWhat is the",
+              " The best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the Queen's Anniversary Prize?\nAnswer: The Queen's Anniversary Prize is awarded to Liverpool John",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main purpose of encryption?\nAnswer: The main purpose of encryption is to protect sensitive files and data from unauthorized access.\n\nWhat is the difference between"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the topic of the first conference of Novak Djokovic's Foundation?\nAnswer: The topic of the first conference is entrepreneurship.\n\nWhat is the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\ni.\ni.\ni.\ni.\ni.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\ni.\nI.\nI.\nI",
+              ".\nThe.\nThe.\n\n\nThe.\nThe.\nThe.\nThe.\n.\n.\n.\n.\nThe.\nThe.\nThe.\nThe.\n\nThe.\nThe.\n\n",
+              "\n.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n\nThe.\nThe.\nThe."
+            ]
+          },
+          "answer": "\ni.\ni.\ni.\ni.\ni.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\ni.\nI.\nI.\nI"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n\n\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n\n",
+              "\nThe.\nThe\nThe\nThe.\nThe\nThe\nThe.\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n",
+              "\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n"
+            ]
+          },
+          "answer": "\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n\n\nThe\nThe\nThe\nThe\nThe\nThe\nThe\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd as \"d.\nd.\nd.\nd.\nd.\nd.\nd",
+              "\nThe.\nThe.\nThe.\nThe\nThe.\nThe.\nThe.\nThe.\nThe.5.\nThe\nThe.\nThe\nThe.\nThe.\nThe.\nThe.\nThe\n",
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe"
+            ]
+          },
+          "answer": "\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd.\nd as \"d.\nd.\nd.\nd.\nd.\nd.\nd"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nThe.\n.\nThe.\n.\n.\n.\nIt.\n.\n.\nThe.\n.\n.\n",
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe",
+              " I.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI.\nI."
+            ]
+          },
+          "answer": ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nThe.\n.\nThe.\n.\n.\n.\nIt.\n.\n.\nThe.\n.\n.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe",
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe",
+              "\n4.\n4.\n4.\n4.\n4.\n4.\n4.\n4.\n.\n.\n4.\n.\n4.\n4.\n.\n.\n.\n.\n.\n"
+            ]
+          },
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\nThe.\n\n\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n",
+              "\nThe.\nThe\n\u2019s.\n\u2019s.\n\u2019s.\n\u2019s.\n\u2019s.\n\u2019s.\n\u201c.\n\u2019s.\n\u2019s.\n",
+              "\n\nI'm.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\nThe.\n\n\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\nThe\nThe\n\n\n\n\nThe\nThe\nThe.\nThe.\nThe to the \u201cto the to the.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n.\nThe.\nThe.\n.\n.\n.\n.\nThe.\n.\nThe.\n.\n.\nto)\n.\n.\n.\n.\nto)\n.\n.\n.\n.",
+              " \"The.\n\"The.\n\"The.\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n\"\n"
+            ]
+          },
+          "answer": "\n\nThe\nThe\n\n\n\n\nThe\nThe\nThe.\nThe.\nThe to the \u201cto the to the.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe end.\nThe.\n",
+              "\nThe.\nThe.\nThe.\nThe.\n\nThe.\nThe.\nThe.\nThe\nThe\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.",
+              "\nThe.\nThe\nThe.\nThe. [1. [1. [1. [1. [1. [1.\nThe.\nThe.\nThe.\nThe.\n[1.\nThe.\nThe"
+            ]
+          },
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe end.\nThe.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nTo.\nThe.\n1, the.\n1.\n",
+              "\nThe.\nThee.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n",
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n\u201d (e.\nThe.\nThe.\n\u201c (\u201c (e.\n("
+            ]
+          },
+          "answer": "\n.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nTo.\nThe.\n1, the.\n1.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nto.",
+              "\nThe \"The \"The \"The \"The \"The \"The \"The \"The \"The \"The \"The.\nThe (see.\nThe.\nThe.\nThe \"The \"The \"The \"The.\nThe.",
+              "\n6\n6\n6.\n6.\n6.\n6\n6.\n9\n10.\n10.\n10.\n9.\n10.\n10.\n10.\n10.\n6.\n10."
+            ]
+          },
+          "answer": "\nThe\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nto."
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n\nThe.\n\n\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n.",
+              "\nThe\u2026\nThe.\nThe.\nThe.\nThe.\nThe\u2026\nThe.\nThe\u2026\nThe\u2026\nThe\u2026\nThe.\nThe.\nThe\u2026\nThe\u2026\nThe\nThe\u2026\nThe\u2026",
+              "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nAs.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe"
+            ]
+          },
+          "answer": "\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n\nThe.\n\n\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\nThe.\n."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n\n\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n."
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n."
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n",
+              "\n\n\n\n\n\n\n\n\n\n.\n.\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": ".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n.\n.\n.\n.\n.\n\n\n.\n.\n.\n\n.\n.\n\n\n\n\n\n.\n\n\n\n.\n.\n.\n.\n.\n\n\n\n\n",
+              "\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n the.\n.\n the.\n.\n.\n.\n.\n.\n.\n."
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "\n.\n.\n\n\n\n\n.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.\n.\n\n\n\n\n\n\n\n\n\n.\n.\n.\n.\n\n\n",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251220_214013"
+}

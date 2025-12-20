@@ -1,0 +1,779 @@
+{
+  "experiment": {
+    "name": "linear_pi_TinyLlama_needle_haystack_NF",
+    "description": "TinyLlama needle-in-haystack evaluation using 8K Pile test data (no finetuning)",
+    "seed": 42
+  },
+  "model": {
+    "type": "tinyLlamaModel",
+    "path": "TinyLlama/TinyLlama_v1.1",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.24242424242424243,
+      "total_tests": 33,
+      "successes": 8,
+      "trials_info": {
+        "num_trials_per_test": 3,
+        "total_trials": 99,
+        "total_trial_passes": 24,
+        "overall_trial_pass_rate": 0.24242424242424243,
+        "pass_criterion": ">=2/3"
+      },
+      "by_context_length": {
+        "2048": 0.7272727272727273,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.0,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.3333333333333333,
+        "0.3": 0.0,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.0,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "The best thing to do in San Francisco is to visit the Golden Gate Bridge, which is the most famous bridge in the world.\nThe Golden Gate Bridge is a suspension bridge that spans the Golden Gate, a strait that connects the",
+              "The best thing to do in San Francisco is to visit the Golden Gate Bridge, which is the most famous bridge in the world.\nThe Golden Gate Bridge is a suspension bridge that spans the Golden Gate, a strait that connects the",
+              "\n\n\n*\n\n*Go to the Castro and walk around.\n\n*Go to the Mission and walk around.\n\n*Go to the Marina and walk around.\n\n*Go to the Marina and walk around.\n\n"
+            ]
+          },
+          "answer": "The best thing to do in San Francisco is to visit the Golden Gate Bridge, which is the most famous bridge in the world.\nThe Golden Gate Bridge is a suspension bridge that spans the Golden Gate, a strait that connects the"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe content above is a paraphrase of the content above.\nThe content above is a paraphrase",
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is eat",
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nAnswer: The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sun"
+            ]
+          },
+          "answer": "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe content above is a paraphrase of the content above.\nThe content above is a paraphrase"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe above example illustrates the problem of planarization in the presence of non-uniformly spaced conductor lines. Lee's solution is to",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in",
+              "The very best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe above example illustrates the problem of planarization in the presence of non-uniformly spaced conductor lines. Lee's solution is to"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              true,
+              false,
+              false
+            ],
+            "answers": [
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe money to and DMPs offer a broad number of routes to put you back on the right track.\nE",
+              "I am not sure I can answer that question. I am not sure I can answer that question. I am not sure I can answer that question. I am not sure I can answer that question. I am not sure I can answer that question.",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe money to and DMPs offer a broad number of routes to put you back on the right track.\nE"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nAnswer: Walk down the stairs\nAnswer: TK, look, he's a veteran in the industry. So watching him speak with clarity",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe t402v is available now from Torque Audio for $1,200.\n\nA: The t402v",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\nAnswer: Walk down the stairs\nAnswer: TK, look, he's a veteran in the industry. So watching him speak with clarity"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              true,
+              false,
+              true
+            ],
+            "answers": [
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day. booking flights that are the same time but different airlines. Outside of that, I love getting to see what",
+              "You can visit the San Francisco Museum of Modern Art.\nThe San Francisco Museum of Modern Art is a museum in San Francisco, California. It is the oldest museum in the city, and the second oldest in the state. It was founded in ",
+              "\n\n\n*\n\n*Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n*\n\n*Visit the San Francisco Museum of Modern Art.\n\n*Visit the San Francisco Z"
+            ]
+          },
+          "answer": "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day. booking flights that are the same time but different airlines. Outside of that, I love getting to see what"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              true,
+              true,
+              false
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nI'm not sure what you mean by \"best thing to do in San Francisco.\"\n\nI'm not sure what you mean by \"best",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nMax: What is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nI'm not sure what you mean by \"best thing to do in San Francisco.\"\n\nI'm not sure what you mean by \"best"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe Perry 200 Commemoration is a 2-year-long story that steers in the \"Launch Season.\" The Perry 2",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.hopefully\u2026!\nI think you will find that the best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe Perry 200 Commemoration is a 2-year-long story that steers in the \"Launch Season.\" The Perry 2"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              false,
+              true,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nAnswer: Use the planned update of its Strategic Vision as an opportunity to: (i) set out how it will reduce the fragmentation of its",
+              "\n\n\n*\n\n*Go to the beach\n\n*Go to the zoo\n\n*Go to the park\n\n*Go to the museum\n\n*Go to the library\n\n*Go to the mall\n\n*"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "eat a sandwich and sit in Dolores Park on a sunny day.\n\nA: The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nA: The",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nA: The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe best thing to"
+            ]
+          },
+          "answer": "eat a sandwich and sit in Dolores Park on a sunny day.\n\nA: The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nA: The"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "The best thing to do in San Francisco is to go to Dolores Park and sit in it on a sunny day.\n\nA: The best thing to do in San Francisco is to go to Dolores Park and sit in it on a",
+              "The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nAl Martin: So, Mike, I'm going to ask you a question. So, Mike, what's",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe best thing to do in"
+            ]
+          },
+          "answer": "The best thing to do in San Francisco is to go to Dolores Park and sit in it on a sunny day.\n\nA: The best thing to do in San Francisco is to go to Dolores Park and sit in it on a"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "sdghdteingeexcttots absolutelyl absolutelyltottottotetotdd entire entirectot nowowddtotdmdmdcc gir gir girowob charact charact girdmdd gir gir",
+              "in, in, in, in,,, in, in, then, the, in,,, in in in in, in in in in in in \u2026 in in in, in, in in in, in, in in in in",
+              "and and and and and, and and one, one, and I in into into into into into into into into into into into into into into into into into into into into into into into into into into into, and one, and and and and"
+            ]
+          },
+          "answer": "sdghdteingeexcttots absolutelyl absolutelyltottottotetotdd entire entirectot nowowddtotdmdmdcc gir gir girowob charact charact girdmdd gir gir"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "in in in from from from from from from from from from from from from from from from from from from from from from from from from from in in in in in in in in in in in in inAA in in in in in and and",
+              "and with and with with with with with, and they, they they and please, and and then, you or, the you you you you you you you you and you and, please, and and and and and and and and and and,",
+              "to, to to to to to to, to,,,, a, to to to to to to to to to to to to to to to, to, ,, to, to to to to to to to to to to to to"
+            ]
+          },
+          "answer": "in in in from from from from from from from from from from from from from from from from from from from from from from from from from in in in in in in in in in in in in inAA in in in in in and and"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "from, to, to, to, to, in, in, to, to, in, in, in in in, in in in in, in, in, in in in, in, in, in, in, in, in",
+              "The The The The The The not not not not not The not90210 not not not not lo lo not are not much not not not not not1 not The The The are are not lo lo lo lo lo lo lo lo lo",
+              "and for for, and and and and and and and and have and and and and and and and and and for for for for for for and and and for for for for for for for for for for for for for for for for and and and"
+            ]
+          },
+          "answer": "from, to, to, to, to, in, in, to, to, in, in, in in in, in in in in, in, in, in in in, in, in, in, in, in, in"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "and and in in in and infa in in infa in in in in in in int itt and itt and it and and in and and that andd and and and and and and and and and in in in in in in",
+              "in in and and  and in in in in in in in a  in a a a an a a in in in a  and  and and and and and  and a a  in  in  and      ",
+              "and thes to the the the, and: and: and: all, all: all: and the: and: and: and: and: and: and: and and all, and, and, and and and and, and,"
+            ]
+          },
+          "answer": "and and in in in and infa in in infa in in in in in in int itt and itt and it and and in and and that andd and and and and and and and and and in in in in in in"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              ",,,,,,,,,,,,,,,,,,,,,,,,, to to to,,,,, to, to, to, to, to, to, to,,,,",
+              "as in in in in, in, in, in, and as, in as and as as as, I, it, you, you, it, you, you, you, you, as, as, in, in, in,",
+              "and and and and and and and and and and and, and and and. in in, and, in in in in and and and as, and, and and and as with and with with and and and and and which and and and a"
+            ]
+          },
+          "answer": ",,,,,,,,,,,,,,,,,,,,,,,,, to to to,,,,, to, to, to, to, to, to, to,,,,"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "and andd and and and and and and\u2014 and thet and and and to and and and and and and and and and and, and, and and and and and and and and and and and and and and and and and,\" and and",
+              "because, integration, in,d,t, ared,temd, in in in in in in, in, in, in, in, in, in in in in in in in in in in in in in, in in in",
+              "???? and?? and! on on on you you you you you you on on the you many many and and and for the. what. and what. Many. what what what. and a and a and and and a."
+            ]
+          },
+          "answer": "and andd and and and and and and\u2014 and thet and and and to and and and and and and and and and and, and, and and and and and and and and and and and and and and and and and,\" and and"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              ", because, the, because,s,,, back, because,,,,,,, is, is, back, is, is, and, to, to, to, to, to, to, to,,,,",
+              "and and and and and and. and. and. and and and and and and and. and. and and and and you and you and and and and and and and and. and. and.t.t. and. and and.",
+              "or or, or, as, as, or, or, or, a, a or a, a, a a, or,, to, in in in the, the, in the in, in, in,tete, in"
+            ]
+          },
+          "answer": ", because, the, because,s,,, back, because,,,,,,, is, is, back, is, is, and, to, to, to, to, to, to, to,,,,"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "about abouts and or or about or or and the in the the the or the the the or and the the the the theled or the the to to the the than, the the the the the the the the the or the and the the",
+              "and and in in and in in in in in in in to to in to to in in in in in it because it because in in in in in in in in in in in in in in in in in in in and and to to in",
+              ",, in in in in in, in, in, in in in in in in in, in in in in in in in in in in in in in in in in, in, in in in, in,, in, in in"
+            ]
+          },
+          "answer": "about abouts and or or about or or and the in the the the or the the the or and the the the the theled or the the to to the the than, the the the the the the the the the or the and the the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "in in in, in, in, in in in, in in, in in, in, in, in, in, in, in, in, in, in, in, in, in, in, by, by, in,",
+              "and, in in in and and and and33 in in in in, in in to to to, and, we and we, in, we, to, to, we, we on on on on on on onnd on on on",
+              "on on on on on on, on in on, on on on on ons on on on on on, on in, as, and, in inm, and, in in in in in, in in in in in in in in"
+            ]
+          },
+          "answer": "in in in, in, in, in in in, in in, in in, in, in, in, in, in, in, in, in, in, in, in, in, in, by, by, in,"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "and, in, in, in, in, in, in, in, in, in, and all, and all, all all or all, and and and and and and in in in in in and in and and and and and and",
+              "as as as as in in in in in in in in in in in in in in in in ph, and, in, in, in, in, in in in in in in in in in in in in as as as, in in",
+              "and and on and and and and and and and and and and and and and and and and and and on and on on on and and ands and and and and and and and ands and and and and and and and and and and and"
+            ]
+          },
+          "answer": "and, in, in, in, in, in, in, in, in, in, and all, and all, all all or all, and and and and and and in in in in in and in and and and and and and"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "440440400034004444004400004004440s00004444444.4440",
+              "Space0 space space are but but ast ast ast ast0 ast ast ast ast not Space00 not not n not not not not not not not not for for you not looking ast much much ast ast astp ast ast ast ast n The download",
+              "and and and and and and and and and and, and and and as. in in, and, ink in, and and and as, and, and and and as with and with with and and and and and which and and and a"
+            ]
+          },
+          "answer": "440440400034004444004400004004440s00004444444.4440"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "s thes thes thes thes thes thes thestons thes thes thesems thes thes thes thes thesems thes emsememem Thesememem The",
+              "s. they. they. they. they. theys. they. they. theys. theys theysms. they they they they they. I. I. they they. they. they. they. I. I. I",
+              "and at and at and and and and to, and and and and which and which, to to to, a at a sub and at a sub a a to to a sub sub sub sub sub which which which which to to, to, to"
+            ]
+          },
+          "answer": "s thes thes thes thes thes thes thestons thes thes thesems thes thes thes thes thesems thes emsememem Thesememem The"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "to. to. s. to. to.coms.coms.coms to. to. to. to. to. tos to. to. to. to. to. to. to to.  to, to",
+              "toc fortovery toesvery tooutoutoutrrenmentttotrodtverytvery toyodng buy buyesy buy to to to to buy to to for for foradeadeod for for to for",
+              "  s s s s s s                        they            "
+            ]
+          },
+          "answer": "to. to. s. to. to.coms.coms.coms to. to. to. to. to. tos to. to. to. to. to. to. to to.  to, to"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "sss ands, thesss andss tos to, tos to, to thes tos to to tos to to the to to to the to the to, to, to thes to to, to",
+              "s. A. As. Ass. Asss. As. ss. A as. As. Aes. Its it. A. It. It. Theys. A. They.",
+              "sss a a as as a a becausessss a a as a a a as as a a a as ass a a a a a a a a a a a a a a a"
+            ]
+          },
+          "answer": "sss ands, thesss andss tos to, tos to, to thes tos to to tos to to the to to to the to the to, to, to thes to to, to"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "tos los los tos to thes los los tos tos bys tos tos ons bys by tos by by by by on to by from from from thes by thes to thes",
+              "2s22s. (s. (3s. (s. (s. (2. 2. 222. (2. 222. 2. 222s. to. ",
+              "s ors ors ors0s ors ors ors ors.com.coms ors ors. Ins. ins0s A ors or or ors or or or in or or or or or"
+            ]
+          },
+          "answer": "tos los los tos to thes los los tos tos bys tos tos ons bys by tos by by by by on to by from from from thes by thes to thes"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "( ( ( ( ( ( A, A, ( ( ( ( ( ( ( ( ( A,  A. A. A. A ( A. A. A. A. A. A. A. A. A. A.",
+              "and tod to and to and he he he to and to and and he a again and he a he and and and and and and and and and and he and and and and and and he he he he he he he he he he he",
+              "a a is a a a a to a a to a?? who who who who??? to????? to  to a to a to a to a a to a tos to a in a to a to a"
+            ]
+          },
+          "answer": "( ( ( ( ( ( A, A, ( ( ( ( ( ( ( ( ( A,  A. A. A. A ( A. A. A. A. A. A. A. A. A. A."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "(s. (s, and and ( or realseser, or or, real, or or ors ( reals orsesss and and orses and and, a or to ( and, and and and and",
+              "!!! \u2013 \u2013 \u2013! \u2013 a \u2013 a and and and and and a a a a and a to a theys a to a to a to a to a to a and to a to a to a a a a a a ",
+              "in and in and and ins ands and and in as ins and in thes ands and the It a a It a It in and and the ons ons on on on on thes thes and"
+            ]
+          },
+          "answer": "(s. (s, and and ( or realseser, or or, real, or or ors ( reals orsesss and and orses and and, a or to ( and, and and and and"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "s, to, to,s,s, the,s, and,sss, which, which,s, to, thes,s, to, to, to, to, to,s, to to, tos",
+              "a a  a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a",
+              "a to, a. I. I have have a now. I a a have to a to and a and a to a to a to a to and a a a to a a a a a to a to a a a a a to"
+            ]
+          },
+          "answer": "s, to, to,s,s, the,s, and,sss, which, which,s, to, thes,s, to, to, to, to, to,s, to to, tos"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "tenstenssenstenssasttenstcomcoms butsenenenssestensttentenstlert butsen ttens butses butsenssensseses",
+              "ssssssses atsssssssssses atses atses ats at thes ats theses ats a a a as a a a as as",
+              "3 to3. to or33 to to to or to to333 or or33333333333333333 a a333 a a or or a3 or or a"
+            ]
+          },
+          "answer": "tenstenssenstenssasttenstcomcoms butsenenenssestensttentenstlert butsen ttens butses butsenssensseses"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "and,                  and  and  and  and       and, 9 and and,    and,      ",
+              "or to a to a or or to a to a case.? case to a case or case to case to to or to a to or to or or or or or or or or or or to or or or a we or or or or",
+              "a a  a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a"
+            ]
+          },
+          "answer": "and,                  and  and  and  and       and, 9 and and,    and,      "
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "E E E E E E E E Es E E E E E E E E E E E E E E event E E E E E event event event events E events events events events event E events E event",
+              "I I I I they they they they they they they I they they they they they and a a a a I I I they they they they I they they they they they they they they they they they they I they they they they they they they",
+              "It ma ma ma ma ma ma ma ma ma mae mas mas mas ands mas mas mas mas mas mas mas mas mas mas mas mas mas mas ma ma"
+            ]
+          },
+          "answer": "E E E E E E E E Es E E E E E E E E E E E E E E event E E E E E event event event events E events events events events event E events E event"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "conts conts and thes and and and and and and and and and and and \u2013 and and and and and ands \u2013 \u2013 \u2013 \u2013 conts \u2013 \u2013 thes \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013",
+              "to, and, to, to, and and, and, and and and. to and and and and and and. with. with. they. with. with. they. In. in. and. with. as. the. In",
+              "to the to the to the to a the thes and a to a the a a thes the the thes a a the a thes the thes the thes thes to a and a a to a to the to the to"
+            ]
+          },
+          "answer": "conts conts and thes and and and and and and and and and and and \u2013 and and and and and ands \u2013 \u2013 \u2013 \u2013 conts \u2013 \u2013 thes \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013 \u2013"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251220_212328"
+}

@@ -1,0 +1,778 @@
+{
+  "experiment": {
+    "name": "linear_pi_Phi2_needle_haystack_F",
+    "description": "Fine-tuned Phi2 with Linear PI context extension with LoRA adapters evaluated on needle-in-haystack",
+    "seed": 42
+  },
+  "model": {
+    "type": "Phi2FinetunedModel",
+    "base_path": "microsoft/phi-2",
+    "adapter_path": "checkpoints/phi2_pi_g5/final_model"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.7575757575757576,
+      "total_tests": 33,
+      "successes": 25,
+      "trials_info": {
+        "num_trials_per_test": 3,
+        "total_trials": 99,
+        "total_trial_passes": 77,
+        "overall_trial_pass_rate": 0.7777777777777778,
+        "pass_criterion": ">=2/3"
+      },
+      "by_context_length": {
+        "2048": 1.0,
+        "4096": 0.9090909090909091,
+        "8192": 0.36363636363636365
+      },
+      "by_depth": {
+        "0.0": 1.0,
+        "0.1": 0.6666666666666666,
+        "0.2": 0.6666666666666666,
+        "0.3": 1.0,
+        "0.4": 1.0,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.6666666666666666,
+        "0.7": 0.6666666666666666,
+        "0.8": 0.6666666666666666,
+        "0.9": 0.6666666666666666,
+        "1.0": 1.0
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat hard liquor, cigarettes, heroin, crack, heroin, and crack have in common is that they're all more concentrated forms",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do most people use the word \"procrastination\" to describe what they do on the Internet?\nAnswer: People commonly use the word \"procrastination\"",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what hard liquor, cigarettes, heroin, and crack have in common?\nAnswer: They're all more concentrated forms of less addictive predecessors."
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat hard liquor, cigarettes, heroin, crack, heroin, and crack have in common is that they're all more concentrated forms"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy is it important",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between something we like and something we don't want to want?\nAnswer: Something we like is something we want to want, while something we don",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in the next 40 years?\nAnswer: Figure out for yourself what to avoid and how.\n\n"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy is it important"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between \"normal\" and \"normal operating range\"?\nAnswer: \"Normal\" refers to what everyone else does, while \"normal operating range\" refers",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the next 40 years going to bring us?\nAnswer: More addictive things than we had in the last 40 years.\n\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do most people think you're weird if you don't have an iPhone?\nAnswer: Because the Internet has become addictive while you were using it.\n\nWhat"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between \"normal\" and \"normal operating range\"?\nAnswer: \"Normal\" refers to what everyone else does, while \"normal operating range\" refers"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so many people I know have problems with Internet addiction?\nAnswer: Most people I know have problems with Internet addiction because it has become addictive while they were using",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between statistically normal and the normal operating range of a piece of machinery?\nAnswer: Statistically normal refers to what everyone else does, while the normal",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between the senses of \"normal\" and \"normal operating range\" of a piece of machinery?\nAnswer: The sense of \"normal\" is statistically"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so many people I know have problems with Internet addiction?\nAnswer: Most people I know have problems with Internet addiction because it has become addictive while they were using"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do most people think you're weird when you don't have an iPhone?\nAnswer: The last thing they want is for the Internet to follow you out into the",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nExplanation: The passage mentions that the best thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day. This is",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the purpose of the calculator created by Trevor Blackwell?\nAnswer: To help founders determine whether their startup is default alive or default dead.\n\nWhat is the"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do most people think you're weird when you don't have an iPhone?\nAnswer: The last thing they want is for the Internet to follow you out into the"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhich of the following statements is true about technological progress?\nAnswer: It has always been accelerating.\n\nWhat is the reason for the startling thing mentioned in the passage",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy did Trevor Blackwell make a calculator?\nAnswer: To help founders determine whether their startups are default alive or default dead.\n\nWhat is the reason why so few",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy did the Internet get the person addicted?\nAnswer: Because it became addictive while they were using it.\n\nWhy doesn't the person have an iPhone?\n"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhich of the following statements is true about technological progress?\nAnswer: It has always been accelerating.\n\nWhat is the reason for the startling thing mentioned in the passage"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main reason why founders don't know whether they're default alive or default dead?\nAnswer: They're not used to asking that question.\n\nHow",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the main reason why founders don't know whether they're default alive or default dead?\nAnswer: They're not used to asking that question.\n\nHow"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do people commonly use the word \"procrastination\" to describe what they do on the Internet?\nAnswer: Because it seems too mild to describe what's happening",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the difference between \"good\" and \"bad\" technological progress?\nAnswer: \"Good\" technological progress is something that makes our lives better, while \"bad",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat does it mean when someone says \"good\" and \"bad\" technological progress aren't sharply differentiated?\nAnswer: \"Good\" and \"bad\" technological progress aren"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do people commonly use the word \"procrastination\" to describe what they do on the Internet?\nAnswer: Because it seems too mild to describe what's happening"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do people commonly use the word \"procrastination\" to describe what they do on the Internet?\nAnswer: It seems too mild to describe what's happening as",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the shocking thing about the Internet?\nAnswer: It's a hip flask.\n\nWhy do half the founders I talk to not know whether they're default"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow can you tell if a startup is default alive or default dead?\nAnswer: Trevor Blackwell has made a handy calculator you can use to find out.\n\nWhy",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the startling thing about the founders themselves?\nAnswer: They don't know whether they're default alive or default dead.\n\nWhy does Trevor Blackwell have a"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow can you tell if a startup is default alive or default dead?\nAnswer: Trevor Blackwell has made a handy calculator you can use to find out.\n\nWhy"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, they're not used to asking that.\n\nWhat is the",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, I think, because they're not used to asking that.\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do most people have problems with Internet addiction?\nAnswer: Because the Internet has become addictive while they were using it.\n\nWhat is the difference between \"good"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy do so few founders know whether they're default alive or default dead?\nAnswer: Mainly, they're not used to asking that.\n\nWhat is the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nNo one doubts this process is accelerating, which means increasing numbers of things we like will be transformed into things we like too much.\n\nAs far as I know there",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\n[1]No one doubts this process is accelerating, which means increasing\nnumbers of things we like will be transformed into things we like\ntoo much.\n\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.July 2010\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.July 2010\n\nWhat hard liquor, cigarettes,"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nNo one doubts this process is accelerating, which means increasing numbers of things we like will be transformed into things we like too much.\n\nAs far as I know there"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the worst thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most",
+              "\n\nEating a sandwich and sitting in Dolores Park on a sunny day.\n\nWhy is this the best thing to do in San Francisco?\nAnswer:\n\nBecause as the world becomes more addictive, the two senses of \"normal",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat are some examples of addictive things?\nAnswer: Hard liquor, cigarettes, heroin, and crack.\n\nHow can we determine whether a startup is default alive or"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the worst thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nIs it better to eat a sandwich and sit in Dolores Park on a sunny day, or to eat a sandwich and sit in Dolores Park on a sunny day?",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nI've seen this kind of thing happen with cigarettes.  When cigarettes first\nappeared, they spread the way an infectious disease spreads through\na previously isolated population.",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the fundamental problem with the App Store?\nAnswer: It treats iPhone apps as if they are like music.\n\nWhat is the relationship between software and books"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nIs it better to eat a sandwich and sit in Dolores Park on a sunny day, or to eat a sandwich and sit in Dolores Park on a sunny day?"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhy? Because you don't want to be one of the people whose sad example becomes a lesson to future generations.\nWhat should you do if you're a founder?\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nA: Eat a sandwich and sit in Dolores Park on a sunny day. Sounds pretty eccentric, doesn't it? It always will when you're trying to solve problems",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhy? Because you don't want to be one of the people whose sad example becomes a lesson to future generations.\nWhat should you do if you're a founder?\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n",
+              "\n\nEat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best thing to do in San Francisco?\nAnswer:\n\nEat a sandwich and sit in Dolores Park on a sunny day.\n\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the worst thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best"
+            ]
+          },
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              false,
+              true,
+              false
+            ],
+            "answers": [
+              "\n\nGo out on a long hike\n\nWhat is the most common problem people have with the Internet?\nAnswer:\n\nInternet addiction\n\nWhat is the most common way people try to avoid Internet addiction?\nAnswer:\n\nTaking",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the most common problem that founders of startups have?\nAnswer: not knowing whether they're default alive or default dead.\n\nWhat is the fatal pinch?",
+              " take long hikes.\n\nJuly 2010What hard liquor, cigarettes, heroin, and crack have in common is\nthat they're all more concentrated forms of less addictive predecessors.\nMost if not all the things we describe as addictive are.\nThe"
+            ]
+          },
+          "answer": "\n\nGo out on a long hike\n\nWhat is the most common problem people have with the Internet?\nAnswer:\n\nInternet addiction\n\nWhat is the most common way people try to avoid Internet addiction?\nAnswer:\n\nTaking"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhy?  Because there's no better way to be safe from the fatal pinch than by\nbeing default alive.\nThe fatal pinch is the state in which a startup is",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n\nOctober 2009It's a great thing to be a startup founder.  I love the\nexcitement of being a startup founder.  It's a great thing to",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhy is it that some startups succeed and some don't?  They're often the same\npeople, working in the same industries, in the same time period, with"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhy?  Because there's no better way to be safe from the fatal pinch than by\nbeing default alive.\nThe fatal pinch is the state in which a startup is"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nOctober 2009I'm reading an article by Peter Thiel, the founder of PayPal and\na partner at Founders Fund, on how to get funded.  He's writing\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the worst thing to do in San Francisco?\nAnswer: Get drunk.\n\nBased on the content above, what is the",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\nWhat should you do if you're a startup that's been operating for 8 months?\nAnswer: do not hire too fast.\nWhat should you do if you're a"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nOctober 2009I'm reading an article by Peter Thiel, the founder of PayPal and\na partner at Founders Fund, on how to get funded.  He's writing\n"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the most common mistake that startups make?\nAnswer: Hiring too fast.\nWhat is the most common mistake that startups make because they\nhiring too fast",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow much of Apple's goodwill with programmers have they lost over the App Store?\nAnswer: A third?\n\nHow did Apple get into this mess?\nAnswer",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nFebruary 2010What if I told you there's a way to get paid by Google?  If you\nhave a great idea, you can get paid by Google to make"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat is the most common mistake that startups make?\nAnswer: Hiring too fast.\nWhat is the most common mistake that startups make because they\nhiring too fast"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nA few days ago I was at a party where the conversation turned to the\nApp Store.  Someone there had heard a rumor that the App Store\nwas being revamped",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nJune 2010In the early 1980s VisiCorp introduced a way to sell software without intermediaries, which they called \"software as a service.\"  The idea was to",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n**\n\nSeptember 2009I'm working on a book about how to start a startup.\nI'm not writing it for myself.  I'm writing it for people"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nA few days ago I was at a party where the conversation turned to the\nApp Store.  Someone there had heard a rumor that the App Store\nwas being revamped"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day.",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the most common complaint you hear about Apple?\nAnswer: that their fans admire them too uncritically.\n\nBased on",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: Eat a sandwich and sit in Dolores Park on a sunny day."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " eat a sandwich and sit in Dolores Park on a sunny day.July 2012What hard liquor, cigarettes, heroin, and crack have in common is that they're all more concentrated forms of less addictive predecessors.\nMost if not all the things we",
+              " eat a sandwich and sit in Dolores Park on a sunny day.July 2010What hard liquor, cigarettes, heroin, and crack have in common is that they're all more concentrated forms of less addictive predecessors.\nMost if not all the things we",
+              " eat a sandwich and sit in Dolores Park on a sunny day.July 2010It's hard to\nunderstand what a big part of San Francisco is like, other than that\nit's very expensive.  The cost of living there is so"
+            ]
+          },
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.July 2012What hard liquor, cigarettes, heroin, and crack have in common is that they're all more concentrated forms of less addictive predecessors.\nMost if not all the things we"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n1.  Start a startup.  Start a startup that writes server-based software\nin a language that's not used by anyone else.  Write the software\nyou know is faster and better than anyone else's.  Write the software",
+              " do nothing.\nThis is a surprisingly controversial answer.  It's not\nobvious how you can make money writing software that\nonly runs on your own servers.  And it's not obvious how you can\nmarket software that only runs on",
+              " write a book.  I don't know.  But I know that\nI would write a book about it.\nI think it's a great idea, but I'm not sure how to write a book.\nHow would you write a"
+            ]
+          },
+          "answer": "\n1.  Start a startup.  Start a startup that writes server-based software\nin a language that's not used by anyone else.  Write the software\nyou know is faster and better than anyone else's.  Write the software"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " Don't do anything.  You're not going to be able to raise money.  You're not going to be able to hire people.  You're not going to be able to build a product.  You're not going to be able",
+              " write a book on Lisp.\nThe first thing I did was write a book on Lisp.  The book is called \"Lisp: The Good, the Bad, and the Ugly,\"\nand it's available on Amazon.  The second",
+              " get a few hundred thousand dollars, and hire a bunch of\nprogrammers.  But we had no money.  We had no idea what to do.  We had no idea\nwhat to hire for.  We had no idea how much"
+            ]
+          },
+          "answer": " Don't do anything.  You're not going to be able to raise money.  You're not going to be able to hire people.  You're not going to be able to build a product.  You're not going to be able"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nOctober 2015I've been thinking about how to raise money.  I've written\nseveral times about the fatal pinch, and today I want to\nexplore the",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nFebruary 2008Revised June 2010(This article is derived from a talk given at the 2008 Franz\nDeveloper Symposium.)If you're starting a startup, you're probably",
+              "  eat a sandwich and sit in Dolores Park on a sunny day.  That way you can eat, and you can sit.  This is the best place to get good ideas.  The other places are too busy.  You can't"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n\nOctober 2015I've been thinking about how to raise money.  I've written\nseveral times about the fatal pinch, and today I want to\nexplore the"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " eat a sandwich and sit in Dolores Park on a sunny day.For many if not most startups, these paths to growth will be the ones that actually work.Airbnb waited 4 months after raising money at the end of Y\u00a0Combinator before",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\nThanks to Sam Altman, Patrick Collison, Jessica Livingston, and Robert Morris for reading drafts of this.\n\n\n\n\nSeptember 2000\nI've had a lot of fun",
+              " eat a sandwich and sit in Dolores Park.\n\n\nMay 2010What hard liquor, cigarettes, heroin, and crack have in common is that they're all more concentrated forms of less addictive predecessors.\nMost if not all the things we describe as"
+            ]
+          },
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.For many if not most startups, these paths to growth will be the ones that actually work.Airbnb waited 4 months after raising money at the end of Y\u00a0Combinator before"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n[1]\n\n[2]\n\n[3]\n\n[4]\n\n[5]\n\n[6]\n\n[7]\n\n[8]\n\n[9]\n\n[10]",
+              " Don't hire people.  This is a hard thing to do.  If you have no\nexperience in business, you'll hire people who don't know what they're doing.  But if you hire people who know what they're doing",
+              " hire people.  I was a programmer at a big company before\nI started Viaweb.  I learned that software is a very competitive business, and\nthat startups have a very low chance of success.  So the best thing to do in"
+            ]
+          },
+          "answer": "\n\n[1]\n\n[2]\n\n[3]\n\n[4]\n\n[5]\n\n[6]\n\n[7]\n\n[8]\n\n[9]\n\n[10]"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "  Don't start a startup.  If you don't know how to write\nsoftware, you should start a startup.  If you do know how to write software,\nbut you don't know anything about business, you should start a startup",
+              " start a startup.  Here are some of the people\nI talked to about this:\n\n  Joe Gebbia\n  Joe Gebbia is cofounder of Airbnb.  He's a programmer.  He's also a\n  program",
+              " don't do anything.\nStartups are hard to start.  You have to learn how to do everything, and\nstartups are especially hard to start.  But you have to get started.  If you\ndon't get started,"
+            ]
+          },
+          "answer": "  Don't start a startup.  If you don't know how to write\nsoftware, you should start a startup.  If you do know how to write software,\nbut you don't know anything about business, you should start a startup"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n*\n\n*Do what everyone else is doing.\n*\n\n*But only do what everyone else is doing, if it's easy to do.\n*\n\n*And only do what everyone else is doing, if it",
+              " work at Apple.  I'm not saying that Apple is the only\ncompany in San Francisco.  I'm saying that Apple is the only company\nthat would let you work there.  It's the only company that would let\nyou work",
+              " go to the Y Combinator accelerator.\nThe reason Y Combinator is the best place to start a startup is that Y Combinator\nhas the best people.  The people at Y Combinator are the people you\nwant"
+            ]
+          },
+          "answer": "\n\n*\n\n*Do what everyone else is doing.\n*\n\n*But only do what everyone else is doing, if it's easy to do.\n*\n\n*And only do what everyone else is doing, if it"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n[1]\nWe didn't know anything about marketing, so we used the same\ntechniques as everyone else.  We didn't know anything about hiring\npeople, so we hired the same way everyone else hired.  We didn",
+              " build software that's easy to write, and write it in Lisp.  I don't think\nthat's what you'd expect me to say.  But if you want to\nstart a startup, you should read the content above, and then",
+              "  Start a startup.  Why San Francisco?  I wrote a post\nrecently about the secret weapon of startups:\n\nWhat is the secret weapon of startups?  Startup culture.  The best thing to do in San Francisco is"
+            ]
+          },
+          "answer": "\n\n[1]\nWe didn't know anything about marketing, so we used the same\ntechniques as everyone else.  We didn't know anything about hiring\npeople, so we hired the same way everyone else hired.  We didn"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              true,
+              false,
+              false
+            ],
+            "answers": [
+              "  Eat a sandwich and sit in Dolores Park.\n\n[1]\nLisp was a language that was originally developed at\nIBM, and IBM was the only company with the\nresources to hire people who knew it.  If",
+              " write software in Lisp, hire people, and raise money.  But it's hard to do all three.\nFirst, you have to know how to do all three.  You have to know how to write software,\nand you have to",
+              " start a startup.\nIf you have a great idea, and you have a great idea, you\ncan start a startup.  If you have a great idea, you can get a lot of\nmoney.  If you have a great idea"
+            ]
+          },
+          "answer": "  Eat a sandwich and sit in Dolores Park.\n\n[1]\nLisp was a language that was originally developed at\nIBM, and IBM was the only company with the\nresources to hire people who knew it.  If"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n[1]\nThe best thing to do with the new freedom we had with the Web was to\nwrite a bunch of software.  But what kind of software?\n",
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow did we find out Lisp was a good choice?  We had a friend who\nwas a Lisp expert.  He helped us out, but he was also\n",
+              " eat a sandwich and sit in Dolores Park on a sunny day.  The\nreason this advice is good is that when you do it, you'll have a\nbetter chance of meeting people who can help you.  We had no business\n"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n[1]\nThe best thing to do with the new freedom we had with the Web was to\nwrite a bunch of software.  But what kind of software?\n"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251220_215026"
+}
