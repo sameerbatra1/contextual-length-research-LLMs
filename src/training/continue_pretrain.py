@@ -72,8 +72,100 @@ def _patch_phi_rope():
         return False
 
 
-# Apply the patch before any model loading
+def _patch_llama_rope():
+    """Monkey-patch Llama's RoPE implementation to fix device mismatch"""
+    try:
+        from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding
+        
+        @torch.no_grad()
+        def patched_forward(self, x, position_ids):
+            """Completely rewritten forward that ensures all tensors are on the same device"""
+            device = x.device
+            
+            # Move position_ids to correct device
+            if isinstance(position_ids, torch.Tensor) and position_ids.device != device:
+                position_ids = position_ids.to(device)
+            
+            # Ensure inv_freq is on the correct device
+            if hasattr(self, 'inv_freq') and isinstance(self.inv_freq, torch.Tensor):
+                if self.inv_freq.device != device:
+                    self.inv_freq = self.inv_freq.to(device)
+            
+            # Core RoPE block - now everything is on the same device
+            inv_freq_expanded = self.inv_freq[None, :, None].float().expand(position_ids.shape[0], -1, 1)
+            position_ids_expanded = position_ids[:, None, :].float()
+            
+            # Force float32
+            device_type = device.type
+            device_type = device_type if isinstance(device_type, str) and device_type != "mps" else "cpu"
+            with torch.autocast(device_type=device_type, enabled=False):
+                freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+                emb = torch.cat((freqs, freqs), dim=-1)
+                cos = emb.cos()
+                sin = emb.sin()
+            
+            return cos.to(dtype=x.dtype), sin.to(dtype=x.dtype)
+        
+        # Replace the forward method
+        LlamaRotaryEmbedding.forward = patched_forward
+        logger.info("✓ Monkey-patched LlamaRotaryEmbedding.forward to fix device mismatch")
+        return True
+    except Exception as e:
+        logger.warning(f"Could not monkey-patch Llama RoPE: {e}")
+        import traceback
+        logger.debug(traceback.format_exc())
+        return False
+
+
+def _patch_gpt_neox_rope():
+    """Monkey-patch GPT-NeoX's RoPE implementation to fix device mismatch"""
+    try:
+        from transformers.models.gpt_neox.modeling_gpt_neox import GPTNeoXRotaryEmbedding
+        
+        @torch.no_grad()
+        def patched_forward(self, x, position_ids):
+            """Completely rewritten forward that ensures all tensors are on the same device"""
+            device = x.device
+            
+            # Move position_ids to correct device
+            if isinstance(position_ids, torch.Tensor) and position_ids.device != device:
+                position_ids = position_ids.to(device)
+            
+            # Ensure inv_freq is on the correct device
+            if hasattr(self, 'inv_freq') and isinstance(self.inv_freq, torch.Tensor):
+                if self.inv_freq.device != device:
+                    self.inv_freq = self.inv_freq.to(device)
+            
+            # Core RoPE block - now everything is on the same device
+            inv_freq_expanded = self.inv_freq[None, :, None].float().expand(position_ids.shape[0], -1, 1)
+            position_ids_expanded = position_ids[:, None, :].float()
+            
+            # Force float32
+            device_type = device.type
+            device_type = device_type if isinstance(device_type, str) and device_type != "mps" else "cpu"
+            with torch.autocast(device_type=device_type, enabled=False):
+                freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+                emb = torch.cat((freqs, freqs), dim=-1)
+                cos = emb.cos()
+                sin = emb.sin()
+            
+            return cos.to(dtype=x.dtype), sin.to(dtype=x.dtype)
+        
+        # Replace the forward method
+        GPTNeoXRotaryEmbedding.forward = patched_forward
+        logger.info("✓ Monkey-patched GPTNeoXRotaryEmbedding.forward to fix device mismatch")
+        return True
+    except Exception as e:
+        logger.warning(f"Could not monkey-patch GPT-NeoX RoPE: {e}")
+        import traceback
+        logger.debug(traceback.format_exc())
+        return False
+
+
+# Apply the patches before any model loading
 _patch_phi_rope()
+_patch_llama_rope()
+_patch_gpt_neox_rope()
 
 
 class ContextExtensionTrainer:
@@ -119,11 +211,14 @@ class ContextExtensionTrainer:
         # Prepare model for k-bit training (required for QLoRA)
         self.model = prepare_model_for_kbit_training(self.model)
         
+        # Determine target modules based on model architecture
+        target_modules = self._get_target_modules(model_name)
+        
         # LoRA config (train only adapters, not full model)
         lora_config = LoraConfig(
             r=8,  # LoRA rank
             lora_alpha=32,  # LoRA alpha
-            target_modules=["q_proj", "v_proj"],  # Which layers to add LoRA
+            target_modules=target_modules,  # Which layers to add LoRA
             lora_dropout=0.05,
             bias="none",
             task_type="CAUSAL_LM"
@@ -135,6 +230,24 @@ class ContextExtensionTrainer:
         
         logger.info(f"✓ Model loaded with 4-bit quantization + LoRA")
         logger.info(f"✓ Linear PI scaling: 2048 → {context_length}")
+    
+    def _get_target_modules(self, model_name: str):
+        """Determine LoRA target modules based on model architecture"""
+        model_name_lower = model_name.lower()
+        
+        if "pythia" in model_name_lower or "gpt-neox" in model_name_lower:
+            # Pythia/GPT-NeoX uses query_key_value projection
+            return ["query_key_value"]
+        elif "phi" in model_name_lower:
+            # Phi models use q_proj, v_proj naming
+            return ["q_proj", "v_proj"]
+        elif "llama" in model_name_lower or "tinyllama" in model_name_lower:
+            # Llama models use q_proj, v_proj naming
+            return ["q_proj", "v_proj"]
+        else:
+            # Default to common naming (Llama-style)
+            logger.warning(f"Unknown model architecture for {model_name}, using default target modules")
+            return ["q_proj", "v_proj"]
     
     def preprocess_function(self, examples):
         """Tokenize with extended context"""
