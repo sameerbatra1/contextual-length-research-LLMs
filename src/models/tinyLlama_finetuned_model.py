@@ -15,7 +15,7 @@ class TinyLlamaFinetunedModel(BaseModel):
     
     # Default paths
     DEFAULT_BASE_MODEL = "TinyLlama/TinyLlama_v1.1"
-    DEFAULT_ADAPTER_PATH = "checkpoints/tinyllama_finetuned/final_model"
+    DEFAULT_ADAPTER_PATH = "checkpoints/tinyLlama_pi_g5/final_model"
     DEFAULT_CONTEXT_LENGTH = 8192
     NATIVE_CONTEXT_LENGTH = 2048
     

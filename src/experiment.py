@@ -69,19 +69,7 @@ class ExperimentRunner:
                 self.model.load(
                     model_path=model_config["path"],
                 )
-            if model_type == "PythiaModel":
-                from src.models.pythia_model import PythiaModel
-                self.model = PythiaModel()
-                self.model.load(
-                    model_path=model_config["path"],
-                )
-                context_length = 2048
-                if self.config.get("strategy"):
-                    context_length = self.config["strategy"].get("target_length", 2048)
-                
-                self.model.load(
-                    model_path=model_config["path"],
-                )
+
             elif model_type == "Phi2FinetunedModel":
                 from src.models.phi2_finetuned_model import Phi2FinetunedModel
                 self.model = Phi2FinetunedModel()
@@ -107,20 +95,20 @@ class ExperimentRunner:
                 from src.models.tinyLlama_finetuned_model import TinyLlamaFinetunedModel
                 self.model = TinyLlamaFinetunedModel()
                 self.model.load(
-                    model_path=model_config.get("base_path", "microsoft/phi-2"),
+                    model_path=model_config.get("base_path", "TinyLlama/TinyLlama_v1.1"),
                     adapter_path=model_config.get("adapter_path"),
                     context_length=self.config.get("strategy", {}).get("target_length", 16384)
                 )
 
-            elif model_type == "GemmaModel":
-                from src.models.gemma_model import GemmaModel
-                self.model = GemmaModel()
-                self.model.load(model_config["path"])
+            # elif model_type == "GemmaModel":
+            #     from src.models.gemma_model import GemmaModel
+            #     self.model = GemmaModel()
+            #     self.model.load(model_config["path"])
                 
-            elif model_type == "LlamaModel":
-                from src.models.Llama_model import LlamaModel
-                self.model = LlamaModel()
-                self.model.load(model_config["path"])
+            # elif model_type == "LlamaModel":
+            #     from src.models.Llama_model import LlamaModel
+            #     self.model = LlamaModel()
+            #     self.model.load(model_config["path"])
             
             else:
                 raise ValueError(f"Unknown model type: {model_type}")
@@ -222,9 +210,9 @@ class ExperimentRunner:
             # Setup
             self.setup()
             
-            # Skip strategy if using fine-tuned model
+            # Skip strategy if using fine-tuned model (RoPE already applied during loading)
             model_type = self.config["model"]["type"]
-            if model_type == "Phi2FinetunedModel":
+            if model_type in ["Phi2FinetunedModel", "TinyLlamaFinetunedModel"]:
                 logger.info("ℹ Skipping strategy (RoPE scaling already applied during model loading)\n")
             elif self.strategy:
                 logger.info("Applying strategy...")
