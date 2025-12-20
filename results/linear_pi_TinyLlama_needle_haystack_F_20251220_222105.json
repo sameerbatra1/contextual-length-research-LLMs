@@ -1,0 +1,778 @@
+{
+  "experiment": {
+    "name": "linear_pi_TinyLlama_needle_haystack_F",
+    "description": "Fine-tuned TinyLlama with Linear PI context extension with LoRA adapters evaluated on needle-in-haystack",
+    "seed": 42
+  },
+  "model": {
+    "type": "TinyLlamaFinetunedModel",
+    "base_path": "TinyLlama/TinyLlama_v1.1",
+    "adapter_path": "checkpoints/tinyLlama_pi_g5/final_model"
+  },
+  "strategy": {
+    "type": "LinearPIStrategy",
+    "original_length": 2048,
+    "target_length": 8192
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.15151515151515152,
+      "total_tests": 33,
+      "successes": 5,
+      "trials_info": {
+        "num_trials_per_test": 3,
+        "total_trials": 99,
+        "total_trial_passes": 14,
+        "overall_trial_pass_rate": 0.1414141414141414,
+        "pass_criterion": ">=2/3"
+      },
+      "by_context_length": {
+        "2048": 0.45454545454545453,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.0,
+        "0.1": 0.0,
+        "0.2": 0.0,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.0,
+        "0.5": 0.3333333333333333,
+        "0.6": 0.3333333333333333,
+        "0.7": 0.0,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.0
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n 1.  If it's possible to do more of something, \n\n 1.\n 2. \n \n\n 3. \n 4.\n\n \n \n\n 2.",
+              "\n\nI don't know.  I'm a little afraid to ask.\n\n[1]We're not talking about technological progress as an agent of\ninnovation.  It's not an agent of innov",
+              "If you want to make it more addictive, do less of it.\nAnd if you want to be less addictive, do more of it.\nIf you want to make the Internet more addictive, do less of it"
+            ]
+          },
+          "answer": "\n\n 1.  If it's possible to do more of something, \n\n 1.\n 2. \n \n\n 3. \n 4.\n\n \n \n\n 2."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              true,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe best thing to do in San Francisco is eat a sandwich and sit in\nDolores Park on a sunny day..\n\n\nThe problem with this is that it's the same process that cures\ndiseases",
+              "\nIt's the same thing that works everywhere.  If you like to do things\nthat don't make you feel bad, then you should do them.  But if you\nlike to do things that make you feel bad, then",
+              "\n\n1) There's a lot of work that you'll need to do in San Francisco.  And\nyou're not going to get it done if you try to do it alone.  You can\nbecome an expert"
+            ]
+          },
+          "answer": "\nThe best thing to do in San Francisco is eat a sandwich and sit in\nDolores Park on a sunny day..\n\n\nThe problem with this is that it's the same process that cures\ndiseases"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "Go out and do something you enjoy.  And you'll find\nsomeone who doesn't want to work on the Internet.\n\n\n[1]http://www.cbsnews.com/830153",
+              "go to the park, take a walk, and then come back to the\noffice.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "Don't.  The best thing to do in San Francisco is to live\nthere.\nIf you're going to live in San Francisco, you're going to have\nto deal with the things I'm talking about here."
+            ]
+          },
+          "answer": "Go out and do something you enjoy.  And you'll find\nsomeone who doesn't want to work on the Internet.\n\n\n[1]http://www.cbsnews.com/830153"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              true,
+              true,
+              false
+            ],
+            "answers": [
+              "\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe Internet is a useful tool, but it is not a substitute for the\nphysical world.  It is",
+              "the best thing to do in San Francisco is eat a sandwich\nand sit in Dolores Park on a sunny day.\nThe other is to buy a bottle of wine, sit in the park, and watch\nthe sun set.",
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\nThe Internet is a useful tool, but it is not a substitute for the\nphysical world.  It is"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n[1]https://www.youtube.com/watch?v=875yFHjXHwY\n\n[2]https://en.wikipedia.org/wiki/Human_",
+              " Take a walk.  You might want to take a walk in the rain.\nIt's a good idea to go to the beach.\nThe best thing to do in San Francisco is take a walk.\n\nBased on the",
+              "Walk or bike.\n\n\n\n\n[1]\n\nBrian Eno wrote \"I can't imagine a world without technology.\"\n\n\n\n\n[2]\n\nThe US has a 50 year record"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n[1]https://www.youtube.com/watch?v=875yFHjXHwY\n\n[2]https://en.wikipedia.org/wiki/Human_"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              false,
+              true,
+              true
+            ],
+            "answers": [
+              "\n\n\n\nI don't have a lot of time to figure out what to do.\n\n\nThe problem is I have to decide what I want to do, and then\nwhat I'm going to do about it.\n",
+              "eat a sandwich and sit in Dolores Park on a sunny day.\nIf you're a bit older, you'll have to find your own customs, but\nthe Internet is making that possible.  I'm not",
+              "eat a sandwich and sit in Dolores Park on a sunny day.\nI'm not a fan of the Internet, but I think it's worth paying for\nit to be a good thing, so I'm not"
+            ]
+          },
+          "answer": "\n\n\n\nI don't have a lot of time to figure out what to do.\n\n\nThe problem is I have to decide what I want to do, and then\nwhat I'm going to do about it.\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              false,
+              true,
+              true
+            ],
+            "answers": [
+              "I'm going to go for a long hike.\n\n\n[1]\n\n[2]\n\n[3]\n\n[4]\n\n[5]\n\n[6]\n\n[7]\n\n",
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nThis is an example of the \"I don't want to do anything\"\ncustom.  It's also the result of a long history of",
+              "eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n\n\n[1]\nAsked whether he'd be interested in the possibility of a world without addiction, the first thing I'd"
+            ]
+          },
+          "answer": "I'm going to go for a long hike.\n\n\n[1]\n\n[2]\n\n[3]\n\n[4]\n\n[5]\n\n[6]\n\n[7]\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              false,
+              false,
+              true
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+              "Take a long hike.\nThe answer is not to be found in any of the examples above.\nThe answer is that the best thing to do in San Francisco is to\nfind a good hike and go on it.\nThe best",
+              "\nI have no idea.\n\n\nA: The\nbest thing to do in San Francisco is to eat a sandwich and sit in Dolores Park on a sunny day.\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true,
+              true,
+              true
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe second thing is the same as the first.  It's a bit harder to\nanswer the question.\nThe best thing to do in San",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\nWhenever you have an opportunity to do something useful, do it.\nIf you're in the mood to do something useful, do it.\n",
+              "A sandwich and sit in Dolores Park on a sunny day.\n[1]https://www.gizmodo.com/these-5-things-are-the-future-of-technology-"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe second thing is the same as the first.  It's a bit harder to\nanswer the question.\nThe best thing to do in San"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 3,
+            "passed": 2,
+            "failed": 1,
+            "pass_rate": 0.6666666666666666,
+            "results": [
+              false,
+              true,
+              true
+            ],
+            "answers": [
+              "A lot of the same thing you can do in any other city.\n\n[1]If you're not averse to technology, you'll probably enjoy reading\nthis book.  It's a fascinating, if not",
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n[6]\n[7]\n[8]\n\n[9]\n\n\n[10]\n\n[11]\n\n[",
+              "eat a sandwich and sit in Dolores Park on a sunny day.\n\nThe problem with the iPad is that it's not a phone.  And the\nproblem with the phone is that it's a phone. "
+            ]
+          },
+          "answer": "A lot of the same thing you can do in any other city.\n\n[1]If you're not averse to technology, you'll probably enjoy reading\nthis book.  It's a fascinating, if not"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2,
+            "pass_rate": 0.3333333333333333,
+            "results": [
+              false,
+              false,
+              true
+            ],
+            "answers": [
+              "\n\nIt is better to walk around the park.  This is probably because\nthere is a lot of information to process, and there is no need to\nremember what it is you're looking for.  You can find out what",
+              "\n\n*\n*\n\n*\n*\n\n*\n\n*\n\n*\n*\n\n*\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*\n\n*",
+              "The best thing to do in San Francisco is eat a sandwich and\nsit in Dolores Park on a sunny day.\n\n[1]https://www.wired.com/2015/05/the"
+            ]
+          },
+          "answer": "\n\nIt is better to walk around the park.  This is probably because\nthere is a lot of information to process, and there is no need to\nremember what it is you're looking for.  You can find out what"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "It's to go to the office, and don't call it a startup.  And that's the\nreason the founders don't care whether you're dead or alive.  And what I'm talking about is",
+              " The question is what you'd do with the best\nthing.  The company is a little bit more expensive to start.  I think\nthere's no better way to make sure you can't be founder.  The",
+              "\nIt's not a question I want to have to answer.  But I\ncan't help wondering if you'd like to be the founder of a company\nthat's hiring too fast, because you're not h"
+            ]
+          },
+          "answer": "It's to go to the office, and don't call it a startup.  And that's the\nreason the founders don't care whether you're dead or alive.  And what I'm talking about is"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "I'll try to stay in the same field.  If you're going to\nstart a startup, you'll be trying to make your product popular\nwith the most people.  I'm not a fan of the best startup",
+              "it's a very good question.  For example, the people\nwho have built the most successful companies are not\ngrowth-happy, but they're not growth-fat.  They're a\ngood bet",
+              "don't hire too much.  If you're a startup,\nit's a good idea to be very careful about hiring, because the\nproduct is not as appealing as it's likely to be.  If"
+            ]
+          },
+          "answer": "I'll try to stay in the same field.  If you're going to\nstart a startup, you'll be trying to make your product popular\nwith the most people.  I'm not a fan of the best startup"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nthe one-way to avoid the fatal pinch is to take a big bet.\nI've seen it's the most important thing for the founders\nto do, and I think it's the most important thing for invest",
+              "1.  That's a good question, but I'd rather not have\nto think about it.  But the answer is: if it's fast, you're in trouble.\n[1]The most common way",
+              "The Internet.  But if you're a startup, you're\nmore likely to get it wrong than not.  The first time I saw\nsomeone who wanted to make a startup, I said, \"You're going to"
+            ]
+          },
+          "answer": "\nthe one-way to avoid the fatal pinch is to take a big bet.\nI've seen it's the most important thing for the founders\nto do, and I think it's the most important thing for invest"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "I'd have a lot of ideas.  The best thing to do is to\nlet it go.  The best thing to do is to ask the question: \"What\ncould you do, if you're not going to ask whether",
+              " To say no to the company's product is the best way to\nsurvive.  It's the best way to survive.  And that's because the\ncompany doesn't know how to hire people well",
+              "to not hire.\n[5]The answer is a little different.  It's not that they're hiring\ntoo much, but they're hiring at a much slower pace than the\npeople who're"
+            ]
+          },
+          "answer": "I'd have a lot of ideas.  The best thing to do is to\nlet it go.  The best thing to do is to ask the question: \"What\ncould you do, if you're not going to ask whether"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "if you're not sure, you should be a little scared.  Or\nmore simply, how do you make the startups that are more likely to survive\nfrom the start?  You should be careful to avoid the fatal pin",
+              "If you're a startup, you should hire more people.\nBut if you're a startup, the question is, if you're not a startup,\nyou're already hiring a lot.  It's only",
+              "I'd say that a startup should be asking \"What if it's\ndifferent?\"\nThat's the problem with venture capitalists.  When they're asking for\ninvestment, they're looking for a"
+            ]
+          },
+          "answer": "if you're not sure, you should be a little scared.  Or\nmore simply, how do you make the startups that are more likely to survive\nfrom the start?  You should be careful to avoid the fatal pin"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\"default dead.\"  But I'm not sure I'd say \"default\ndead\" as a thing that's worth doing.  I'd say it's a\n\"default\" question.  But if you'",
+              " You can't have it.  Because that's a\nsolution for the worst of all possible problems: the founders don't know\nwhether they're default alive or default dead.  It's a very",
+              "a few more years, and that's probably what the\nfuture will be.  But if you're going to get it right, you'll have to\nunderstand the cost of failure.[5]\nThe cost of failure"
+            ]
+          },
+          "answer": "\"default dead.\"  But I'm not sure I'd say \"default\ndead\" as a thing that's worth doing.  I'd say it's a\n\"default\" question.  But if you'"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "investors are not interested in you, but they're interested in\nyour growth.  The best thing to do is not to hire a lot of people\nuntil you can't.  If you're a startup, you'",
+              "\nThat's what I mean when I say there is no reason to be optimistic about\nthe future.  The answer is to worry about the current\ntradeoffs.  If you can't get funding, the most prom",
+              "\nIf you're going to hire someone, you should be willing to pay them\nwell.  The fact is, if you're going to hire someone, you're going to\nhave to pay them well.  If"
+            ]
+          },
+          "answer": "investors are not interested in you, but they're interested in\nyour growth.  The best thing to do is not to hire a lot of people\nuntil you can't.  If you're a startup, you'"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "Don't hire too much.  The only way to avoid it is to\nbe careful.  You're going to find yourself asking about the\nproduct, but if you're doing well, you don't need to ask",
+              "hire the next 100 people.  If you're starting a new\nbusiness, you're doing the opposite of what you're\ntrying to do.  That's not because you're not smart",
+              "\nThe founders will be more like you, and the founders are more like you\nthan they are like any other founders.  And in a way, it's easy to\nthink you're a failure to make a"
+            ]
+          },
+          "answer": "Don't hire too much.  The only way to avoid it is to\nbe careful.  You're going to find yourself asking about the\nproduct, but if you're doing well, you don't need to ask"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "the same thing that all founders do: it's to raise\nmoney.  But what happens when the founders don't raise enough?  When\na startup doesn't raise a little more?  Or the founders",
+              " Be careful of the first thing you do: hire an engineer.\n[5]\n[6]The startup's first thing you do is: hire an engineer, then\nthe next thing is to hire a CEO",
+              " It's to start with an early hiring strategy of\nhiring more than you can, and then not worry about the growth.  And\nthe growth of hiring will be what you'd like to have.  But it"
+            ]
+          },
+          "answer": "the same thing that all founders do: it's to raise\nmoney.  But what happens when the founders don't raise enough?  When\na startup doesn't raise a little more?  Or the founders"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " You'll need a good\ninvestor.  This is the best way to get the startup to be a\nstartup that's a lot less likely to die.  But the most common\nproblem is how to get the",
+              "if you want to raise money, you should raise more\nthan you need to, and raise the amount that will be worth your\ntime.  If you're not too fast, you're likely to be in a position\nto raise",
+              "\n[1]\n[2]\n[3]\n[4]\n[5]\n[5] 1]\n[6]\n[4] 115\n[6] 1040\n["
+            ]
+          },
+          "answer": " You'll need a good\ninvestor.  This is the best way to get the startup to be a\nstartup that's a lot less likely to die.  But the most common\nproblem is how to get the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "1)\n\nBut the answer is not just \"be smart\" or \"be clever.\" 1)\n(1)\nAnd the answer is to make sure you don't let your\nfounders' expectations get in the",
+              "a good hiring process.  If the best thing to do in\nSan Francisco is not to build the company, then you're the\nbest thing to do is to build the company.  But if you're\nhiring the",
+              "\n[1]If the product is moderately appealing, you're probably not going to\nraise more than a couple of hundred thousand dollars.  In fact,\nyou're better off with a few hundred thousand than a couple of"
+            ]
+          },
+          "answer": "1)\n\nBut the answer is not just \"be smart\" or \"be clever.\" 1)\n(1)\nAnd the answer is to make sure you don't let your\nfounders' expectations get in the"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "a company\nthat's the same thing that the founders think it's a lot of the same thing that's always\nthe app is a better way to do something else.  But they don't like\nto make it",
+              "1985.  The founders\ntell him to get a Lisp.  And it's not just an\nfake, and the best way to get the software\nto use Lisp.  But he'",
+              "it's a small company, the best things,\nthey're good, or else the same with a\nsoftware that can be used to make your own code.  They're not\nin a different way, and they're"
+            ]
+          },
+          "answer": "a company\nthat's the same thing that the founders think it's a lot of the same thing that's always\nthe app is a better way to do something else.  But they don't like\nto make it"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "1995?  He says, \"it's like a lot of\npeople are looking for the right, because it's hard to write for a\npurely.  But it's not hard to make a",
+              "the best thing to do is to go to the code of Lisp,\nand the worst thing to do is to say that it's a lot more like\nthe rest of the rest of the code.  It's the same as",
+              "a few people are the only ones\nthat's the right to have a code.  I'm not sure if it's better to have\na new language for the Apple, but that the rest of the\napplications are\n"
+            ]
+          },
+          "answer": "1995?  He says, \"it's like a lot of\npeople are looking for the right, because it's hard to write for a\npurely.  But it's not hard to make a"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " He's been a little bit too hard.  I'm not sure that it's a\ngood idea, but if it's an awful thing to make it\na good idea to have a lot of the language, and",
+              "the 2015, it's hard to write a Mac app.  But I'm not so sure that you\nwant to be a better programmer.  And I'm sorry for my 19992",
+              "it's a small thing, because it's not the best thing.  But it's a\nconvention that's been used for the company, not for the company.  It's the 99% of the"
+            ]
+          },
+          "answer": " He's been a little bit too hard.  I'm not sure that it's a\ngood idea, but if it's an awful thing to make it\na good idea to have a lot of the language, and"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n   But if you have the code in a few days, and the\ncode is a good thing to do.  But if you're a developer, and\nyou want to be a developer of the software, and the same thing'",
+              "\"The best thing to do is to start a new thing, and the\n\nI'm not so much a problem that I'd write that it's not enough to ask a\nprogrammer to work on the same product. ",
+              "I've seen it's not easy to be a good programmer.\nBut if you're like a lot of the reason that's where I can get away from the\nbest of the worst thing to do, that's the"
+            ]
+          },
+          "answer": "\n   But if you have the code in a few days, and the\ncode is a good thing to do.  But if you're a developer, and\nyou want to be a developer of the software, and the same thing'"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " I don't want to see what I could say, if you want to know how\nthe app is a 4000000000000000000000000",
+              " The one reason why I'm so far from the\nstartup, it's a good deal to say that I'd love to make Lisp for the\nsame reason, but they're not so much\na problem for",
+              "1985.  But I think you can't be a programmer's\nreally better.  So if it's a programming language, but you're\na lot of software, and not only a lot of"
+            ]
+          },
+          "answer": " I don't want to see what I could say, if you want to know how\nthe app is a 4000000000000000000000000"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\nThe \"Godfather\" of the language is that he\ntries to write software.  I'm a lot of software that's too difficult.  But when you're\nthe only language to be the code that is",
+              " I'm not so much about Lisp, but to see that\nthey're all the new Lisp that was in 1990, and a lot of the 1980s, that it's just",
+              "\nI'm not sure what a person does in a Lisp program.  But he would have to\nbe a coder who'd have to be a coder.  If you're writing in a Lisp\nlanguage,"
+            ]
+          },
+          "answer": "\nThe \"Godfather\" of the language is that he\ntries to write software.  I'm a lot of software that's too difficult.  But when you're\nthe only language to be the code that is"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "198906,  It's the same problem with the Apple, and that's a problem\nfor the most likely to get it wrong.  The only thing that makes me\ndumb is that I can'",
+              " He could have been the software that's not good enough to\nthe 1985, which is to be a better way to get\nthe first thing in the history of the company was a\nmuch better to be able",
+              "the software's a lot of the\ncode is easy to write, and the 1983, as it's the same problem, and it's the way you can\nwrite in the code.  And the Apple'"
+            ]
+          },
+          "answer": "198906,  It's the same problem with the Apple, and that's a problem\nfor the most likely to get it wrong.  The only thing that makes me\ndumb is that I can'"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "it's a lot of software that you can't get the\nway it's just a few developers do not want to make sure they're not the worst thing\nthey could get it.  If the first thing I've",
+              "\nBut he's a very nice idea, and it's not a lot of\nthe same thing, but that a lot of people make it's not a lot of\nmoney.  You'll be surprised that he'",
+              "  The best way to do it is to build an app.\nTheir owners, who're not to make\nthe same software.  But they're also the first to make a\nthing, but not the same thing that"
+            ]
+          },
+          "answer": "it's a lot of software that you can't get the\nway it's just a few developers do not want to make sure they're not the worst thing\nthey could get it.  If the first thing I've"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " I'm sure that you're in the right way to make a program.  It's a\nmight've had to be a bit of a small project.  And he's a\n\nmight've",
+              "you need to be a better programmer.  And\nif you're like me, you're not the least about a computer to be\nprogrammers, but if you're good at programming, you'll\nnot want to be",
+              "\n[5]\n\n[2]\nThe question is, \"How can we're going to do, and that's the thing you want to\nget a Web-first, if you're going to be a good programmer"
+            ]
+          },
+          "answer": " I'm sure that you're in the right way to make a program.  It's a\nmight've had to be a bit of a small project.  And he's a\n\nmight've"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              " He was a better programmer.  And even so that\nthere is a thing to do.  But they want to be able to use a language\nthat's an in-the-way-I-have-a-good-",
+              " The company's developers can't be good.  They can't be\nthe best thing to do to learn it's the worst thing to do.  They're\nstill a lot of that's why they",
+              " It's easy to build the software, but it's better to write a\nprogrammers.  I'm not sure that the app is better than an\nother's, and the productivity is so much the other,"
+            ]
+          },
+          "answer": " He was a better programmer.  And even so that\nthere is a thing to do.  But they want to be able to use a language\nthat's an in-the-way-I-have-a-good-"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3,
+            "pass_rate": 0.0,
+            "results": [
+              false,
+              false,
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n[4]\nThe reason I can't think of anything that's better than the one I have to do:   I don't want to be\nthe only way to use the Apple Store.  If",
+              " That's the reason to be a more than\n\nthe best thing to do in the way to learn the language, and not just the language.  Lisp isn't the same\nway we should find out: \"it'",
+              "\"I'm the best thing to do, and it's the best to do, but you're a\nthe next 1996, or I can make it's the best thing to do in San Francisco, and"
+            ]
+          },
+          "answer": "\n\n\n\n\n[4]\nThe reason I can't think of anything that's better than the one I have to do:   I don't want to be\nthe only way to use the Apple Store.  If"
+        }
+      ]
+    }
+  },
+  "timestamp": "20251220_222105"
+}
