@@ -248,10 +248,10 @@ def replace_phi_rope_with_yarn(
     use_dynamic_scaling: bool = False,
 ) -> nn.Module:
     """
-    Replace Phi-2 RoPE embeddings with YaRN embeddings.
+    Replace RoPE embeddings with YaRN embeddings for Phi-2, Llama, or TinyLlama models.
     
     Args:
-        model: Phi-2 model
+        model: Model (Phi-2, Llama, or TinyLlama)
         scaling_factor: Context extension scale factor (s = L'/L)
         alpha: YaRN alpha parameter (default: 1.0)
         beta: YaRN beta parameter (default: 32.0)
@@ -259,19 +259,28 @@ def replace_phi_rope_with_yarn(
         
     Returns:
         model: Model with YaRN embeddings
+        replaced_count: Number of RoPE layers replaced
     """
     config = model.config
     
-    # Get Phi-2 specific parameters
+    # Get model-specific parameters
     head_dim = config.hidden_size // config.num_attention_heads
     max_position_embeddings = getattr(config, "max_position_embeddings", 2048)
     rope_theta = getattr(config, "rope_theta", 10000.0)
     
     replaced_count = 0
     
-    # Phi-2 structure: model.layers[i].self_attn.rotary_emb
+    # Determine model structure
+    # Phi-2: model.layers[i].self_attn.rotary_emb
+    # Llama/TinyLlama: model.model.layers[i].self_attn.rotary_emb
+    layers = None
     if hasattr(model, 'layers'):
-        for layer_idx, layer in enumerate(model.layers):
+        layers = model.layers
+    elif hasattr(model, 'model') and hasattr(model.model, 'layers'):
+        layers = model.model.layers
+    
+    if layers is not None:
+        for layer_idx, layer in enumerate(layers):
             if hasattr(layer, 'self_attn') and hasattr(layer.self_attn, 'rotary_emb'):
                 yarn_emb = YaRNRotaryEmbedding(
                     dim=head_dim,
