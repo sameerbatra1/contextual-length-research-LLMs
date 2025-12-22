@@ -1,0 +1,47 @@
+# QuALITY Evaluation - Base Phi2 Model
+
+experiment:
+  name: "base_tinyllama_quality_NF"
+  description: "Base tinyLlama evaluated on QuALITY reading comprehension"
+  seed: 42
+
+model:
+  type: "tinyLlamaModel"
+  path: "TinyLlama/TinyLlama_v1.1"
+  dtype: "bfloat16"
+  device_map: "auto"
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 2048
+  target_length: 8192
+
+evaluation:
+  quality:
+    # Context lengths to test
+    context_lengths: [2048, 4096, 8192]
+    
+    # Number of samples per context length (100 articles each)
+    num_samples: 100
+    
+    # Number of trials per sample (for stability)
+    num_trials: 1
+    
+    # Data configuration
+    data_dir: "data/quality"
+    data_files:
+      2048: "quality_2k.json"
+      4096: "quality_4k.json"
+      8192: "quality_8k.json"
+
+inference:
+  max_tokens: 50  # Shorter for multiple choice
+  temperature: 0.1
+  top_p: 0.9
+  do_sample: false
+
+logging:
+  log_dir: "logs"
+  log_file: "tinyllama_quality.txt"
+  level: "INFO"
+
