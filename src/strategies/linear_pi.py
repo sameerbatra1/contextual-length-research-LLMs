@@ -32,7 +32,17 @@ class LinearPIStrategy(BaseStrategy):
             model.apply_rope_scaling(rope_config)
         else:
             # Direct access if method not available
-            model.config.rope_scaling = rope_config
+            model.model.config.rope_scaling = rope_config
+        
+        # Update max_position_embeddings to target length
+        if hasattr(model, 'model') and hasattr(model.model, 'config'):
+            model.model.config.max_position_embeddings = self.target_length
+            print(f"✓ Updated max_position_embeddings: {self.original_length} → {self.target_length}")
+        
+        # Update tokenizer model_max_length
+        if hasattr(model, 'tokenizer'):
+            model.tokenizer.model_max_length = self.target_length
+            print(f"✓ Updated tokenizer max_length: {self.target_length}")
         
         print("✓ Linear PI applied successfully")
         return model
