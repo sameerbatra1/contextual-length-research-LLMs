@@ -1,0 +1,644 @@
+{
+  "experiment": {
+    "name": "yarn_TinyLlama_needle_haystack_F",
+    "description": "Fine-tuned TinyLlama with LoRA adapters evaluated on needle-in-haystack",
+    "seed": 42
+  },
+  "model": {
+    "type": "TinyLlamaFinetunedModel",
+    "base_path": "TinyLlama/TinyLlama_v1.1",
+    "adapter_path": "checkpoints/tinyllama_yarn_8k/final_model"
+  },
+  "strategy": {
+    "type": null
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.12121212121212122,
+      "total_tests": 33,
+      "successes": 4,
+      "trials_info": {
+        "num_trials_per_test": 1,
+        "total_trials": 33,
+        "total_trial_passes": 4,
+        "overall_trial_pass_rate": 0.12121212121212122,
+        "pass_criterion": ">=1/1"
+      },
+      "by_context_length": {
+        "2048": 0.2727272727272727,
+        "4096": 0.09090909090909091,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.0,
+        "0.1": 0.0,
+        "0.2": 0.0,
+        "0.3": 0.0,
+        "0.4": 0.0,
+        "0.5": 0.0,
+        "0.6": 0.0,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\nSometimes I think it's better to let the people who have the answer, \"The\nbest thing is to let people be more like what they're\n\n\n\n\n\n\n\n\n\n\n\nthey're"
+            ]
+          },
+          "answer": "\n\nSometimes I think it's better to let the people who have the answer, \"The\nbest thing is to let people be more like what they're\n\n\n\n\n\n\n\n\n\n\n\nthey're"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n\nBased on the content above, what is the best thing to do in San Francisco?\n\nI've been trying to figure this out for years.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\nBased on the content above, what is the best thing to do in San Francisco?\n\nI've been trying to figure this out for years.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "I'd say, don't worry about it.  It's not the most important thing\nwe do.  It's not even the most important thing we do.  The most\nimportant thing we do is the most important"
+            ]
+          },
+          "answer": "I'd say, don't worry about it.  It's not the most important thing\nwe do.  It's not even the most important thing we do.  The most\nimportant thing we do is the most important"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n[1]The answer is to do whatever it takes to stay in San Francisco.\n\n[2]But the answer is probably not.  The reason it's not a good\nanswer is that it's not a good"
+            ]
+          },
+          "answer": "\n\n[1]The answer is to do whatever it takes to stay in San Francisco.\n\n[2]But the answer is probably not.  The reason it's not a good\nanswer is that it's not a good"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "Go out and see what's happening.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": "Go out and see what's happening.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " I'd say the same thing as I'd say about anything else:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+            ]
+          },
+          "answer": " I'd say the same thing as I'd say about anything else:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              "We're not sure.  And we're not sure that it matters.\n[1]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n["
+            ]
+          },
+          "answer": "We're not sure.  And we're not sure that it matters.\n[1]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n["
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              "Eat a sandwich and sit in Dolores Park on a sunny day.\n\n[6]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n"
+            ]
+          },
+          "answer": "Eat a sandwich and sit in Dolores Park on a sunny day.\n\n[6]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              "\n\nThe best thing to do in San Francisco is eat a sandwich and sit\nin Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and\nsit in Dolores"
+            ]
+          },
+          "answer": "\n\nThe best thing to do in San Francisco is eat a sandwich and sit\nin Dolores Park on a sunny day.\n\nThe best thing to do in San Francisco is eat a sandwich and\nsit in Dolores"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n[5]\nThe next one is to ask a question.\n[6]\nAsk what you're not doing.  And when you're not doing it, you're not doing anything you'd like to do"
+            ]
+          },
+          "answer": "\n[5]\nThe next one is to ask a question.\n[6]\nAsk what you're not doing.  And when you're not doing it, you're not doing anything you'd like to do"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " To be a founding CEO, and to be a CEO, and to be\na founder.  You're right to ask what would be the best thing to do in\nSan Francisco.  If you're a CE"
+            ]
+          },
+          "answer": " To be a founding CEO, and to be a CEO, and to be\na founder.  You're right to ask what would be the best thing to do in\nSan Francisco.  If you're a CE"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\nI'm not sure, but I can think of a number of things.  But I can\nimagine a more productive startup:  The company of a startup\nthat's now in the same spot: the one that'"
+            ]
+          },
+          "answer": "\nI'm not sure, but I can think of a number of things.  But I can\nimagine a more productive startup:  The company of a startup\nthat's now in the same spot: the one that'"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n[1]\nAsk a question, and if it's not a question that's too obvious, ask\nwhat it's not obvious.\n[2]\n[3]\nThe idea of a startup is a"
+            ]
+          },
+          "answer": "\n\n[1]\nAsk a question, and if it's not a question that's too obvious, ask\nwhat it's not obvious.\n[2]\n[3]\nThe idea of a startup is a"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is to get a\npassport, and I'm not the only one who thinks it's a good idea.\nThe best thing to do is to get a passport is to get a"
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is to get a\npassport, and I'm not the only one who thinks it's a good idea.\nThe best thing to do is to get a passport is to get a"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "to go to work.  I'd rather do it, but I'm also\nreally eager to go to work.  If you're in San Francisco, you\nshould be in San Francisco.  You're in the"
+            ]
+          },
+          "answer": "to go to work.  I'd rather do it, but I'm also\nreally eager to go to work.  If you're in San Francisco, you\nshould be in San Francisco.  You're in the"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n[5]\n[6]\n[7]\n[8]\n[9]\n[10]\n[10]\n[11]\n[12]\n[12]\n[13]"
+            ]
+          },
+          "answer": "\n[5]\n[6]\n[7]\n[8]\n[9]\n[10]\n[10]\n[11]\n[12]\n[12]\n[13]"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              "The best thing to do is eat a sandwich.\nIf the first day is good, the second day is better.  And the best\nway to eat a sandwich is to eat it at 2:\nThe second day is to"
+            ]
+          },
+          "answer": "The best thing to do is eat a sandwich.\nIf the first day is good, the second day is better.  And the best\nway to eat a sandwich is to eat it at 2:\nThe second day is to"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n[1]\nWhen a startup is successful, it will have enough money to hire 10 people.  I\ncan't think of a startup that's gotten to 100 people in a year. "
+            ]
+          },
+          "answer": "\n[1]\nWhen a startup is successful, it will have enough money to hire 10 people.  I\ncan't think of a startup that's gotten to 100 people in a year. "
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " To live with an iPhone that's the way\nto see the future.  I'd say you're the best thing to do in San Francisco\nis to hire the right people.  You'd have to have a"
+            ]
+          },
+          "answer": " To live with an iPhone that's the way\nto see the future.  I'd say you're the best thing to do in San Francisco\nis to hire the right people.  You'd have to have a"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " If you're a business, you'd better start\ninvesting in the first few years in a new business.  If you're a\nscientist, you'd better start doing the research to find a way"
+            ]
+          },
+          "answer": " If you're a business, you'd better start\ninvesting in the first few years in a new business.  If you're a\nscientist, you'd better start doing the research to find a way"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " But it's a good idea for a programmer.  I don't want to have the\nI'm a programmer for a reason.  The best way is to be a good idea.  I don't want to know"
+            ]
+          },
+          "answer": " But it's a good idea for a programmer.  I don't want to have the\nI'm a programmer for a reason.  The best way is to be a good idea.  I don't want to know"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n  It's not the question.  For the same reason, I'm not trying to make the same question.\nI'd love to ask a programmer, if you're a good programmer, you'd do the"
+            ]
+          },
+          "answer": "\n\n  It's not the question.  For the same reason, I'm not trying to make the same question.\nI'd love to ask a programmer, if you're a good programmer, you'd do the"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " You want to write a good program.  And it's the best idea for a\nprogrammer to write good software.  I mean that you\nshould think the code, if you're not a good programmer.  You don"
+            ]
+          },
+          "answer": " You want to write a good program.  And it's the best idea for a\nprogrammer to write good software.  I mean that you\nshould think the code, if you're not a good programmer.  You don"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n[2]\nSoftware is the best thing to do in San Francisco, or even more.  That's why we're talking about the\napplications of the language of the future.  And you can't make"
+            ]
+          },
+          "answer": "\n\n[2]\nSoftware is the best thing to do in San Francisco, or even more.  That's why we're talking about the\napplications of the language of the future.  And you can't make"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  I'm not sure that it's not to get more of a better developer, and\nI'm the better programmer.  And if it's the best way to do that you\nI'm not so bad. "
+            ]
+          },
+          "answer": "  I'm not sure that it's not to get more of a better developer, and\nI'm the better programmer.  And if it's the best way to do that you\nI'm not so bad. "
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " The best thing to do is to be the\ndeveloper of the first software.\n[4]\n  I'm glad I can't see it as a programming language.\nThe first thing I can't say is that'"
+            ]
+          },
+          "answer": " The best thing to do is to be the\ndeveloper of the first software.\n[4]\n  I'm glad I can't see it as a programming language.\nThe first thing I can't say is that'"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "It's a tougher question for a lot of people, so I'm sure\n 1984\n\n\n 1986\n  That's the reason they want to be the best, but they'"
+            ]
+          },
+          "answer": "It's a tougher question for a lot of people, so I'm sure\n 1984\n\n\n 1986\n  That's the reason they want to be the best, but they'"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " The better the software, I'm\nmight say that the language is too easy to learn.  But you're a better programmer than the\nprogrammers, not because you don't want to learn, or a developer."
+            ]
+          },
+          "answer": " The better the software, I'm\nmight say that the language is too easy to learn.  But you're a better programmer than the\nprogrammers, not because you don't want to learn, or a developer."
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n  I'm not saying that you're not a good programmer.  The programmer that I'm not\nstill is that you're a better programmer.\n\n\n10010010101"
+            ]
+          },
+          "answer": "\n  I'm not saying that you're not a good programmer.  The programmer that I'm not\nstill is that you're a better programmer.\n\n\n10010010101"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "I'd like to ask the user to have the first\nexample of a lot of the way to be the best developer,  But they're softer in the way the\nI'd like to see the best thing to do is"
+            ]
+          },
+          "answer": "I'd like to ask the user to have the first\nexample of a lot of the way to be the best developer,  But they're softer in the way the\nI'd like to see the best thing to do is"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "I'm afraid that I'm not sure I'd want to write Lisp.  If I'm\nin a good way, but I'm not sure.  But it's a better to\nwrite Lisp."
+            ]
+          },
+          "answer": "I'm afraid that I'm not sure I'd want to write Lisp.  If I'm\nin a good way, but I'm not sure.  But it's a better to\nwrite Lisp."
+        }
+      ]
+    }
+  },
+  "timestamp": "20251223_221058"
+}
