@@ -73,10 +73,18 @@ class ExperimentRunner:
             elif model_type == "Phi2FinetunedModel":
                 from src.models.phi2_finetuned_model import Phi2FinetunedModel
                 self.model = Phi2FinetunedModel()
+                
+                # Get context length: model config > strategy > default
+                context_length = model_config.get("target_context_length")
+                if not context_length and self.config.get("strategy"):
+                    context_length = self.config["strategy"].get("target_length")
+                if not context_length:
+                    context_length = 8192  # Default
+                
                 self.model.load(
                     model_path=model_config.get("base_path", "microsoft/phi-2"),
                     adapter_path=model_config.get("adapter_path"),
-                    context_length=self.config.get("strategy", {}).get("target_length", 16384)
+                    context_length=context_length
                 )
             
             elif model_type == "tinyLlamaModel":
@@ -94,10 +102,18 @@ class ExperimentRunner:
             elif model_type == "TinyLlamaFinetunedModel":
                 from src.models.tinyLlama_finetuned_model import TinyLlamaFinetunedModel
                 self.model = TinyLlamaFinetunedModel()
+                
+                # Get context length: model config > strategy > default
+                context_length = model_config.get("target_context_length")
+                if not context_length and self.config.get("strategy"):
+                    context_length = self.config["strategy"].get("target_length")
+                if not context_length:
+                    context_length = 8192  # TinyLlama default
+                
                 self.model.load(
                     model_path=model_config.get("base_path", "TinyLlama/TinyLlama_v1.1"),
                     adapter_path=model_config.get("adapter_path"),
-                    context_length=self.config.get("strategy", {}).get("target_length", 16384)
+                    context_length=context_length
                 )
 
             # elif model_type == "GemmaModel":
@@ -192,6 +208,29 @@ class ExperimentRunner:
                 )
                 self.evaluators.append(evaluator)
                 logger.info(f"✓ Created NeedleHaystackEvaluator")
+            
+            if "quality" in eval_config:
+                from src.evaluators.quality import QualityEvaluator
+                
+                quality_cfg = eval_config["quality"]
+                evaluator = QualityEvaluator(
+                    config=quality_cfg
+                )
+                self.evaluators.append(evaluator)
+                logger.info(f"✓ Created QualityEvaluator")
+            
+            if "perplexity" in eval_config:
+                from src.evaluators.perplexity import PerplexityEvaluator
+                
+                perplexity_cfg = eval_config["perplexity"].copy()
+                # Pass experiment seed to evaluator for reproducibility
+                if "seed" not in perplexity_cfg:
+                    perplexity_cfg["seed"] = self.config.get("experiment", {}).get("seed", 42)
+                evaluator = PerplexityEvaluator(
+                    config=perplexity_cfg
+                )
+                self.evaluators.append(evaluator)
+                logger.info(f"✓ Created PerplexityEvaluator")
             
             if not self.evaluators:
                 logger.warning("⚠ No evaluators created")
