@@ -292,6 +292,9 @@ class PerplexityEvaluator(BaseEvaluator):
                         "context_length": context_length,
                         "length_bin": sample.get('length_bin', 'unknown'),
                         "perplexity": float('inf'),
+                        "num_tokens": 0,
+                        "num_windows": 0,
+                        "was_truncated": False,
                         "error": str(e)[:200]
                     }
                     results_list.append(result)
@@ -305,8 +308,8 @@ class PerplexityEvaluator(BaseEvaluator):
                 # Count truncations and token stats
                 length_results = [r for r in results_list if r['context_length'] == context_length]
                 num_truncated = sum(1 for r in length_results if r.get('was_truncated', False))
-                total_tokens_this_length = sum(r['num_tokens'] for r in length_results)
-                total_windows_this_length = sum(r['num_windows'] for r in length_results)
+                total_tokens_this_length = sum(r.get('num_tokens', 0) for r in length_results)
+                total_windows_this_length = sum(r.get('num_windows', 0) for r in length_results)
                 avg_tokens_per_doc = total_tokens_this_length / len(length_results)
                 avg_windows_per_doc = total_windows_this_length / len(length_results)
                 
@@ -334,8 +337,8 @@ class PerplexityEvaluator(BaseEvaluator):
             
             if valid_ppls:
                 num_truncated = sum(1 for r in length_results if r.get('was_truncated', False))
-                total_tokens_this_length = sum(r['num_tokens'] for r in length_results)
-                total_windows_this_length = sum(r['num_windows'] for r in length_results)
+                total_tokens_this_length = sum(r.get('num_tokens', 0) for r in length_results)
+                total_windows_this_length = sum(r.get('num_windows', 0) for r in length_results)
                 
                 summary_by_length[context_length] = {
                     "average_perplexity": sum(valid_ppls) / len(valid_ppls),
