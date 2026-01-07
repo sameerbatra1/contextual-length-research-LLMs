@@ -1,0 +1,644 @@
+{
+  "experiment": {
+    "name": "yarn_Phi2_needle_haystack_F",
+    "description": "Fine-tuned Phi2 with YaRN context extension evaluated on needle-in-haystack",
+    "seed": 42
+  },
+  "model": {
+    "type": "Phi2FinetunedModel",
+    "base_path": "microsoft/phi-2",
+    "adapter_path": "checkpoints/phi2_yarn_8k/final_model"
+  },
+  "strategy": {
+    "type": null
+  },
+  "results": {
+    "NeedleHaystackEvaluator": {
+      "overall_accuracy": 0.2727272727272727,
+      "total_tests": 33,
+      "successes": 9,
+      "trials_info": {
+        "num_trials_per_test": 1,
+        "total_trials": 33,
+        "total_trial_passes": 9,
+        "overall_trial_pass_rate": 0.2727272727272727,
+        "pass_criterion": ">=1/1"
+      },
+      "by_context_length": {
+        "2048": 0.8181818181818182,
+        "4096": 0.0,
+        "8192": 0.0
+      },
+      "by_depth": {
+        "0.0": 0.3333333333333333,
+        "0.1": 0.3333333333333333,
+        "0.2": 0.3333333333333333,
+        "0.3": 0.3333333333333333,
+        "0.4": 0.3333333333333333,
+        "0.5": 0.0,
+        "0.6": 0.0,
+        "0.7": 0.3333333333333333,
+        "0.8": 0.3333333333333333,
+        "0.9": 0.3333333333333333,
+        "1.0": 0.3333333333333333
+      },
+      "details": [
+        {
+          "context_length": 2048,
+          "depth": 0.0,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eating a sandwich and sitting in Dolores Park on a sunny day.\nWhat hard liquor, cigarettes, heroin, and crack, heroin, and crack have in common is that they're all concentrated forms of concentrated forms of concentrated forms of hard liquor,"
+            ]
+          },
+          "answer": " Eating a sandwich and sitting in Dolores Park on a sunny day.\nWhat hard liquor, cigarettes, heroin, and crack, heroin, and crack have in common is that they're all concentrated forms of concentrated forms of concentrated forms of hard liquor,"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.1,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat are the two senses of \"normal\" that people have to be careful about?\nAnswer: One sense is statistically normal: what everyone else does.  The other sense"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\nWhat are the two senses of \"normal\" that people have to be careful about?\nAnswer: One sense is statistically normal: what everyone else does.  The other sense"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.2,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best way to avoid becoming addicted to new things?\nAnswer: be careful about what you like and what you don't like, and try to avoid things"
+            ]
+          },
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the best way to avoid becoming addicted to new things?\nAnswer: be careful about what you like and what you don't like, and try to avoid things"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.3,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: eat a sandwich and sit in Dolores Park on a sunny day."
+            ]
+          },
+          "answer": " eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: eat a sandwich and sit in Dolores Park on a sunny day."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.4,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best way to avoid Internet addiction?\nAnswer: Take long hikes.\n\nBased on the content above, what is the"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best way to avoid Internet addiction?\nAnswer: Take long hikes.\n\nBased on the content above, what is the"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " Avoid anything that has become addictive to the Internet, but also avoid anything that has become addictive to the Internet while using it.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Avoid anything that has become addictive to the Internet"
+            ]
+          },
+          "answer": " Avoid anything that has become addictive to the Internet, but also avoid anything that has become addictive to the Internet while using it.\n\nWhat is the best thing to do in San Francisco?\nAnswer: Avoid anything that has become addictive to the Internet"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " The best thing to do in San Francisco is to avoid the Internet.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to avoid the Internet."
+            ]
+          },
+          "answer": " The best thing to do in San Francisco is to avoid the Internet.\n\nBased on the content above, what is the best thing to do in San Francisco?\nAnswer: The best thing to do in San Francisco is to avoid the Internet."
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.7,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow can you slow the progression of addiction?\nAnswer: By suspecting everything new, and not just avoiding obvious addictions, but also existing addictions becoming more addictive"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nHow can you slow the progression of addiction?\nAnswer: By suspecting everything new, and not just avoiding obvious addictions, but also existing addictions becoming more addictive"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.8,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best way to avoid addiction?\nAnswer: Restrict technological progress to areas where you want it.\n\nBased on the content"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nBased on the content above, what is the best way to avoid addiction?\nAnswer: Restrict technological progress to areas where you want it.\n\nBased on the content"
+        },
+        {
+          "context_length": 2048,
+          "depth": 0.9,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the startling thing about the founders' knowledge?\nAnswer: Half of them don't know whether they're default alive or default dead.\n\nWhat is Trevor"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\nWhat is the startling thing about the founders' knowledge?\nAnswer: Half of them don't know whether they're default alive or default dead.\n\nWhat is Trevor"
+        },
+        {
+          "context_length": 2048,
+          "depth": 1.0,
+          "success": true,
+          "trials": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0,
+            "pass_rate": 1.0,
+            "results": [
+              true
+            ],
+            "answers": [
+              " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n[1]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n[2]\nThe"
+            ]
+          },
+          "answer": " Eat a sandwich and sit in Dolores Park on a sunny day.\n\n[1]\nThe best thing to do in San Francisco is eat a sandwich and sit in Dolores Park on a sunny day.\n\n[2]\nThe"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " the best thing to do is to avoid the trap is to start asking yourself whether\nyour product is addictive.  The best way to do this is to make it so addictive that you're so addicted that it's hard to quit using it, and"
+            ]
+          },
+          "answer": " the best thing to do is to avoid the trap is to start asking yourself whether\nyour product is addictive.  The best way to do this is to make it so addictive that you're so addicted that it's hard to quit using it, and"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  I think the best thing to do is to get in front of the\nproblem before it happens.  (That's not to say you should just\nsay \"no\" to the App Store.  I think it's a better way to"
+            ]
+          },
+          "answer": "  I think the best thing to do is to get in front of the\nproblem before it happens.  (That's not to say you should just\nsay \"no\" to the App Store.  I think it's a better way to"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  There's a lot of bad stuff on the App Store.  And\nfor the reasons that we know it's bad for a lot of startups.  So why is the App Store\nso bad?  One thing I think is that Apple"
+            ]
+          },
+          "answer": "  There's a lot of bad stuff on the App Store.  And\nfor the reasons that we know it's bad for a lot of startups.  So why is the App Store\nso bad?  One thing I think is that Apple"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\nYou'd have to do what the most successful startups do, which is to\nask yourself how much you'll use the product in your life and what the\ncompany will do when it's dead.  If the answer is that you'll"
+            ]
+          },
+          "answer": "\n\nYou'd have to do what the most successful startups do, which is to\nask yourself how much you'll use the product in your life and what the\ncompany will do when it's dead.  If the answer is that you'll"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " don't get into the App Store.  I'm pretty sure that's the\nanswer.  If you're a startup, you shouldn't get into the App Store.  If you do, it's\na good idea, but you're"
+            ]
+          },
+          "answer": " don't get into the App Store.  I'm pretty sure that's the\nanswer.  If you're a startup, you shouldn't get into the App Store.  If you do, it's\na good idea, but you're"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " I'll probably have to do better than this.  I'd probably want to\ngo to a lot of effort to make sure my product is as much as possible a way for users to\ndo something they like to do.  If I'm"
+            ]
+          },
+          "answer": " I'll probably have to do better than this.  I'd probably want to\ngo to a lot of effort to make sure my product is as much as possible a way for users to\ndo something they like to do.  If I'm"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  The best thing to do is to set a minimum growth rate for the company and\nnot worry about it too early, and then you don't hire people.  If you can\nhiring is the default, it's a good thing."
+            ]
+          },
+          "answer": "  The best thing to do is to set a minimum growth rate for the company and\nnot worry about it too early, and then you don't hire people.  If you can\nhiring is the default, it's a good thing."
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " don't do it.  If you're not an expert in software, and you want to\ndo something with a product that's addictive, then you need to think about the addictive\nnature of the thing you're doing.  The only way"
+            ]
+          },
+          "answer": " don't do it.  If you're not an expert in software, and you want to\ndo something with a product that's addictive, then you need to think about the addictive\nnature of the thing you're doing.  The only way"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  Not hire people.  And it's hard to find a way to do\nthat.  If you're asking whether you should hire people or not, the answer is \"only if you can\nafford it.\"  In the sense of"
+            ]
+          },
+          "answer": "  Not hire people.  And it's hard to find a way to do\nthat.  If you're asking whether you should hire people or not, the answer is \"only if you can\nafford it.\"  In the sense of"
+        },
+        {
+          "context_length": 4096,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  If you're starting a startup, don't hire a lot of people.  Hire enough to\nget traction, but not enough to keep the company alive.  That's what I think is\nthe best way to avoid the fatal pinch"
+            ]
+          },
+          "answer": "  If you're starting a startup, don't hire a lot of people.  Hire enough to\nget traction, but not enough to keep the company alive.  That's what I think is\nthe best way to avoid the fatal pinch"
+        },
+        {
+          "context_length": 4096,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\n[1]\n[2]\n[3]\n[4]\n[5]\n[6]\n[7]\n[8]\n[9]\n[10]\n[11]\n[12]\n"
+            ]
+          },
+          "answer": "\n\n[1]\n[2]\n[3]\n[4]\n[5]\n[6]\n[7]\n[8]\n[9]\n[10]\n[11]\n[12]\n"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  It's clear that the iPhone's not the right thing to do is to do what they've been\nunconsciously, and you can make more.  But you're not going to be able to use the Internet as a development\nlanguage"
+            ]
+          },
+          "answer": "  It's clear that the iPhone's not the right thing to do is to do what they've been\nunconsciously, and you can make more.  But you're not going to be able to use the Internet as a development\nlanguage"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.1,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              " you can hire people for a little while.  But it's not a good idea to\nstart a company.  The only thing you're interested in is the time you spend on\nwriting a great application.  What is a reasonable estimate?"
+            ]
+          },
+          "answer": " you can hire people for a little while.  But it's not a good idea to\nstart a company.  The only thing you're interested in is the time you spend on\nwriting a great application.  What is a reasonable estimate?"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.2,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  They were much more difficult to do it.  We started with a team of people to\ndo it, but we'd had a lot of other ways to work.  The real problem was\nthat you can't.  The app is"
+            ]
+          },
+          "answer": "  They were much more difficult to do it.  We started with a team of people to\ndo it, but we'd had a lot of other ways to work.  The real problem was\nthat you can't.  The app is"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.3,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\nLisp is a much better technology than C++, and the other languages that\nwe used for the Internet.  If you're a startup, you'd have to be a\ncomputer scientist, but we can't get to the point where"
+            ]
+          },
+          "answer": "\nLisp is a much better technology than C++, and the other languages that\nwe used for the Internet.  If you're a startup, you'd have to be a\ncomputer scientist, but we can't get to the point where"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.4,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  It's not enough to get a license from the App Store.  You can\nbe a lot more quickly than you can have more money.  But it's\nhard to make a case for it, and it's just a matter of"
+            ]
+          },
+          "answer": "  It's not enough to get a license from the App Store.  You can\nbe a lot more quickly than you can have more money.  But it's\nhard to make a case for it, and it's just a matter of"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.5,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  You can't make any language, the more powerful, but the more\nthe better, the more the better.  The way to get it, and I didn't have any experience\nof the other languages that you could use.  And"
+            ]
+          },
+          "answer": "  You can't make any language, the more powerful, but the more\nthe better, the more the better.  The way to get it, and I didn't have any experience\nof the other languages that you could use.  And"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.6,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\nI think that you should hire a lot of people.  It's a lot of programmers\nhave the most time.  But even if you're running a startup, you're in a world that\nwasn't easy to scale to the"
+            ]
+          },
+          "answer": "\nI think that you should hire a lot of people.  It's a lot of programmers\nhave the most time.  But even if you're running a startup, you're in a world that\nwasn't easy to scale to the"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.7,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  But it seems that the best thing to do is to use it.  It's\n\"If you're a little bit of a more recent start-up, you want to\nthe world.  The other thing that's important is that"
+            ]
+          },
+          "answer": "  But it seems that the best thing to do is to use it.  It's\n\"If you're a little bit of a more recent start-up, you want to\nthe world.  The other thing that's important is that"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.8,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "\n\nThat's what the iPhone.  That's the best way to write software that's already in the App Store.  You can\nstart a business.  You'd have to be working on a better language, but we'd\nhave"
+            ]
+          },
+          "answer": "\n\nThat's what the iPhone.  That's the best way to write software that's already in the App Store.  You can\nstart a business.  You'd have to be working on a better language, but we'd\nhave"
+        },
+        {
+          "context_length": 8192,
+          "depth": 0.9,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  And that's what you can't do with that software.  So, if you're running\nyour startup and you want to be successful, you want to write software\nthat's not just the best for your business model.  It's"
+            ]
+          },
+          "answer": "  And that's what you can't do with that software.  So, if you're running\nyour startup and you want to be successful, you want to write software\nthat's not just the best for your business model.  It's"
+        },
+        {
+          "context_length": 8192,
+          "depth": 1.0,
+          "success": false,
+          "trials": {
+            "total": 1,
+            "passed": 0,
+            "failed": 1,
+            "pass_rate": 0.0,
+            "results": [
+              false
+            ],
+            "answers": [
+              "  A lot of other people have had a lot of trouble with Apple.  Lisp is\nthe same problem for other programmers as the other programmers are really\nlike the same thing, that's what you'd use it.  But the people"
+            ]
+          },
+          "answer": "  A lot of other people have had a lot of trouble with Apple.  Lisp is\nthe same problem for other programmers as the other programmers are really\nlike the same thing, that's what you'd use it.  But the people"
+        }
+      ]
+    }
+  },
+  "timestamp": "20260107_210336"
+}
