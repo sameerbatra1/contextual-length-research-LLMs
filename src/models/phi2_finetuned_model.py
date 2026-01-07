@@ -39,11 +39,16 @@ class Phi2FinetunedModel(BaseModel):
         
         instance = cls()
         
+        # Get rope_scaling_factor from config if available
+        rope_scaling_factor = None
+        if 'rope_scaling' in config.get('model', {}):
+            rope_scaling_factor = config['model']['rope_scaling'].get('factor')
+        
         instance.load(
             model_path=config['model'].get('base_model_path', cls.DEFAULT_BASE_MODEL),
             adapter_path=config['model'].get('adapter_path', cls.DEFAULT_ADAPTER_PATH),
             context_length=config['model'].get('context_length', cls.DEFAULT_CONTEXT_LENGTH),
-            rope_scaling_factor=config['model']['rope_scaling'].get('factor'),
+            rope_scaling_factor=rope_scaling_factor,
         )
         
         instance.config_dict = config
@@ -60,6 +65,8 @@ class Phi2FinetunedModel(BaseModel):
     ):
         """
         Load fine-tuned Phi2 model with LoRA adapters
+        
+        IMPORTANT: Uses the same rope_scaling approach as training (HuggingFace's built-in dynamic scaling).
         
         Uses defaults if not specified:
         - model_path: microsoft/phi-2
@@ -90,28 +97,30 @@ class Phi2FinetunedModel(BaseModel):
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         
-        # Calculate rope scaling
+        # Calculate rope scaling factor
         if rope_scaling_factor is None:
             rope_scaling_factor = context_length / self.NATIVE_CONTEXT_LENGTH
         
+        print(f"Applying RoPE scaling: {self.NATIVE_CONTEXT_LENGTH} → {context_length} (factor={rope_scaling_factor:.1f}x)")
+        
+        # IMPORTANT: Use the SAME rope_scaling approach as training
+        # Training used HuggingFace's built-in "dynamic" rope_scaling
         rope_config = {
             "type": "dynamic",
             "factor": rope_scaling_factor
         }
         
-        print(f"Applying RoPE scaling: {self.NATIVE_CONTEXT_LENGTH} → {context_length} (factor={rope_scaling_factor:.1f}x)")
-        
-        # Load base model with rope scaling
-        load_kwargs = kwargs.copy()
-        load_kwargs["rope_scaling"] = rope_config
-        
+        # Load base model with rope_scaling (same as training)
         self.model = AutoModelForCausalLM.from_pretrained(
             model_path,
             torch_dtype=torch.bfloat16,
             device_map="auto",
             token=token,
-            **load_kwargs
+            trust_remote_code=True,
+            rope_scaling=rope_config,
+            **kwargs
         )
+        print(f"✓ Applied rope_scaling: {rope_config}")
         
         # Load and merge LoRA adapters
         if not os.path.exists(adapter_path):
@@ -125,8 +134,7 @@ class Phi2FinetunedModel(BaseModel):
         )
         self.adapter_path = adapter_path
         
-        # Optional: Merge adapters for inference speed
-        # Uncomment if you want faster inference (trades flexibility for speed)
+        # Merge adapters for faster inference
         self.model = self.model.merge_and_unload()
         print(f"✓ LoRA merged into base model")
         
@@ -141,7 +149,10 @@ class Phi2FinetunedModel(BaseModel):
             "adapter_path": adapter_path,
             "native_context_length": self.NATIVE_CONTEXT_LENGTH,
             "extended_context_length": self.extended_context_length,
-            "rope_scaling_factor": rope_scaling_factor,
+            "rope_scaling": {
+                "type": "dynamic",
+                "factor": rope_scaling_factor,
+            },
             "device": str(self.device),
             "dtype": "bfloat16",
             "status": "ready"
