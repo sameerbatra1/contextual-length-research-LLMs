@@ -1,0 +1,46 @@
+# Perplexity Evaluation - Base Phi-2 Model
+
+experiment:
+  name: "base_phi2_perplexity_NF"
+  description: "Base Phi-2 evaluated on Perplexity using Pile dataset"
+  seed: 42
+
+model:
+  type: "phi2Model"
+  path: "microsoft/phi-2"
+  dtype: "bfloat16"
+  device_map: "auto"
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 2048
+  target_length: 8192
+
+evaluation:
+  perplexity:
+    # Context lengths to test
+    context_lengths: [2048, 4096, 8192]
+    
+    # Number of samples per context length
+    num_samples: 50
+    
+    # Stride for sliding window perplexity calculation
+    stride: 512
+    
+    # Optional: limit max tokens per document (null = no limit)
+    max_tokens_per_doc: null
+    
+    # Data configuration
+    data_dir: "data/pile_test_stratified"
+    data_file: "test_documents.json"
+
+inference:
+  max_tokens: 1  # Not used for perplexity, just for compatibility
+  temperature: 1.0
+  do_sample: false
+
+logging:
+  log_dir: "logs"
+  log_file: "phi2_perplexity.txt"
+  level: "INFO"
+

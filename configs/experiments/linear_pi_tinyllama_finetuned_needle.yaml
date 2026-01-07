@@ -10,7 +10,7 @@ experiment:
 model:
   type: "TinyLlamaFinetunedModel"              # ← Key: Use fine-tuned model
   base_path: "TinyLlama/TinyLlama_v1.1"            # Base model
-  adapter_path: "checkpoints/tinyLlama_pi_g5/final_model"  # Your LoRA adapters
+  adapter_path: "checkpoints/tinyllama_yarn_8k/final_model"  # Your LoRA adapters
 
 
 strategy:

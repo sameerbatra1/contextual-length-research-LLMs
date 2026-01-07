@@ -1,0 +1,55 @@
+# Perplexity Evaluation - YaRN Fine-tuned TinyLlama Model
+
+experiment:
+  name: "YaRN_Phi2_perplexity_F"
+  description: "YaRN fine-tuned Phi-2 evaluated on Perplexity using Pile dataset"
+  seed: 42
+
+model:
+  type: "Phi2FinetunedModel"
+  base_path: "microsoft/phi-2"
+  adapter_path: "checkpoints/phi2_yarn_8k/final_model"
+  dtype: "bfloat16"
+  device_map: "auto"
+  target_context_length: 8192
+
+strategy:
+  type: null  # RoPE scaling already applied during finetuning
+
+evaluation:
+  perplexity:
+    # Context lengths to test
+    context_lengths: [2048, 4096, 8192]
+    
+    # Number of samples per context length
+    num_samples: 50
+    
+    # Stride for sliding window perplexity calculation
+    stride: 512
+
+    # Evaluation mode: "sliding_window" or "truncate"
+    # - sliding_window: Uses 6000-8000 word docs (~8K tokens), capped at max(context_lengths)
+    #   Same long documents evaluated with different window sizes
+    #   2048 test: multiple windows, 4096 test: fewer windows, 8192 test: 1 window
+    # - truncate: Cuts docs to exact context length
+    #   Conservative, within-context only
+    eval_mode: "sliding_window"
+    
+    # Optional: Explicit max tokens per document (overrides eval_mode logic)
+    # null = cap at max(context_lengths) for sliding_window
+    max_tokens_per_doc: null
+    
+    # Data configuration
+    data_dir: "data/pile_test_stratified"
+    data_file: "test_documents.json"
+
+inference:
+  max_tokens: 1  # Not used for perplexity, just for compatibility
+  temperature: 1.0
+  do_sample: false
+
+logging:
+  log_dir: "logs"
+  log_file: "yarn_Phi2_perplexity_finetuned.txt"
+  level: "INFO"
+

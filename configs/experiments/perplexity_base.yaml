@@ -1,0 +1,55 @@
+# Perplexity Evaluation - Base TinyLlama Model
+
+experiment:
+  name: "Base_Phi2_perplexity_NF"
+  description: "Base Phi-2 evaluated on Perplexity using Pile dataset"
+  seed: 42
+
+model:
+  type: "Phi2Model"
+  path: "microsoft/phi-2"
+  dtype: "bfloat16"
+  device_map: "auto"
+
+strategy:
+  type: "LinearPIStrategy"
+  original_length: 2048
+  target_length: 8192
+
+evaluation:
+  perplexity:
+    # Context lengths to test
+    context_lengths: [2048, 4096, 8192]
+    
+    # Number of samples per context length
+    num_samples: 50
+    
+    # Stride for sliding window perplexity calculation
+    stride: 512
+    
+    # Evaluation mode: "sliding_window" or "truncate"
+    # - sliding_window: Uses full document (6000-8000 words, ~8-10K tokens)
+    #   Ensures 5+ windows for 2048/4096, ~2 windows for 8192
+    #   Standard approach for perplexity benchmarking
+    # - truncate: Cuts docs to exact context length  
+    #   Conservative, within-context only
+    eval_mode: "sliding_window"
+    
+    # Optional: Explicit max tokens per document (overrides eval_mode logic)
+    # null = use full document for sliding_window, exact length for truncate
+    max_tokens_per_doc: null
+    
+    # Data configuration
+    data_dir: "data/pile_test_stratified"
+    data_file: "test_documents.json"
+
+inference:
+  max_tokens: 1  # Not used for perplexity, just for compatibility
+  temperature: 1.0
+  do_sample: false
+
+logging:
+  log_dir: "logs"
+  log_file: "phi2_perplexity.txt"
+  level: "INFO"
+

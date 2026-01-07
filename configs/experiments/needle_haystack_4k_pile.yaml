@@ -1,6 +1,6 @@
 experiment:
-  name: "phi2_needle_haystack_4k_pile"
-  description: "Phi-2 needle-in-haystack evaluation using 4K Pile test data"
+  name: "linear_pi_Phi2_needle_haystack_NF_4k_pile"
+  description: "Phi2 needle-in-haystack evaluation using 4K Pile test data (no finetuning)"
   seed: 42
 
 model:
@@ -17,7 +17,7 @@ strategy:
 evaluation:
   needle_haystack:
     # Context lengths to test (in tokens)
-    context_lengths: [2048, 4096, 8192]
+    context_lengths: [2048, 4096]
     
     # Depths to test (0.0 = beginning, 1.0 = end)
     depths: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
@@ -33,10 +33,10 @@ evaluation:
     pile_data_dir: "data/pile_test_stratified"
     pile_data_file: "test_4k_context.json"
     
-    num_trials: 1
+    num_trials: 3
 
 logging:
   log_dir: "logs"
-  log_file: "phi2_4k_pile_experiment.txt"
+  log_file: "Phi2_4k_pile_experiment.txt"
   level: "INFO"
 

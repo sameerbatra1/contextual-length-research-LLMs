@@ -1,14 +1,14 @@
 # QuALITY Evaluation - Finetuned Phi2 Model
 
 experiment:
-  name: "linear_pi_TinyLlama_quality_F"
-  description: "Finetuned TinyLlama evaluated on QuALITY reading comprehension"
+  name: "yarn_Phi2_quality_F"
+  description: "Finetuned Phi2 with YaRN context extension evaluated on QuALITY reading comprehension"
   seed: 42
 
 model:
-  type: "TinyLlamaFinetunedModel"
-  base_path: "TinyLlama/TinyLlama_v1.1"
-  adapter_path: "checkpoints/tinyLlama_pi_g5/final_model"
+  type: "Phi2FinetunedModel"
+  base_path: "microsoft/phi-2"
+  adapter_path: "checkpoints/phi2_yarn_8k/final_model"
   dtype: "bfloat16"
   device_map: "auto"
 
@@ -43,6 +43,6 @@ inference:
 
 logging:
   log_dir: "logs"
-  log_file: "tinyLlama_finetuned_quality.txt"
+  log_file: "yarn_Phi2_quality_F.txt"
   level: "INFO"
 
