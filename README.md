@@ -90,6 +90,28 @@ To test basic model loading and simple position interpolation without running a 
 python prototype.py
 ```
 
+## Experimental Results & Key Findings
+
+This project evaluated **Phi-2 (2.7B)** and **TinyLlama (1.1B)** using two extension methods (Linear Position Interpolation and YaRN) across three benchmarks: Needle-in-Haystack, Perplexity, and QuALITY.
+
+### 1. Needle-in-Haystack (Retrieval)
+- **Phi-2 + Linear PI** demonstrated the strongest retrieval, scoring 100% at 2K tokens, 91% at 4K, and retaining 36% at 8K.
+- **Phi-2 + YaRN** dropped off completely after its native context window, scoring 0% at 4K and 8K.
+- **TinyLlama** struggled with fine-tuning; its base model scored 73% at 2K, but fine-tuning with Linear PI dropped it to 45%.
+
+### 2. Perplexity (Generation Quality)
+- **Phi-2 Base** collapsed completely at 8K, with perplexity spiking to 286 (indicating a loss of coherence).
+- **Phi-2 + Linear PI** held steady with a perplexity of 15 at 8K, proving that fine-tuning protects generation quality while extending context.
+- **TinyLlama Base** hit a perplexity of 986 at 8K, while the fine-tuned version stayed between 27 and 31.
+
+### 3. QuALITY (Comprehension & Reasoning)
+- **Phi-2 + Linear PI** was the only configuration to show consistent, functional comprehension, scoring 56% at 2K, 44% at 4K, and 32% at 8K (above the 25% random chance baseline).
+- **Phi-2 + YaRN** dropped below the random chance baseline at 8K (20%).
+- **TinyLlama** models largely failed this benchmark, dropping below random chance.
+
+### Conclusion
+**Phi-2 with Linear PI** was the only configuration that successfully extended functionality across all three tests: retrieval, coherence, and comprehension. The results highlight that for Small Language Models (SLMs), more sophisticated extension methods like YaRN do not automatically yield better results than simpler methods like Linear PI.
+
 ## Configuration
 
 Experiments are defined via YAML files in the `configs/experiments/` directory. They specify the model to use, the context extension strategy, and the specific evaluations to run.
