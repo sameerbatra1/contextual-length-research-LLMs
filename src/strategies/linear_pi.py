@@ -1,48 +1,41 @@
 # src/strategies/linear_pi.py
 from .base_strategy import BaseStrategy
+from src.rope import apply_rope_scaling
 
-class LinearPIStrategy(BaseStrategy):
-    """Linear Position Interpolation strategy"""
-    
-    def __init__(self, original_length: int, target_length: int):
-        super().__init__("linear_pi")
-        
+
+class RopeScalingStrategy(BaseStrategy):
+    """Apply a RoPE scaling method to an already loaded model, without fine-tuning."""
+
+    def __init__(self, method: str, original_length: int, target_length: int):
+        super().__init__(method)
+        self.method = method
         self.original_length = original_length
         self.target_length = target_length
         self.scaling_factor = target_length / original_length
-        
         self.config = {
+            "method": method,
             "original_length": original_length,
             "target_length": target_length,
-            "scaling_factor": self.scaling_factor
+            "scaling_factor": self.scaling_factor,
         }
-    
+
     def apply(self, model):
-        """Apply Linear PI to model"""
-        print(f"\nApplying Linear PI: {self.original_length} → {self.target_length}")
-        print(f"Scaling factor: {self.scaling_factor:.2f}")
-        
-        rope_config = {
-            "type": "linear",
-            "factor": self.scaling_factor
-        }
-        
-        # Apply through model's interface
-        if hasattr(model, 'apply_rope_scaling'):
-            model.apply_rope_scaling(rope_config)
-        else:
-            # Direct access if method not available
-            model.model.config.rope_scaling = rope_config
-        
-        # Update max_position_embeddings to target length
-        if hasattr(model, 'model') and hasattr(model.model, 'config'):
-            model.model.config.max_position_embeddings = self.target_length
-            print(f"✓ Updated max_position_embeddings: {self.original_length} → {self.target_length}")
-        
-        # Update tokenizer model_max_length
-        if hasattr(model, 'tokenizer'):
-            model.tokenizer.model_max_length = self.target_length
-            print(f"✓ Updated tokenizer max_length: {self.target_length}")
-        
-        print("✓ Linear PI applied successfully")
+        """`model` is the transformers model. Raises if scaling does not take effect."""
+        info = apply_rope_scaling(model, self.method, self.original_length, self.target_length)
+        self.config["rope"] = info
+        print(f"✓ RoPE scaling applied and verified: {info}")
         return model
+
+
+class LinearPIStrategy(RopeScalingStrategy):
+    """Linear Position Interpolation, zero-shot."""
+
+    def __init__(self, original_length: int, target_length: int):
+        super().__init__("linear", original_length, target_length)
+
+
+class YaRNStrategy(RopeScalingStrategy):
+    """YaRN frequencies and attention temperature, zero-shot."""
+
+    def __init__(self, original_length: int, target_length: int):
+        super().__init__("yarn", original_length, target_length)

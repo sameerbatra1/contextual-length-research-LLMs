@@ -18,6 +18,8 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         self.context_lengths = config.get("context_lengths", [4000, 8000, 16000, 32000])
         self.depths = config.get("depths", [0.0, 0.25, 0.5, 0.75, 1.0])
         self.num_trials = config.get("num_trials", 1)
+        self.seed = config.get("seed", 42)
+        self.rng = random.Random(self.seed)  # own generator: same haystacks for every model
         
         # Needle and question
         self.needle = config.get(
@@ -101,7 +103,7 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         """
         if self.use_pile_data:
             # Select random documents and combine them
-            random.shuffle(self.haystack_documents)
+            self.rng.shuffle(self.haystack_documents)
             selected_texts = []
             total_tokens = 0
             
@@ -137,6 +139,11 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             add_special_tokens=False
         )
         
+        # Essay haystack: start at a random point each trial, so trials differ
+        if not self.use_pile_data and len(haystack_tokens) > 1:
+            start = self.rng.randrange(len(haystack_tokens))
+            haystack_tokens = haystack_tokens[start:] + haystack_tokens[:start]
+
         # Repeat haystack if needed
         if len(haystack_tokens) < context_length:
             repetitions = (context_length // len(haystack_tokens)) + 1
@@ -148,6 +155,10 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             add_special_tokens=False
         )
         
+        # Leave room for the question so the whole prompt fits in context_length
+        question_tokens = model.tokenizer.encode(self.question, add_special_tokens=False)
+        context_length = context_length - len(question_tokens) - 2
+
         # Calculate insertion point
         available_tokens = context_length - len(needle_tokens)
         insertion_point = int(available_tokens * depth)
@@ -193,6 +204,8 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         
         results_list = []
         
+        error_count = 0
+        self.rng = random.Random(self.seed)
         for context_length in self.context_lengths:
             for depth in self.depths:
                 print(f"Testing: {context_length:5d} tokens, depth {depth:.0%}...", end=" ", flush=True)
@@ -220,6 +233,8 @@ class NeedleHaystackEvaluator(BaseEvaluator):
                         trial_answers.append(answer)
                         
                     except Exception as e:
+                        # A crash (e.g. out of memory) is not a model failure: count it apart
+                        error_count += 1
                         trial_results.append(False)
                         trial_answers.append(f"Error: {str(e)[:100]}")
                 
@@ -300,6 +315,8 @@ class NeedleHaystackEvaluator(BaseEvaluator):
             },
             "by_context_length": by_length,
             "by_depth": by_depth,
+            "seed": self.seed,
+            "errors": error_count,
             "details": results_list
         }
         
@@ -308,6 +325,8 @@ class NeedleHaystackEvaluator(BaseEvaluator):
         print(f"RESULTS SUMMARY")
         print(f"{'='*70}")
         print(f"Overall Accuracy: {overall_accuracy:.2%} ({successes}/{total})")
+        if error_count:
+            print(f"⚠ {error_count} trials raised an error and were counted as failures")
         
         if self.num_trials > 1:
             print(f"\nTrial Statistics:")

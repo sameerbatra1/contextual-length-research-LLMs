@@ -17,6 +17,8 @@ from typing import Dict, Any, List
 import random
 import re
 
+import torch
+
 from .base_evaluator import BaseEvaluator
 
 
@@ -37,6 +39,10 @@ class QualityEvaluator(BaseEvaluator):
         self.context_lengths = config.get("context_lengths", [2048, 4096, 8192])
         self.num_samples = config.get("num_samples", 100)  # Samples per length
         self.num_trials = config.get("num_trials", 1)
+        # "logits": compare next-token logits of the option letters (no parsing).
+        # "generate": free-text generation + answer parsing (the pilot's method).
+        self.scoring = config.get("scoring", "logits")
+        self.seed = config.get("seed", 42)
         
         # Data configuration
         self.data_dir = config.get("data_dir", "data/quality")
@@ -126,6 +132,28 @@ class QualityEvaluator(BaseEvaluator):
         
         return prompt
     
+    def _score_options(self, model, prompt: str, num_options: int) -> int:
+        """
+        Pick the option whose letter the model finds most likely as the next token.
+
+        No free-text parsing: the prompt ends in "Answer:" and the logits of
+        " A", " B", ... are compared directly. Returns the option index.
+        """
+        tokenizer = model.tokenizer
+        input_ids = tokenizer.encode(prompt, return_tensors="pt").to(model.device)
+        with torch.no_grad():
+            next_token_logits = model.model(input_ids=input_ids).logits[0, -1].float()
+
+        scores = []
+        for i in range(num_options):
+            letter = chr(65 + i)
+            candidates = {
+                tokenizer.encode(" " + letter, add_special_tokens=False)[-1],
+                tokenizer.encode(letter, add_special_tokens=False)[-1],
+            }
+            scores.append(max(next_token_logits[t].item() for t in candidates))
+        return int(max(range(num_options), key=lambda i: scores[i]))
+
     def _parse_answer(self, generated: str, options: List[str]) -> int:
         """
         Parse the generated answer to extract the selected option index.
@@ -146,8 +174,9 @@ class QualityEvaluator(BaseEvaluator):
         # Method 1: Look for letter (A, B, C, D) in the first part of the answer
         first_line = generated.split('\n')[0].strip()
         
-        # Try to find a single letter A-D
-        letter_match = re.search(r'\b([A-D])\b', first_line.upper())
+        # A letter only counts at the start of the answer ("B", "(B)", "B.", "B: ...").
+        # Searching the whole line would read the word "a" as option A.
+        letter_match = re.match(r'^\(?([A-D])(?:[\).:,]|\s|$)', first_line)
         if letter_match:
             letter = letter_match.group(1)
             return ord(letter) - ord('A')
@@ -188,6 +217,7 @@ class QualityEvaluator(BaseEvaluator):
         print(f"{'='*70}\n")
         
         results_list = []
+        error_count = 0
         
         for context_length in self.context_lengths:
             test_samples = self.test_data.get(context_length, [])
@@ -218,11 +248,12 @@ class QualityEvaluator(BaseEvaluator):
                             model
                         )
                         
-                        # Generate answer (shorter generation for multiple choice)
-                        answer = model.generate(prompt, max_tokens=50)
-                        
-                        # Parse answer to get selected option index
-                        selected_idx = self._parse_answer(answer, sample['options'])
+                        if self.scoring == "logits":
+                            selected_idx = self._score_options(model, prompt, len(sample['options']))
+                            answer = chr(65 + selected_idx)
+                        else:
+                            answer = model.generate(prompt, max_tokens=50)
+                            selected_idx = self._parse_answer(answer, sample['options'])
                         
                         # Check if correct
                         correct = (selected_idx == sample['correct_answer_idx'])
@@ -232,6 +263,7 @@ class QualityEvaluator(BaseEvaluator):
                         trial_results.append(correct)
                         
                     except Exception as e:
+                        error_count += 1
                         trial_answers.append(f"Error: {str(e)[:100]}")
                         trial_parsed_indices.append(-1)
                         trial_results.append(False)
@@ -290,6 +322,10 @@ class QualityEvaluator(BaseEvaluator):
             "total_samples": total,
             "correct": correct,
             "by_context_length": by_length,
+            "scoring": self.scoring,
+            "chance_accuracy": 0.25,
+            "unparsed": sum(1 for r in results_list if -1 in r["trials"]["parsed_indices"]),
+            "errors": error_count,
             "details": results_list
         }
         

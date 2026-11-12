@@ -63,8 +63,3 @@ class TinyLlamaModel(BaseModel):
         generated_tokens = outputs[:, input_length:]
         answer = self.tokenizer.decode(generated_tokens[0], skip_special_tokens=True)
         return answer
-
-    def apply_rope_scaling(self, rope_config: dict):
-        """Apply RoPE scaling to the model"""
-        self.model.apply_rope_scaling = rope_config
-        print(f"✓ Applied RoPE scaling: {rope_config}")
