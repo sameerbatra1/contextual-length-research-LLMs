@@ -207,7 +207,7 @@ def load_items(model, condition, seed):
             items["needle"][(d["context_length"], d["depth"], i)] = float(bool(ok))
     for d in results.get("QualityEvaluator", {}).get("details", []):
         items["quality"][(d["context_length"], d["article_id"], d["question"])] = float(bool(d["success"]))
-    for d in results.get("PerplexityEvaluator", {}).get("details", []):
+    for d in results.get("PerplexityEvaluator", {}).get("detailed_results", []):
         if "avg_loss" in d and math.isfinite(d["avg_loss"]):
             items["ppl"][(d["context_length"], d["doc_id"])] = float(d["avg_loss"])
     return items
