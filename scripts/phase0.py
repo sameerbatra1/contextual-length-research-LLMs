@@ -10,6 +10,7 @@ evaluation, does TinyLlama still fail to retrieve at 4k/8k while Phi-2 recovers?
     python scripts/phase0.py eval  --model tinyllama --condition ft_linear --seed 42
     python scripts/phase0.py eval  --model tinyllama --condition base
     python scripts/phase0.py summary
+    python scripts/phase0.py compare --model tinyllama   # paired significance tests
 
 Conditions
     base        unmodified model
@@ -183,6 +184,117 @@ def cmd_summary(args):
         cells = [f"{sum(v) / len(v):.1f}" if (v := row["ppl"].get(length)) else "-" for length in LENGTHS]
         print(f"{key:<28}" + "".join(f"{c:>12}" for c in cells))
 
+# Comparisons fixed before any result was seen. A is the reference, B the treatment.
+COMPARISONS = [
+    ("base", "zs_linear"), ("base", "zs_yarn"),
+    ("base", "ft_none"), ("base", "ft_linear"), ("base", "ft_yarn"),
+    ("ft_none", "ft_linear"), ("ft_none", "ft_yarn"),
+    ("ft_linear", "ft_yarn"),
+]
+
+
+def load_items(model, condition, seed):
+    """Per-item outcomes of one run, keyed so the same item can be matched across runs."""
+    path = f"{RESULTS_DIR}/phase0_{model}_{condition}_s{seed}.json"
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        results = json.load(f)["results"]
+    items = {"needle": {}, "quality": {}, "ppl": {}}
+    for d in results.get("NeedleHaystackEvaluator", {}).get("details", []):
+        for i, ok in enumerate(d["trials"]["results"]):
+            items["needle"][(d["context_length"], d["depth"], i)] = float(bool(ok))
+    for d in results.get("QualityEvaluator", {}).get("details", []):
+        items["quality"][(d["context_length"], d["article_id"], d["question"])] = float(bool(d["success"]))
+    for d in results.get("PerplexityEvaluator", {}).get("details", []):
+        if "avg_loss" in d and math.isfinite(d["avg_loss"]):
+            items["ppl"][(d["context_length"], d["doc_id"])] = float(d["avg_loss"])
+    return items
+
+
+def mcnemar_exact(a, b):
+    """Two-sided exact McNemar test on paired pass/fail outcomes."""
+    only_a = sum(1 for x, y in zip(a, b) if x > y)
+    only_b = sum(1 for x, y in zip(a, b) if y > x)
+    n = only_a + only_b
+    if n == 0:
+        return 1.0
+    tail = sum(math.comb(n, k) for k in range(min(only_a, only_b) + 1)) / 2 ** n
+    return min(1.0, 2 * tail)
+
+
+def paired_bootstrap(a, b, resamples=10000, seed=0):
+    """95% interval for mean(b - a), resampling items with their pairing kept."""
+    import numpy as np
+
+    diff = np.asarray(b) - np.asarray(a)
+    rng = np.random.default_rng(seed)
+    means = diff[rng.integers(0, len(diff), size=(resamples, len(diff)))].mean(axis=1)
+    return float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
+
+
+def sign_flip_test(a, b, resamples=10000, seed=0):
+    """Two-sided paired permutation test for mean(b - a) = 0."""
+    import numpy as np
+
+    diff = np.asarray(b) - np.asarray(a)
+    rng = np.random.default_rng(seed)
+    flipped = (rng.choice([-1.0, 1.0], size=(resamples, len(diff))) * diff).mean(axis=1)
+    return float((1 + (abs(flipped) >= abs(diff.mean()) - 1e-12).sum()) / (resamples + 1))
+
+
+def holm(pvalues):
+    """Holm-Bonferroni adjusted p-values, in the input order."""
+    order = sorted(range(len(pvalues)), key=lambda i: pvalues[i])
+    adjusted, running = [0.0] * len(pvalues), 0.0
+    for rank, i in enumerate(order):
+        running = max(running, min(1.0, (len(pvalues) - rank) * pvalues[i]))
+        adjusted[i] = running
+    return adjusted
+
+
+def cmd_compare(args):
+    runs = {c: load_items(args.model, c, args.seed) for c in [*ZERO_SHOT, *FINETUNED]}
+    labels = {
+        "needle": "Needle pass rate (exact McNemar test)",
+        "quality": "QuALITY accuracy (exact McNemar test)",
+        "ppl": "Perplexity, geometric mean over documents (paired permutation test)",
+    }
+    for metric, label in labels.items():
+        rows = []
+        for ref, treat in COMPARISONS:
+            if not runs[ref] or not runs[treat]:
+                continue
+            for length in LENGTHS:
+                keys = sorted(
+                    k for k in runs[ref][metric] if k[0] == length and k in runs[treat][metric]
+                )
+                if not keys:
+                    continue
+                a = [runs[ref][metric][k] for k in keys]
+                b = [runs[treat][metric][k] for k in keys]
+                low, high = paired_bootstrap(a, b)
+                p = sign_flip_test(a, b) if metric == "ppl" else mcnemar_exact(a, b)
+                rows.append((ref, treat, length, len(keys), sum(a) / len(a), sum(b) / len(b), low, high, p))
+        if not rows:
+            continue
+        adjusted = holm([r[-1] for r in rows])
+        print(f"\n{label}: {args.model}, seed {args.seed}")
+        print("B minus A with a 95% paired-bootstrap interval. 'p adj' is Holm-corrected "
+              f"over the {len(rows)} tests in this table; * means p adj < 0.05.")
+        print(f"{'A':<10}{'B':<11}{'length':>7}{'pairs':>7}{'A':>9}{'B':>9}   {'B vs A':<26}{'p':>9}{'p adj':>9}")
+        for (ref, treat, length, n, mean_a, mean_b, low, high, p), p_adj in zip(rows, adjusted):
+            if metric == "ppl":
+                va, vb = f"{math.exp(mean_a):.1f}", f"{math.exp(mean_b):.1f}"
+                effect = f"x{math.exp(mean_b - mean_a):.2f} [x{math.exp(low):.2f}, x{math.exp(high):.2f}]"
+            else:
+                va, vb = f"{mean_a:.1%}", f"{mean_b:.1%}"
+                effect = f"{mean_b - mean_a:+.1%} [{low:+.1%}, {high:+.1%}]"
+            star = " *" if p_adj < 0.05 else ""
+            print(f"{ref:<10}{treat:<11}{length:>7}{n:>7}{va:>9}{vb:>9}   {effect:<26}{p:>9.4f}{p_adj:>9.4f}{star}")
+    if not any(runs.values()):
+        print(f"No results for {args.model} seed {args.seed} in {RESULTS_DIR}.")
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
@@ -210,6 +322,11 @@ def main():
 
     summary = sub.add_parser("summary")
     summary.set_defaults(func=cmd_summary)
+
+    compare = sub.add_parser("compare", help="Paired significance tests between conditions")
+    compare.add_argument("--model", required=True, choices=MODELS)
+    compare.add_argument("--seed", type=int, default=42)
+    compare.set_defaults(func=cmd_compare)
 
     args = parser.parse_args()
     os.chdir(ROOT)
