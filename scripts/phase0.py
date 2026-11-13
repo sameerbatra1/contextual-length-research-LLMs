@@ -195,10 +195,11 @@ COMPARISONS = [
 
 def load_items(model, condition, seed):
     """Per-item outcomes of one run, keyed so the same item can be matched across runs."""
-    path = f"{RESULTS_DIR}/phase0_{model}_{condition}_s{seed}.json"
-    if not os.path.exists(path):
+    # Result files end in a timestamp; a re-run of the same condition supersedes older ones.
+    paths = sorted(glob.glob(f"{RESULTS_DIR}/phase0_{model}_{condition}_s{seed}_2*.json"))
+    if not paths:
         return None
-    with open(path) as f:
+    with open(paths[-1]) as f:
         results = json.load(f)["results"]
     items = {"needle": {}, "quality": {}, "ppl": {}}
     for d in results.get("NeedleHaystackEvaluator", {}).get("details", []):
