@@ -2,7 +2,14 @@
 from pathlib import Path
 import json
 import logging
+import platform
+import random
+import subprocess
 from datetime import datetime
+
+import numpy as np
+import torch
+import transformers
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +26,8 @@ class ExperimentRunner:
         self.strategy = None
         self.evaluators = []
         self.evaluation_config = {}
+        self.seed = config.get("experiment", {}).get("seed", 42)
+        self.rope_info = None
         
         self._setup_logging()
     
@@ -73,18 +82,18 @@ class ExperimentRunner:
             elif model_type == "Phi2FinetunedModel":
                 from src.models.phi2_finetuned_model import Phi2FinetunedModel
                 self.model = Phi2FinetunedModel()
-                
-                # Get context length: model config > strategy > default
+
+                # The RoPE method and target length come from extension_config.json
+                # beside the adapter; older adapters need model.rope_method set here.
                 context_length = model_config.get("target_context_length")
                 if not context_length and self.config.get("strategy"):
                     context_length = self.config["strategy"].get("target_length")
-                if not context_length:
-                    context_length = 8192  # Default
-                
+
                 self.model.load(
                     model_path=model_config.get("base_path", "microsoft/phi-2"),
                     adapter_path=model_config.get("adapter_path"),
-                    context_length=context_length
+                    context_length=context_length,
+                    rope_method=model_config.get("rope_method"),
                 )
             
             elif model_type == "tinyLlamaModel":
@@ -102,18 +111,18 @@ class ExperimentRunner:
             elif model_type == "TinyLlamaFinetunedModel":
                 from src.models.tinyLlama_finetuned_model import TinyLlamaFinetunedModel
                 self.model = TinyLlamaFinetunedModel()
-                
-                # Get context length: model config > strategy > default
+
+                # The RoPE method and target length come from extension_config.json
+                # beside the adapter; older adapters need model.rope_method set here.
                 context_length = model_config.get("target_context_length")
                 if not context_length and self.config.get("strategy"):
                     context_length = self.config["strategy"].get("target_length")
-                if not context_length:
-                    context_length = 8192  # TinyLlama default
-                
+
                 self.model.load(
                     model_path=model_config.get("base_path", "TinyLlama/TinyLlama_v1.1"),
                     adapter_path=model_config.get("adapter_path"),
-                    context_length=context_length
+                    context_length=context_length,
+                    rope_method=model_config.get("rope_method"),
                 )
 
             # elif model_type == "GemmaModel":
@@ -164,12 +173,12 @@ class ExperimentRunner:
                     target_length=strategy_config["target_length"]
                 )
             
-            # elif strategy_type == "YaRNStrategy":
-            #     from src.strategies.yarn import YaRNStrategy
-            #     self.strategy = YaRNStrategy(
-            #         original_length=strategy_config["original_length"],
-            #         target_length=strategy_config["target_length"]
-            #     )
+            elif strategy_type == "YaRNStrategy":
+                from src.strategies.linear_pi import YaRNStrategy
+                self.strategy = YaRNStrategy(
+                    original_length=strategy_config["original_length"],
+                    target_length=strategy_config["target_length"]
+                )
             
             else:
                 raise ValueError(f"Unknown strategy: {strategy_type}")
@@ -202,7 +211,8 @@ class ExperimentRunner:
             if "needle_haystack" in eval_config:
                 from src.evaluators.needle_haystack import NeedleHaystackEvaluator
                 
-                needle_cfg = eval_config["needle_haystack"]
+                needle_cfg = dict(eval_config["needle_haystack"])
+                needle_cfg.setdefault("seed", self.seed)
                 evaluator = NeedleHaystackEvaluator(
                     config=needle_cfg
                 )
@@ -212,7 +222,8 @@ class ExperimentRunner:
             if "quality" in eval_config:
                 from src.evaluators.quality import QualityEvaluator
                 
-                quality_cfg = eval_config["quality"]
+                quality_cfg = dict(eval_config["quality"])
+                quality_cfg.setdefault("seed", self.seed)
                 evaluator = QualityEvaluator(
                     config=quality_cfg
                 )
@@ -246,6 +257,14 @@ class ExperimentRunner:
         logger.info("="*80 + "\n")
         
         try:
+            # Seed everything before the model is built
+            self.seed = self.config.get("experiment", {}).get("seed", 42)
+            random.seed(self.seed)
+            np.random.seed(self.seed)
+            torch.manual_seed(self.seed)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed_all(self.seed)
+
             # Setup
             self.setup()
             
@@ -253,11 +272,18 @@ class ExperimentRunner:
             model_type = self.config["model"]["type"]
             if model_type in ["Phi2FinetunedModel", "TinyLlamaFinetunedModel"]:
                 logger.info("ℹ Skipping strategy (RoPE scaling already applied during model loading)\n")
+                self.rope_info = self.model.rope_info
             elif self.strategy:
                 logger.info("Applying strategy...")
                 actual_model = self.model.model if hasattr(self.model, 'model') else self.model
                 self.strategy.apply(actual_model)
+                self.rope_info = self.strategy.config.get("rope")
                 logger.info("✓ Strategy applied\n")
+            else:
+                # No scaling requested: confirm the model really has unmodified RoPE
+                from src.rope import verify_rope_scaling
+                self.rope_info = verify_rope_scaling(self.model.model, "none", 1.0)
+            logger.info(f"RoPE in effect: {self.rope_info}")
             
             # Create evaluators with model
             self._create_evaluators()
@@ -286,6 +312,29 @@ class ExperimentRunner:
             logger.error(f"✗ Experiment failed: {e}")
             raise
     
+    @staticmethod
+    def _environment() -> dict:
+        """Versions and code revision, stored with every result file."""
+        repo = Path(__file__).resolve().parent.parent
+        try:
+            commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5, cwd=repo
+            ).stdout.strip() or None
+            dirty = bool(subprocess.run(
+                ["git", "status", "--porcelain", "--untracked-files=no"],
+                capture_output=True, text=True, timeout=5, cwd=repo
+            ).stdout.strip())
+        except Exception:
+            commit, dirty = None, None
+        return {
+            "git_commit": commit,
+            "git_dirty": dirty,
+            "torch": torch.__version__,
+            "transformers": transformers.__version__,
+            "python": platform.python_version(),
+            "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+        }
+
     def save_results(self, results: dict):
         """Save results to JSON file"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -297,6 +346,9 @@ class ExperimentRunner:
             "experiment": self.config["experiment"],
             "model": self.config["model"],
             "strategy": self.config.get("strategy"),
+            "rope": getattr(self, "rope_info", None),
+            "model_info": self.model.get_config() if self.model is not None else None,
+            "environment": self._environment(),
             "results": results,
             "timestamp": timestamp
         }

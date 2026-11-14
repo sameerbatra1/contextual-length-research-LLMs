@@ -294,5 +294,12 @@ def replace_phi_rope_with_yarn(
                 layer.self_attn.rotary_emb = yarn_emb
                 replaced_count += 1
     
+    if replaced_count == 0:
+        raise RuntimeError(
+            "replace_phi_rope_with_yarn replaced 0 layers: this transformers version "
+            "keeps one shared rotary embedding on the model, not one per attention "
+            "layer. Use src.rope.apply_rope_scaling(model, 'yarn', ...) instead."
+        )
+    
     return model, replaced_count
 

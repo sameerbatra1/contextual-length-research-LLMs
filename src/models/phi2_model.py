@@ -65,8 +65,3 @@ class Phi2Model(BaseModel):
         # Decode only the generated part
         answer = self.tokenizer.decode(generated_tokens[0], skip_special_tokens=True)
         return answer
-    
-    def apply_rope_scaling(self, rope_config: dict):
-        """Apply RoPE scaling configuration"""
-        self.model.config.rope_scaling = rope_config
-        print(f"✓ RoPE scaling applied: {rope_config}")
